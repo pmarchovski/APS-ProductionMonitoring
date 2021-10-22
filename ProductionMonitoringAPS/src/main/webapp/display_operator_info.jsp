@@ -6,13 +6,18 @@
 <jsp:include page="header.jsp" />
 <body>
 
+<div id="div_main_container_two">
+<h2>Информация за служители</h2>
+
+</div>
+
 	<div id="div_main_overflow">
 
 		<div id="div_main_container">
 
 			<div Class="div_left_container">
 
-				<form method="get" action="display_operators_info">
+				<form method="get" action="printers_production_servlet_display_operators_info">
 
 
 					<label Class="label_form">Оператор</label> <select
@@ -23,8 +28,12 @@
 
 							<option value="${operatorsNameCollection}">${operatorsNameCollection}</option>
 						</c:forEach>
-						
-					</select> <label Class="label_form">Тийм лидер</label> <select
+
+					</select> 
+					
+					<br><br>
+					
+					<label Class="label_form">Тийм лидер</label> <select
 						name="display_operator_info_team_leader_name" Class="input">
 						<option value="Всички">Всички</option>
 						<c:forEach items="${team_leaders_List }" var="teamLeadersList">
@@ -32,7 +41,10 @@
 
 						</c:forEach>
 
-					</select> <label Class="label_form">Тип оператор</label>
+					</select> 
+					
+					<br><br>
+					<label Class="label_form">Тип оператор</label>
 					<table>
 						<tr>
 							<td Class="a"><input type="checkbox"
@@ -53,20 +65,23 @@
 						</tr>
 					</table>
 
-					<p>
+					<br><br>
 
 						<label Class="label_form">Активен да/не</label> <select
 							name="display_operator_info_isActive" class="input_less">
-							<option value="Всички">Всички</option>
-							<option value="Да">Да</option>
+							<option value="Да">Да</option>	
 							<option value="Не">Не</option>
-						</select> <label Class="label_form">Майчинство да/не</label> <select
-							name="display_operator_info_isMotherhood" class="input_less">
 							<option value="Всички">Всички</option>
+						</select> 
+						
+						<br><br>
+						<label Class="label_form">Майчинство да/не</label> <select
+							name="display_operator_info_isMotherhood" class="input_less">	
 							<option value="Не">Не</option>
 							<option value="Да">Да</option>
+							<option value="Всички">Всички</option>
 						</select>
-					<p>
+					<br><br>
 
 						<input type="submit" value="Покажи" Class="button">
 			</div>
@@ -156,6 +171,47 @@
 					
 					</tr>
 
+                    </tr>
+					
+					<tr>
+					<th Class="a"><label Class="label_form">Номер престилка</label></th>
+					<th Class="a"><label Class="label_form">Номер грейка</label></th>
+					<th Class="a"><label Class="label_form">Номер чехли</label></th>
+					<th Class="a"><label Class="label_form">Номер гардеробче</label></th>
+					</tr>
+
+                     <tr>
+					<td Class="a">
+					<select name="table_number_appron" class="input_small">
+					        <option value="Не">Не</option>
+							<option value="Да">Да</option>			
+						</select>
+					</td>
+					
+					<td Class="a">
+					<select name="table_number_heater" class="input_small">		
+					        <option value="Не">Не</option>
+							<option value="Да">Да</option>		
+						</select>
+					</td>
+					
+					<td Class="a">
+					<select name="table_number_slippers" class="input_small">
+					        <option value="Не">Не</option>
+							<option value="Да">Да</option>	
+						</select>
+					</td>
+					
+					<td Class="a">
+					<select name="table_absence_number_wardrobe" class="input_small">
+							<option value="Не">Не</option>
+							<option value="Да">Да</option>
+						</select>
+					</td>
+					
+					</tr>
+
+
 				</table>
 
 				</form>
@@ -171,16 +227,18 @@
 
 			<div Class="table">
 
-				<form method="post" action="display_operators_info">
+				<form method="post" action="printers_production_servlet_display_operators_info">
 					<input type="submit" value="Изтегли в ексел" Class="button">
 
 				</form>
 				<p>
 				<table class="a">
 
+                 <thead Class="thead">
 					${table_head }
-
-					<tbody>
+                </thead>
+                
+					<tbody Class="tbody">
 
 						<tr>${operators_info_table_body }
 

@@ -13,9 +13,11 @@
 
 
 <header>
+
+
 	<div Class="header">
 		<div Class="header_left">
-			<h1>Система за мониторинг на производството АПС Трейдинг ООД</h1>
+			<h1>АПС Трейдинг ООД</h1>
 
 		</div>
 
@@ -33,7 +35,9 @@
                 
                 <li><a href="#">Производство пластмаси</a>
                    
-                <li><a href="#">TPH производство</a>
+                <li><a href="tph_production.jsp">TPH производство</a>
+                
+                <li><a href="finance_acaunting.jsp">Счетоводство</a>
                   
                 
                 ${registration }
@@ -46,14 +50,14 @@
         </span>
         
          <div Class="topnav_input">
-				<form method="get" action="logout">
+				<form method="get" action="admin_servlet_logout">
 					<input type="submit" value="Изход">
 				</form>
 			</div>
 
 			<div Class="topnav_input">
 
-				<form method="post" action="login">
+				<form method="get" action="admin_servlet_login">
 				
 					<input type="text" class="inputs" 
 					       placeholder="потребителско име"

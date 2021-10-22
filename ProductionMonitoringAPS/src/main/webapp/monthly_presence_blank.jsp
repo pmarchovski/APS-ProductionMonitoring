@@ -6,77 +6,78 @@
 <jsp:include page="header.jsp" />
 <body>
 
-	<div id="div_main_overflow">
+	
 
-<div id="div_main_container">
-<div Class="div_right_container">
-
-		<form method="post" action="presents_blank">
-<p>
-            <label id="label_error"> ${monthly_presence_blank_empty_date_error_massage }</label>
-<p>
-			<input 
-			       type="date" 
-			       name="monthly_presence_blank_start_date"
-				   Class="input_small" 
-				   placeholder="Начална дата"> 
-		    <input
-				   type="date" 
-				   name="monthly_presence_blank_end_date"
-			       Class="input_small" 
-				   placeholder="Крайна дата"> 
-				
-				${empty_date_fields_massage }
-				
-				<label Class="label_form">Тийм лидер</label> 
-				
-				<select
-				   name="monthly_presence_blank_team_leader_name" 
-				   Class="input_less">
-				
-				<option value="Всички">Всички</option>
-				
-				<c:forEach items="${team_leaders_List }" var="teamLeadersList">
-					<option value="${teamLeadersList }">${teamLeadersList }</option>
-
-				</c:forEach>
-				</select>
-         <div>
-			<input 
-			       type="submit" 
-				   Class="button" 
-				   value="Генерирай">
-		</form>
+		<div id="div_main_container">
 		
-		<p>
-		<form method="get" action="presents_blank">
-		
-		    <input
-		           type="submit"
-		           Class="button"
-		           value="Изтегли в ексел">
-		
-		</form>
-          </div>
-<p>
+			<div Class="div_right_container">
 
-		<table Class= "a">
-          <tr>
-        
-             <tr>${monthly_present_blank_table_head_date }</tr>
-			
-			<tr>${monthly_present_blank_table_head_week_day }</tr>
-			
-			<tr>${monthly_present_blank_table_body_data }</tr>
-          </tr>
-          
-		</table>
+				<form method="post" action="printers_production_servlet_presents_blank">
 
-</div>
+					<label id="label_error"> ${monthly_presence_blank_empty_date_error_massage }</label> <br>
+					<br> <input type="date"
+						        name="monthly_presence_blank_start_date" 
+						        Class="input_small"
+						        value=${monthly_presence_blank_start_date }> 
+						
+						
+						 <input type="date"
+						        name="monthly_presence_blank_end_date" 
+						        Class="input_small"
+						        value=${monthly_presence_blank_end_date }> 
+						${empty_date_fields_massage } 
+						<br><br> 
+						  <label Class="label_form">Тийм лидер</label> 
+						  <select
+						        name="monthly_presence_blank_team_leader_name" 
+						        Class="input_less">
 
-<div Class="div_right_container"></div>
-</div>
-	</div>
+						<option value="Всички">Всички</option>
 
+						<c:forEach items="${team_leaders_List }" var="teamLeadersList">
+							<option value="${teamLeadersList }">${teamLeadersList }</option>
+
+						</c:forEach>
+					</select>
+
+					<div>
+						<table>
+
+							<td Class="k">
+							<input type="submit" 
+							       Class="button"
+								   value="Генерирай">
+								</form></td>
+
+							<form method="get" action="printers_production_servlet_presents_blank">
+
+								<td Class="k">
+								<input type="submit" 
+								       Class="button"
+									   value="Изтегли в ексел"></td>
+							</form>
+
+						</table>
+
+					</div>
+					<br><br>
+			<div id="div_main_overflow">		
+					<div id="div_main_container">
+						<table Class="a">
+                        
+							<thead Class="thead">
+								<tr>${monthly_present_blank_table_head_date }</tr>
+								<tr>${monthly_present_blank_table_head_week_day }</tr>
+							</thead>
+
+							<tbody Class="tbody">
+								<tr>${monthly_present_blank_table_body_data }</tr>
+							</tbody>
+
+						</table>
+
+					</div>
+			</div>
+		</div>
 </body>
 </html>

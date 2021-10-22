@@ -13,7 +13,7 @@ a:visited{
 	color: #444444;
 }
 a:hover{
-	color: #ffffff;
+	color: #ff0000;
 }
 
 /* -----------------------------------------------------------------*/
@@ -29,6 +29,8 @@ a:hover{
     display:inline-block;
     margin:0 auto;
 }
+
+
 #nav {
     display:inline;
     text-align:left;
@@ -133,17 +135,20 @@ a:hover{
 
 #registration {
 	width: 750px;
-	padding: 25px;
+	padding: 35px;
 	border: solid #dedede 1px;
 	margin: auto;
 	background: #f1f1f1;
 	border-radius: 8px;
+	
 }
 #div_main_container {
 	width: 100%;
-	padding: 15px;
+	padding: 10px;
 	margin: auto;
 	background: #f1f1f1;
+	border: solid #dedede 0px;
+	border-radius: 8px;
 	display: flex;
 }
 
@@ -162,14 +167,14 @@ a:hover{
 	overflow: scroll;
 	width: 100%;
     height: 800px;
-	padding: 5px;
+	padding: 0px;
 	margin: auto;
 	background: #f1f1f1;
 }
 
 .div_left_container {
 	width: 100%;
-	padding: 25px;
+	padding: 10px;
 	border: solid #dedede 0px;
 	margin: left;
 	background: #f1f1f1;
@@ -177,10 +182,18 @@ a:hover{
 	flex: 2;
 }
 
+.div_new_container {
+	width: 100%;
+	padding: 15px;
+	margin: auto;
+	background: #f1f1f1;
+	display: flex;
+}
+
 
 .div_right_container {
 	width: 100%;
-	padding: 25px;	
+	padding: 10px;	
 	margin: left;
 	border: solid #dedede 0px;
 	background: #f1f1f1;
@@ -224,43 +237,69 @@ a:hover{
 .topnav_input {
 	float: right;
 }
+
+
+.inputs:focus {
+  border: 1px solid #ff0000;
+}
+
 .inputs {
 	text-align: left;
+	
 }
+
+
+
 .input {
 	width: 90%;
-	margin-bottom: 25px;
+	margin-bottom: 2px;
 	height: 40px;
 	padding: 2px 20px;
-	border: 2px solid #ccc;
+	border: 1px solid #ccc;
 	border-radius: 4px;
 	background-color: #f8f8f8;
 	font-size: 16px;
 	resize: none;
 	
 }
+
+.input:focus {
+  border: 1px solid #ff0000;
+}
+
+.input_less:focus {
+  border: 1px solid #ff0000;
+}
 .input_less {
 	width: 60%;
-	margin-bottom: 25px;
+	margin-bottom: 2px;
 	height: 40px;
 	padding: 2px 20px;
-	border: 2px solid #ccc;
+	border: 1px solid #ccc;
 	border-radius: 4px;
 	background-color: #f8f8f8;
 	font-size: 16px;
 	resize: none;
 }
 
+.input_small:focus {
+  border: 1px solid #ff0000;
+}
+
 .input_small {
 	width: 200px;
-	margin-bottom: 25px;
+	margin-bottom: 2px;
 	height: 40px;
 	padding: 2px 20px;
-	border: 2px solid #ccc;
+	border: 1px solid #ccc;
 	border-radius: 4px;
 	background-color: #f8f8f8;
 	font-size: 16px;
 	resize: none;
+}
+
+.input_small_padding:focus {
+  border: 1px solid #ff0000;
 }
 
 .input_small_padding {
@@ -268,13 +307,25 @@ a:hover{
 	margin-bottom: 2px;
 	height: 40px;
 	padding: 2px 2px;
-	border: 2px solid #ccc;
+	border: 1px solid #ccc;
 	border-radius: 4px;
 	background-color: #f8f8f8;
 	font-size: 16px;
 	resize: none;
 }
 
+.butt {
+
+  background-color: #ff0000; 
+  border: none;
+  color: white;
+  padding: 10px 22px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  border-radius: 4px;
+}
 
 .button {
 
@@ -286,8 +337,11 @@ a:hover{
   text-decoration: none;
   display: inline-block;
   font-size: 14px;
-  border-radius: 8px;
+  border-radius: 4px;
+  opacity: 0.8;
+  min-width: 200px;
 }
+
 
 	
 /* ------------------------------------------------------------------------------------*/	
@@ -321,6 +375,11 @@ a:hover{
 	font-weight: bold;
 }
 
+.label_form_red{
+	font-weight: bold;
+	font-color: #ff0000;
+}
+
 
 /* -------------------------------------------------------------------------------------*/
 
@@ -331,9 +390,16 @@ a:hover{
 */
 
 
+.thousands-separator:lang(en):before{
+  content: ".";
+}
+
+
 table {
 	overflow-x: auto;
-	padding: 20px 20px; 
+	padding: 0px 0px; 
+	position: relative;
+
 }
 
 table.a, th, td{
@@ -341,7 +407,12 @@ table.a, th, td{
   border-collapse: collapse;
 }
 
-tr:nth-child(even) {background-color: #ffffff;}
+table.b, th, td{
+  border: 1px solid black;
+
+}
+
+tr:nth-child(even) {background-color: #f1f1f1;}
 
 .tr{
 	background-color: #f1f1f1;
@@ -351,8 +422,9 @@ tr:nth-child(even) {background-color: #ffffff;}
 th {	
 	text-align: center;
     padding: 10px;
-    background-color: #808080;
-    color: white;
+    background-color: #c0c0c0;
+    color: black;
+    height: 30px;
     
 }
 
@@ -369,12 +441,14 @@ th.b{
 	writing-mode: vertical-rl;
 	vertical-align: bottom;
 	text-align: left;
+	height: 150px;
+	
 		
 }
 
 th.c{
 	text-align: center;
-	background-color: #808080;
+	background-color: #c0c0c0;
 	border: 0px solid #808080;
 	width: 300px;
 	border-collapse: collapse;
@@ -391,16 +465,26 @@ th.d{
 	color: #333;
 }
 
+th.f {	
+	width: 500px;
+	text-align: center;
+    padding: 10px;
+    background-color: #c0c0c0;
+    color: black;
+    position: sticky;
+}
+
 
 td {
   text-align: center;
   padding: 10px;
   resize: none;
+  height: 30px;
   
 }
 
 td.a{
-   border: 0px solid #808080;
+   border: 0px solid #c0c0c0;
    text-align: left;
 	
 }
@@ -408,7 +492,8 @@ td.a{
 td.b{
    border: 1px solid black;
    text-align: left;
-
+   resize: none;
+   
 }
 
 td.c{
@@ -435,7 +520,178 @@ td.e{
 	
 }
 
+td.f{
+   border: 1px solid black;
+   text-align: center;
+   table-layout: fixed;
+   width: 200px;
+   font-weight: bold
+	
+}
+
+td.g{
+   border: 0px solid black;
+   text-align: right;
+   table-layout: fixed;
+   width: 200px;
+	
+}
+
+td.h{
+   border: 0px solid black;
+   text-align: center;
+   table-layout: fixed;
+   width: 100px;
+	
+}
+
+td.k{
+   border: 0px solid black;
+   text-align: left;
+   table-layout: fixed;
+   width: 100px;
+	
+}
+
+td.j{
+   border: 1px solid black;
+   text-align: center;
+   table-layout: auto;
+   width: 50px;
+	
+}
+
+
+td.i{
+   border: 0px solid black;
+   text-align: left;
+   table-layout: fixed;
+   width: 600px;
+   
+}
+
+td.y{
+   border: 0px solid black;
+   text-align: center;
+   table-layout: fixed;
+   width: 350px;
+   font-weight: bold
+	
+}
+
+td.z{
+   border: 1px solid black;
+   text-align: left;
+   height: 65px;
+   border-color: #408080;
+   border-raduis: 4px;
+   
+}
+
+
+td.p{
+   border: 1px solid black;
+   text-align: left;
+   width: 500px;
+}
+
+.thead { 
+
+  padding: 0px;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  width: 25vw;
+  background: red;
+}
+
+.tbody { 
+ font-weight: 100;
+  text-align: left;
+
+}
+
+
 .only{
 	border-color: #ffffff;
 }
 
+
+
+
+ #loader {
+            
+       
+            border-radius: 50%;
+           
+            width: 70px;
+            height: 70px;
+            
+        }
+          
+       
+          
+       
+        .center {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+        }
+ 
+ 
+        
+.input-container {
+  display: -ms-flexbox; /* IE10 */
+  display: flex;
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.icon {
+  padding: 10px;
+  background: #333;
+  color: white;
+  min-width: 40px;
+  text-align: center;
+ 
+  height: 40px;
+}
+
+.input-field {
+  width: 100%;
+  padding: 15px;
+  outline: none;
+  background-color: #f8f8f8;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  height: 40px;
+  
+}
+
+.input-field:focus {
+  border: 1px solid #ff0000;
+}
+
+/* Set a style for the submit button */
+.btn {
+  background-color: #333;
+  color: white;
+  padding: 15px 20px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  opacity: 0.8;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.btn:hover {
+  opacity: 1;
+}
+
+.button:hover {
+  opacity: 1;
+}

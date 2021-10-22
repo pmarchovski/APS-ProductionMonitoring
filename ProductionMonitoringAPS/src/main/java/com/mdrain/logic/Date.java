@@ -9,19 +9,18 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
 import com.mdrain.database.DataBaseActivities;
-import com.mdrain.servlets.ProductionCapacityServlet;
 
 public class Date {
 
 	
 	public static ArrayList<LocalDate> publicHolidaysCollection() throws SQLException{
 		
-		DataBaseActivities dbActivities = new DataBaseActivities();
+		DataBaseActivities dbActivities               = new DataBaseActivities();
 		ArrayList<LocalDate> publicHolidaysCollection = new ArrayList<LocalDate>();
 		LocalDate publicHolidays;
-		String table = "tb_public_holidays";
-		ResultSet result = null;
-		String date = "";
+		String table                                  = "tb_public_holidays";
+		ResultSet result                              = null;
+		String date                                   = "";
 		
 		result = dbActivities.select(table);
 		
@@ -29,15 +28,9 @@ public class Date {
 			date = result.getString("tb_public_holidays_date");	
             publicHolidaysCollection.add(publicHolidays = date(date));
 		}
-		
-		
-		
 		return publicHolidaysCollection;
 	}
-	
-	
-	
-	
+
 	public static ArrayList<String> takeHolidayCollection(String sDate, String eDate) throws SQLException {
 
 		ArrayList<String> holidayCollection = new ArrayList<String>();
@@ -51,14 +44,14 @@ public class Date {
 		yearHolidaysCollection = publicHolidaysCollection();
 
 		String holiday = "";
-		String empty = "";
+		String empty   = "";
 
 		long daysBetwenDates;
 
 		int increment = 1;
 
-		startDate = date(sDate);
-		endDate = date(eDate);
+		startDate       = date(sDate);
+		endDate         = date(eDate);
 		daysBetwenDates = ChronoUnit.DAYS.between(startDate, endDate) + 1;
 
 		holidayCollection.add(empty);
@@ -140,14 +133,14 @@ public class Date {
 		LocalDate nextDay;
 
 		String takeDate = "";
-		String empty = "";
+		String empty    = "";
 
 		long daysBetwenDates;
 
 		int increment = 1;
 
-		startDate = date(sDate);
-		endDate = date(eDate);
+		startDate       = date(sDate);
+		endDate         = date(eDate);
 		daysBetwenDates = ChronoUnit.DAYS.between(startDate, endDate) + 1;
 
 		String month = String.valueOf(startDate.getMonth());
@@ -170,8 +163,11 @@ public class Date {
 	public static LocalDate date(String dateString) {
 
 		String[] dateContainCollection = null;
+	
 
-		if (dateString.contains(".")) {
+		if (dateString != null) {
+			
+			if (dateString.contains(".")) {
 			dateString = dateString.replace(".", "/");
 		}
 
@@ -190,11 +186,17 @@ public class Date {
 
 		LocalDate date = LocalDate.of(year, month, day);
 		return date;
+		} else {
+			return LocalDate.of(2021, 1, 1);
+		}
+		
+		
+		
 	}
 
 	private static Month month(String month) {
 
-		int monthInt = Integer.parseInt(month);
+		int monthInt   = Integer.parseInt(month);
 
 		Month[] month1 = Month.values();
 
@@ -358,9 +360,37 @@ public class Date {
 		
 	}
 	
-	public static void availableTimePerDate() {
+	public static String convertDate(Object dateWebApp) {
 	
 		
+		String newDate = "";
+    	String date = String.valueOf(dateWebApp);
+    	String[] elementCollection = date.split("-");
+    	String[] newElementCollection = new String[elementCollection.length];
+    	for (int i = 1; i <= elementCollection.length; i++) {
+    		newElementCollection[i - 1] = elementCollection[elementCollection.length - i];
+    		newDate = newDate + newElementCollection[i - 1] + ".";
+    	}
+    	
+    	newDate = newDate.substring(0, date.length());
 		
+		return newDate;
+	}
+	
+	public static String convertDateNew(Object dateWebApp) {
+	
+		
+		String newDate = "";
+    	String date = String.valueOf(dateWebApp);
+    	String[] elementCollection = date.split("-");
+    	String[] newElementCollection = new String[elementCollection.length];
+    	for (int i = 1; i <= elementCollection.length; i++) {
+    		newElementCollection[i - 1] = elementCollection[i - 1];
+    		newDate = newDate + newElementCollection[i - 1] + "-";
+    	}
+    	
+    	newDate = newDate.substring(0, date.length());
+		
+		return newDate;
 	}
 }

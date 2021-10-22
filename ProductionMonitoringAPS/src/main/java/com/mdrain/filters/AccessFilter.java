@@ -23,7 +23,7 @@ public class AccessFilter implements Filter{
 		String page = "";
 		String pageTwo = "";
 		
-		HttpServletRequest sessionReq = (HttpServletRequest) req;
+		HttpServletRequest sessionReq   = (HttpServletRequest) req;
 		HttpServletResponse sessionResp = (HttpServletResponse) resp;
 
 		

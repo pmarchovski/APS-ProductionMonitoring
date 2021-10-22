@@ -1,142 +1,188 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
-	
-<jsp:include page="header.jsp"/>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
+<jsp:include page="header.jsp" />
+
 
 
 <body>
 
-<div id="div_main_container">
-
-<div Class="div_left_container">
-
-<form method="post" action="update_operators_info">
-
-<label Class="label_form">Избери оператор</label>
-<select name="edit_operators_name" Class="input">
-
-        <option value=""></option>
-    <c:forEach items="${operators_name_collection}" var="operatorsNameCollection"> 
-        <option value="${operatorsNameCollection}">${operatorsNameCollection}</option>      
-    </c:forEach>
-    
-</select>
 
 
-<label Class="label_form">Тийм лидер</label>
+	<div id="div_main_container_two">
+		<h2>Редактиране на информция за служител</h2>
 
-<select name="edit_operators_team_leader" Class="input">
-        <option value=""></option>
-       <c:forEach items="${team_leaders_List}" var="teamLeadersList">
-    
-        <option value="${teamLeadersList}">${teamLeadersList}</option>
-        
-    </c:forEach>
+	</div>
 
-</select>
+	<div id="div_main_container">
+
+		<div Class="div_left_container">
 
 
 
-<label Class="label_form">Пол</label>
-<select name="edit_operators_gender"
-        class="input_less">
-<option value=""></option>
-<option value="Мъж">Мъж</option>
-<option value="Жена">Жена</option>
-</select> 
+			<form name="form_select" method="get"
+				action="admin_servlet_current_operators_data">
+
+
+				<label Class="label_form">Избери оператор</label> <select
+					name="edit_operators_name" Class="input"
+					onchange="document.form_select.submit();">
+
+					<option value="${update_operators_display_info_selected_operator}">${update_operators_display_info_selected_operator}</option>
+
+					<c:forEach items="${operators_name_collection}"
+						var="operatorsNameCollection">
+						<option value="${operatorsNameCollection}">${operatorsNameCollection}</option>
+					</c:forEach>
+
+				</select> <br>
+				<br>
+
+			</form>
+
+			<br>
+			<br>
+
+
+			<form method="get"
+				action="printers_production_servlet_operators_data_servlet">
+
+				<input type="hidden" name="edit_operators_name"
+					value="${update_operators_display_info_selected_operator}">
+
+				<label Class="label_form">Тийм лидер</label> <select
+					name="edit_operators_team_leader" Class="input">
+					<option value=""></option>
+					<c:forEach items="${team_leaders_List}" var="teamLeadersList">
+
+						<option value="${teamLeadersList}">${teamLeadersList}</option>
+
+					</c:forEach>
+
+				</select> <br>
+				<br> <label Class="label_form">Пол</label> <select
+					name="edit_operators_gender" class="input_less">
+					<option value=""></option>
+					<option value="Мъж">Мъж</option>
+					<option value="Жена">Жена</option>
+				</select> <br>
+				<br> <label Class="label_form">Тип оператор</label>
+				<table>
+					<tr>
+						<td Class="a"><input type="checkbox"
+							name="edit_operators_skills" value="Оператор механичен монтаж" />Оператор
+							механичен монтаж</td>
+
+						<td Class="a"><input type="checkbox"
+							name="edit_operators_skills" value="Оператор ел. монтаж" />Оператор
+							ел. монтаж</td>
+
+						<td Class="a"><input type="checkbox"
+							name="edit_operators_skills" value="Оператор тест" />Оператор
+							тест</td>
+
+						<td Class="a"><input type="checkbox"
+							name="edit_operators_skills" value="Оператор опаковка" />Оператор
+							опаковка</td>
+					</tr>
+				</table>
+
+				<br>
+				<br> <label Class="label_form">Активен да/не</label> <select
+					name="edit_operators_isActive" class="input_less">
+
+					<option value=""></option>
+					<option value="Да">Да</option>
+					<option value="Не">Не</option>
+				</select> <br>
+				<br> <label Class="label_form">Майчинство да/не</label> <select
+					name="edit_operators_isMotherhood" class="input_less">
+
+					<option value=""></option>
+					<option value="Не">Не</option>
+					<option value="Да">Да</option>
+				</select> <br>
+				<br> <label Class="label_form">Телефон</label> <input
+					type="text" name="edit_operators_phone" class="input_less"
+					placeholder="Телефон"> <br>
+				<br>
+
+				<table>
+
+					<tr>
+						<td Class="e"><label Class="label_form">Номер
+								престилка</label> <input type="number" name="edit_operators_apron"
+							class="input" placeholder="номер на престилка" max="68" min="38">
+						</td>
+
+						<td Class="e"><label Class="label_form">Номер на
+								грейка</label> <select name="edit_operators_heater" class="input">
+
+								<option value=""></option>
+								<option value="S">S</option>
+								<option value="M">M</option>
+								<option value="L">L</option>
+								<option value="XL">XL</option>
+								<option value="XXL">XXL</option>
+								<option value="XXXL">XXXL</option>
+								<option value="XXXXL">XXXXL</option>
+
+						</select></td>
+
+						<td Class="e"><label Class="label_form">Номер на
+								чехли</label> <input type="number" name="edit_operators_slippers"
+							class="input" placeholder="номер на чехли" max="48" min="36">
+						</td>
 
 
 
- <label Class="label_form">Тип оператор</label>   
- <table>
-            <tr >
-               <td Class="a"><input type="checkbox" name="edit_operators_skills" value="Оператор механичен монтаж"/>Оператор механичен монтаж</td>
-          
-               <td Class="a"><input type="checkbox" name="edit_operators_skills" value="Оператор ел. монтаж"/>Оператор ел. монтаж</td>
-            
-               <td Class="a"><input type="checkbox" name="edit_operators_skills" value="Оператор тест"/>Оператор тест</td>
-           
-               <td Class="a"><input type="checkbox" name="edit_operators_skills" value="Оператор опаковка"/>Оператор опаковка</td>
-            </tr>
- </table>      
+						<td Class="e"><label Class="label_form">Номер на
+								гардеробче</label> <input type="text" name="edit_operators_wardrobe"
+							class="input" placeholder="номер на гардеробе"></td>
+					</tr>
 
-<p>
-        
-<label Class="label_form">Активен да/не</label>
-<select name="edit_operators_isActive"
-        class="input_less">
-        
-<option value=""></option>
-<option value="Да">Да</option>
-<option value="Не">Не</option>
-</select>
+					<td Class="e"><label Class="label_form">Дата престилка</label>
+						<input type="date" name="edit_operators_date_change_appron"
+						class="input"></td>
 
 
+					<td Class="e"><label Class="label_form">Дата грейка</label> <input
+						type="date" name="edit_operators_date_change_heater" class="input">
+					</td>
 
-<label Class="label_form">Майчинство да/не</label>
-<select name="edit_operators_isMotherhood"
-        class="input_less">
-        
-<option value=""></option>
-<option value="Не">Не</option>        
-<option value="Да">Да</option>
-</select>
+					<td Class="e"><label Class="label_form">Дата чехли</label> <input
+						type="date" name="edit_operators_date_change_slippers"
+						class="input"></td>
+
+				</table>
 
 
-<label Class="label_form">Телефон</label>
-<input type="text"
-       name="edit_operators_phone"
-       class="input_less"
-       placeholder="Телефон">
+				<input type="submit" value="Приложи промените" Class="button">
 
-<p>
-   
-<input type="submit"
-       value="Приложи промените"
-       Class="button">
-       
-       <p>
-       ${massage_edit}
+				<p>${massage_edit}
+			</form>
 
-</form>
-</div>
 
-<div Class="div_right_container">
+		</div>
 
-<form method="get" action="update_operators_info">
+		<div Class="div_right_container">
 
-<label Class="label_form">Избери оператор</label>
-<select name="edit_operators_name_two" Class="input">
+			<p>
+			<table Class="a">
 
-        <option value=""></option>
-    <c:forEach items="${operators_name_collection}" var="operatorsNameCollection"> 
-        <option value="${operatorsNameCollection}">${operatorsNameCollection}</option>      
-    </c:forEach>
-    
-</select>
+				<h3>${display_operators_info }</h3>
 
-<input type="submit"
-       value="Покажи текущата информация"
-       Class="button">
 
-</form>
+				${update_operators_display_info }
 
-<p>
+			</table>
 
-<table>
+		</div>
 
-${update_operators_display_info }
+	</div>
 
-</table>
-
-</div>
-
-</div>
-
-<div>
-
-</div>
+	<div></div>
 
 </body>
 </html>

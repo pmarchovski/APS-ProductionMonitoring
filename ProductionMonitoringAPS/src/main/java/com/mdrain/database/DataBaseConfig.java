@@ -10,7 +10,6 @@ public final class DataBaseConfig {
 	private static final String USER     = "mdraineu_petar";
 	private static final String PASSWORD = "000000";
 	private static final String FORNAME = "com.mysql.jdbc.Driver";
-	private static final String USERTABLE = "users";
 	
 	public static String getUrl() {
 		

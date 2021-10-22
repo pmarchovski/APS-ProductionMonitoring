@@ -45,9 +45,7 @@ public class ChartGenerator {
     public String yValueGenerate(double[] yValue) {
 		
 	String yValueQuery = "";
-		
-		
-	    
+
 		for (int i = 0; i < yValue.length; i++) {
 			
 			yValueQuery += yValue[i] + ", ";
@@ -66,9 +64,7 @@ public class ChartGenerator {
     public String yValueGenerateDouble(ArrayList<Double> yValue) {
 		
     	String yValueQuery = "";
-    		
-    		
-    	    
+
     		for (int i = 0; i < yValue.size(); i++) {
     			
     			yValueQuery += yValue.get(i) + ", ";
@@ -84,12 +80,28 @@ public class ChartGenerator {
     	}	
     
     
+  public String yValueGenerateObject(ArrayList<Object> yValue) {
+		
+    	String yValueQuery = "";
+
+    		for (int i = 0; i < yValue.size(); i++) {
+    			
+    			yValueQuery += yValue.get(i) + ", ";
+    			
+    		}
+    		
+    		yValueQuery = yValueQuery.substring(0, yValueQuery.length() - 2);
+    		yValueQuery = "[" + yValueQuery + "]";
+    		
+    		
+    		return yValueQuery;
+    		
+    	}	
+    
     public String yValueGenerate(ArrayList<Integer> yValue) {
 		
     	String yValueQuery = "";
-    		
-    		
-    	    
+  
     		for (int i = 0; i < yValue.size(); i++) {
     			
     			yValueQuery += yValue.get(i) + ", ";

@@ -1,39 +1,102 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-	
-<jsp:include page="header.jsp"/>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script src="https://jquery-3.3.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+<jsp:include page="header.jsp" />
+
+
 
 <body>
 
-	<div Class="header_line">
+	<div id="loader" class="center" style="display: none">
+		<img src="pictures/spinner.gif">
 	</div>
-<main>
-<div id="registration">
 
-<form method="post" action="login">
 
-<label>User name</label>  
-<input 
-       name="login_user_name"
-       class="input"
-       type="text" 
-       placeholder="user name">
-       
-<label>Password</label>      
-<input 
-       name="login_user_password"
-       class="input"
-       type="password" 
-       placeholder="Password">
-       
 
-<input type="submit" value="Login" class="button">
-</form>
+	<div Class="header_line"></div>
+	<main>
+		<div id="registration">
 
-<p>
-${login_inform_massage}
-<a href="user_registration.jsp">Регистрация</a>
-</div>
-</main>
+			<form id="login_form" method="get" action="admin_servlet_login"
+				id="login_form">
+				
+			   <table Class="table">
+			    <tr>
+			    <td Class="i"></td>
+			    </tr>
+			    
+			    </table>
+			
+				<div class="input-container">
+				
+				<i class="fa fa-user icon"></i>
+				<input name="login_user_name" class="input-field" type="text"
+							placeholder="user name">
+				</div>	
+				<br><br>	
+			    
+			    
+			
+		    	<div class="input-container">
+				<i class="fa fa-key icon"></i>
+		        <input name="login_user_password" class="input-field"
+							type="password" placeholder="Password">
+				</div>
+				<br><br>			
+							
+				<table Class="table">
+		
+					<tr>
+						<td Class="i">
+						
+						<input type="submit"  class="button"
+							id="login_submit" value="Login">
+							
+							</td>
+							
+						<td Class="i">
+							<h4></h4>
+						</td>	
+					</tr>
+
+				</table>
+					
+			</form>
+
+
+			<p>${login_inform_massage}
+		</div>
+	</main>
+
+
+
+	<script>
+		$(document).ready(function() {
+
+			$("#login_submit").on("click", function() {
+
+				$.ajax({
+
+					type : "GET",
+					url : "admin_servlet_generate_lists",
+					beforeSend : function() {
+						$("#loader").show();
+					},
+					complete : function() {
+						$("#loader").hide();
+					}
+
+				});
+
+			});
+
+		});
+	</script>
+
 
 </body>

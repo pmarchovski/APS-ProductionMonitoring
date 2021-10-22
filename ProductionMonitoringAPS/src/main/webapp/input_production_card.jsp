@@ -5,6 +5,11 @@
 <jsp:include page="header.jsp" />
 <body>
 
+<div id="div_main_container_two">
+<h2>Въвеждане на производствени фишове</h2>
+
+</div>
+
 <div id="div_main_container">
 
 <div Class="div_left_container">
@@ -13,11 +18,12 @@
 ${done_status }
 <p>
 
-<form method="post" action="input_production_card">
+<form method="post" action="printers_production_servlet_input_production_card">
 
 <label Class="label_form">Дата</label>
 <input type="date"
        name="input_production_card_date"
+       value="${input_production_card_current_date }"
        class="input_less"><br><br>
 
 <label Class="label_form">Поръчка</label>       
@@ -83,8 +89,17 @@ ${done_status }
 
 </div>
 
-<div Class="div_left_container"></div>
+<div Class="div_right_container">
 
+<h4>Информация от последно въведен фиш</h4>
+
+<table Class="a">
+${input_production_card_table_head }
+${input_production_card_table_body }
+
+</table>
+
+</div>
 </div>
 
 

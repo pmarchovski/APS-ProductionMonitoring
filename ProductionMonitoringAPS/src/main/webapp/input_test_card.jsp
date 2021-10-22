@@ -6,6 +6,12 @@
 <jsp:include page="header.jsp" />
 <body>
 
+<div id="div_main_container_two">
+<h2>Въвеждане на фишове от операция тест</h2>
+
+</div>
+
+
 <div id="div_main_overflow">
 <div id="div_main_container">
 <div Class="div_left_container">
@@ -13,7 +19,7 @@
 ${done_status }
 
 <p>
-<form method="get" action="input_production_card">
+<form method="get" action="printers_production_servlet_input_production_card">
 
 <label Class="label_form">Дата</label>
 <input type="date"
@@ -196,7 +202,7 @@ ${done_status }
 
 <div Class="div_left_container">
 
-<form method="get" action="test_card_display_info_servlet">
+<form method="get" action="printers_production_servlet_test_card_display_info_servlet">
 
 <table>
 
@@ -204,13 +210,18 @@ ${done_status }
 <th Class="d">
 <label Class="label_form">Година</label>
 <select name="input_test_card_year"
-        class="input_small">
+        class="input_small"
+        required="true">
 
-<option value="2021">2021</option>
-<option value="2020">2020</option>
-<option value="2019">2019</option>
-<option value="2018">2018</option>
+
+<option value="${test_card_display_choise_year }" >${test_card_display_choise_year }</option>
 <option value="2017">2017</option>
+<option value="2018">2018</option>
+<option value="2019">2019</option>
+<option value="2020">2020</option>
+<option value="2021">2021</option>
+<option value="2022">2022</option>
+
 </select><br><br>
 
 </th>
@@ -219,9 +230,11 @@ ${done_status }
 
 <label Class="label_form">Месец</label>
 <select name="input_test_card_month"
-        class="input_small">
-        
-<option value="0">Всички</option>
+        class="input_small"
+        required="true">
+
+<option value="${test_card_display_choise_month }">${test_card_display_choise_month }</option>
+<option value="Всички">Всички</option>
 <option value="1">January</option>
 <option value="2">February</option>
 <option value="3">March</option>
@@ -242,10 +255,12 @@ ${done_status }
 <th Class="d">
 <label Class="label_form">Производство</label>
 <select name="input_test_card_department"
-        class="input_small">
+        class="input_small"
+        required="true">
 
-<option value="INDUSTRIAL">Industrial</option>
-<option value="AUTO">Auto</option>
+<option value="${test_card_display_choise_department }">${test_card_display_choise_department }</option>
+<option value="INDUSTRIAL">INDUSTRIAL</option>
+<option value="AUTO">AUTO</option>
 
 </select><br><br>
 
@@ -254,10 +269,12 @@ ${done_status }
 <th Class="d">
 <label Class="label_form">Тип графика</label>
 <select name="input_test_card_chart_type"
-        class="input_small">
+        class="input_small"
+        required="true">
 
-<option value="PARETO">Pareto</option>
-<option value="MAIN">Main</option>
+<option value="${test_card_display_choise_chart_type }">${test_card_display_choise_chart_type }</option>
+<option value="PARETO">PARETO</option>
+<option value="MAIN">MAIN</option>
 
 </select><br><br>
 
@@ -312,13 +329,14 @@ ${precentage}
 		   	 
 		    legend: {display: false},
 		    title: {
-		      display: false,
-		      text: "${production_capacity_by_weeks_year}"
+		      display: true,
+		      text: "${test_card_display_name_year_month_type}"
 		    }
 		  }
 	});
 
 </script>
+
 
 
 </div>

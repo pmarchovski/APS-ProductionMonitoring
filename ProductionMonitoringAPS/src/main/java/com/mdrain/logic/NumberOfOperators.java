@@ -11,11 +11,11 @@ public class NumberOfOperators {
 	
 	public static int numberOfOperators () {
 		
-		String table = "tb_operators";
-		String column = "tb_operators_operator_name";
+		String table                    = "tb_operators";
+		String column                   = "tb_operators_operator_name";
 		DataBaseActivities dbActivities = new DataBaseActivities();
-		ArrayList<String> operators = new ArrayList<String>();
-		ResultSet result = null;
+		ArrayList<String> operators     = new ArrayList<String>();
+		ResultSet result                = null;
 		
 		result = dbActivities.select(table);
 		

@@ -7,13 +7,15 @@ import java.sql.SQLException;
 
 
 public class DataBaseConnect {
-
 	
+    int counter1 = 0;
+   static int counter = 0;
+    
 	public Connection connection;
-	public DataBaseConnect instance = null;
+	public static DataBaseConnect instance = null;
 
 	public Connection connect() {
-  
+		
 		try {
 			Class.forName(DataBaseConfig.getForName());
 		} catch (ClassNotFoundException e) {
@@ -24,6 +26,9 @@ public class DataBaseConnect {
 		try {
 			connection = DriverManager.getConnection(DataBaseConfig.getUrl(), DataBaseConfig.getCredentials());
 		
+			counter1++;
+			System.out.println("Counter1 " + counter1);
+			
 			return connection;
 		} catch (SQLException e1) {
 		
@@ -34,17 +39,14 @@ public class DataBaseConnect {
 	}
 	
 	
-	public DataBaseConnect getInstance() {
-		
+	public static DataBaseConnect getInstance() {
+
 		if(instance == null) {
-			this.instance = new DataBaseConnect();
+			instance = new DataBaseConnect();
+			counter++;
+			System.out.println("Counter2 " + counter);
 		}
 		
 		return instance;
 	}
-	
-	
-	
-	
-	
 }

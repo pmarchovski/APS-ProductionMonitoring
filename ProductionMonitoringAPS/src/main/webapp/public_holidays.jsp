@@ -5,10 +5,15 @@
 <jsp:include page="header.jsp" />
 <body>
 
+<div id="div_main_container_two">
+<h2>Въвеждане на официални почивни дни</h2>
+
+</div>
+
 <div id="div_main_container">
 
 
-<form method="post" action="public_holiday">
+<form method="get" action="printers_production_servlet_include_absence">
 
 <label Class="label_form">Избери дата</label>
 
