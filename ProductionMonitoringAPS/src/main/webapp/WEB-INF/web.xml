@@ -14,10 +14,19 @@
 		<filter-name>encoding_filter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+    
+    
+    <filter>
+		<filter-name>send_heap_info_mail_filter</filter-name>
+		<filter-class>com.mdrain.filters.HeapInfo</filter-class>
+	</filter>
 
-
-
-
+	<filter-mapping>
+		<filter-name>send_heap_info_mail_filter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+    
 	<filter>
 		<filter-name>access_filter</filter-name>
 		<filter-class>com.mdrain.filters.AccessFilter</filter-class>
@@ -36,6 +45,17 @@
 
 	<filter-mapping>
 		<filter-name>clear_seesion_filter</filter-name>
+		<url-pattern>*.jsp</url-pattern>
+	</filter-mapping>
+	
+	
+		<filter>
+		<filter-name>start_tomcat_filter</filter-name>
+		<filter-class>com.mdrain.filters.StartTomcat</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>start_tomcat_filter</filter-name>
 		<url-pattern>*.jsp</url-pattern>
 	</filter-mapping>
 
@@ -63,9 +83,11 @@
 		<url-pattern>/printers_production_servlet_display_material_without_type</url-pattern>
 		<url-pattern>/printers_production_servlet_update_material_without_type</url-pattern>
 		<url-pattern>/printers_production_servlet_planed_labor_cost</url-pattern>
+		<url-pattern>/printers_production_servlet_wardrob_empty_info</url-pattern>
 		<url-pattern>/printers_production_servlet_wardrob_info</url-pattern>
 		<url-pattern>/printers_production_servlet_generate_serial_number</url-pattern>
 		<url-pattern>/printers_production_servlet_send_mail</url-pattern>
+		<url-pattern>/printers_production_servlet_display_production_orders_dashboard</url-pattern>
 	</servlet-mapping>
    
 
@@ -92,6 +114,7 @@
 		<servlet-name>admin_servlet</servlet-name>
 		<url-pattern>/admin_servlet_registration</url-pattern>
 		<url-pattern>/admin_servlet_login</url-pattern>
+		<url-pattern>/admin_servlet_forgot_password</url-pattern>
 		<url-pattern>/admin_servlet_logout</url-pattern>
 		<url-pattern>/admin_servlet_generate_lists</url-pattern>
 		<url-pattern>/admin_servlet_upload_data_into_coois_operation</url-pattern>
@@ -99,6 +122,23 @@
 		<url-pattern>/admin_servlet_upload_files_for_production_capacity</url-pattern>
 		<url-pattern>/admin_servlet_create_join_table_result</url-pattern>
 		<url-pattern>/admin_servlet_current_operators_data</url-pattern>
+		<url-pattern>/admin_servlet_registration_upload_avatar</url-pattern>
+		<url-pattern>/admin_update_servlet_registration_info</url-pattern>
+		<url-pattern>/admin_servlet_restart_tomcat</url-pattern>
+		<url-pattern>/admin_servlet_create_new_task</url-pattern>
+		<url-pattern>/admin_servlet_display_tasks</url-pattern>
+		<url-pattern>/admin_servlet_display_explicite_tasks</url-pattern>
+		<url-pattern>/admin_servlet_add_comment</url-pattern>
+		<url-pattern>/admin_servlet_change_status</url-pattern>
+		<url-pattern>/admin_servlet_change_task_target_date</url-pattern>
+		<url-pattern>/admin_servlet_display_my_tasks</url-pattern>
+		<url-pattern>/admin_servlet_work_clothes_for_order</url-pattern>
+		<url-pattern>/admin_servlet_heap_memory_info</url-pattern>
+		<url-pattern>/admin_servlet_send_sms</url-pattern>
+		<url-pattern>/admin_servlet_translator</url-pattern>
+		<url-pattern>/admin_servlet_display_jframe</url-pattern>
+		
+		
 	</servlet-mapping>
 
 	
@@ -116,8 +156,19 @@
 		<url-pattern>/create_dma_protokol_download_explicit_servlet</url-pattern>
 		<url-pattern>/create_dma_protokol_servlet</url-pattern>
 	</servlet-mapping>
+	
+	
+	<servlet>
+		<servlet-name>upload_files</servlet-name>
+		<servlet-class>com.mdrain.servlets.files.FilesServlet</servlet-class>
+	</servlet>
 
-
+	<servlet-mapping>
+		<servlet-name>upload_files</servlet-name>
+		<url-pattern>/admin_servlet_upload_files</url-pattern>
+	</servlet-mapping>
+	
+	
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 		<welcome-file>index.htm</welcome-file>
@@ -126,4 +177,10 @@
 		<welcome-file>default.htm</welcome-file>
 		<welcome-file>default.jsp</welcome-file>
 	</welcome-file-list>
+	
+	
+<session-config>
+	<session-timeout>480</session-timeout>
+</session-config>	
+	
 </web-app>

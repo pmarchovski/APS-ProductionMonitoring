@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.mdrain.database.DataBaseActivities;
+import com.mdrain.singletons.Singleton;
 
 public class IncludePublicHolidaysInDataBase {
 
@@ -24,10 +25,8 @@ public class IncludePublicHolidaysInDataBase {
 		String table                    = "tb_public_holidays";
 		String field                    = "tb_public_holidays_date";
 		String date                     = req.getParameter("public_holidays_date");
-		DataBaseActivities dbActivities = new DataBaseActivities();
-		ResultSet result                = null;
-
-		result                          = dbActivities.select(table);
+		DataBaseActivities dbActivities = Singleton.getInstance();
+		ResultSet result                = dbActivities.select(table);
 
 		try {
 			while (result.next()) {

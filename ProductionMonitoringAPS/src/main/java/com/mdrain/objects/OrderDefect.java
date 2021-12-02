@@ -3,9 +3,12 @@ package com.mdrain.objects;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import com.mdrain.variables.Variables;
+
 public class OrderDefect extends Orders{
 
 	ArrayList<Integer> defectsQuantityCollection = new ArrayList<Integer>();
+	Variables variables                          = new Variables();
 	LocalDate date;
 	int number;
 	int year;
@@ -47,9 +50,9 @@ public class OrderDefect extends Orders{
 
 	public void setTypeProduction() {
 		
-		if (this.number > 100000 && this.number <= 199999) this.typeProduction = "AUTO";
-		if (this.number > 200000 && this.number <= 299999) this.typeProduction = "INDUSTRIAL";
-		if (this.number > 300000 && this.number <= 399999) this.typeProduction = "PLASTIC";		
+		if (this.number > 100000 && this.number <= 199999) this.typeProduction = variables.AUTO;
+		if (this.number > 200000 && this.number <= 299999) this.typeProduction = variables.INDUSTRIAL;
+		if (this.number > 300000 && this.number <= 399999) this.typeProduction = variables.PLASTIC;		
 		if (this.number < 100000 || this.number > 400000) this.typeProduction = "";
 		
 	}

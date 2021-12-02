@@ -65,7 +65,7 @@ public class AccessFilter implements Filter{
 		
 		if (role(req).equals("admin")) {
 			pageCollectionAfterLogin = PageAccessCollection.roleAdminCollection();
-			sessionReq.setAttribute("registration", "<li><a href=\"user_registration.jsp\">Регистрация</a></li>");
+			sessionReq.setAttribute("admin_panel", "<li><a href=\"admin.jsp\">Admin panel</a></li>");
 		}
 				
 

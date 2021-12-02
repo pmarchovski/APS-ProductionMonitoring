@@ -8,15 +8,15 @@ public class Materials extends Orders{
 
 	public Materials(String materialNumber, String materialDescription, String materialGroup) {
 
-		this.materialNumber = materialNumber;
+		this.materialNumber      = materialNumber;
 		this.materialDescription = materialDescription;
-		this.materialGroup = materialGroup;
+		this.materialGroup       = materialGroup;
 	}
 
 	public Materials(String materialNumber, String materialGroup) {
 
 		this.materialNumber = materialNumber;
-		this.materialGroup = materialGroup;
+		this.materialGroup  = materialGroup;
 	}
 
 	public Materials() {

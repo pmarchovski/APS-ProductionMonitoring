@@ -23,6 +23,7 @@ import com.mdrain.logic.Date;
 import com.mdrain.logic.ExcelTables;
 import com.mdrain.logic.Tables;
 import com.mdrain.objects.FinanceDma;
+import com.mdrain.singletons.Singleton;
 
 public class FinanceProtocolDmaDisplayAndUpdate{
 	
@@ -31,28 +32,28 @@ public class FinanceProtocolDmaDisplayAndUpdate{
 	public static void prepareProtocolDataForDisplay(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
 
-		String protocolDate = req.getParameter("finance_protokol_display_update_dma_date");
+		String protocolDate     = req.getParameter("finance_protokol_display_update_dma_date");
 		String exploatationDate = req.getParameter("finance_protokol_display_update_dma_exploatation");
-		String supplier = req.getParameter("finance_protokol_display_update_dma_supplie");
-		String place = req.getParameter("finance_protokol_display_update_dma_place");
-		String costCenter = req.getParameter("finance_protokol_display_update_dma_project");
-		String invNumber = req.getParameter("finance_protokol_display_update_dma_invemtory_number");
+		String supplier         = req.getParameter("finance_protokol_display_update_dma_supplie");
+		String place            = req.getParameter("finance_protokol_display_update_dma_place");
+		String costCenter       = req.getParameter("finance_protokol_display_update_dma_project");
+		String invNumber        = req.getParameter("finance_protokol_display_update_dma_invemtory_number");
 		String resposiblePerson = req.getParameter("finance_protokol_display_updatel_dma_responsibility_person");
 
 		ArrayList<FinanceDma> dmaCollectioData = new ArrayList<FinanceDma>();
-		FinanceDma dmaManipulation = new FinanceDma();
-		HttpSession session = req.getSession();
-		Tables table = new Tables();
+		FinanceDma dmaManipulation             = new FinanceDma();
+		HttpSession session                    = req.getSession();
+		Tables table                           = new Tables();
 		
-		String linkDisplay = "<a href=" + "\"" + "create_dma_protokol_display_explicit_servlet?id=";
-		String linkUpdate = "<a href=" + "\"" + "create_dma_protokol_update_explicit_servlet?id=";
-		String linkDownload = "<a href=" + "\"" + "create_dma_protokol_download_explicit_servlet?id=";
-		String linkEnd = "</a>";
+		String linkDisplay   = "<a href=" + "\"" + "create_dma_protokol_display_explicit_servlet?id=";
+		String linkUpdate    = "<a href=" + "\"" + "create_dma_protokol_update_explicit_servlet?id=";
+		String linkDownload  = "<a href=" + "\"" + "create_dma_protokol_download_explicit_servlet?id=";
+		String linkEnd       = "</a>";
 
 		dmaCollectioData = getDmaProtocolDataFromDataBase();
 
 		ArrayList<String> tableFieldsNameCollection = getMainTableFieldsName();
-		ArrayList<Object> tableDataCollection = new ArrayList<Object>();
+		ArrayList<Object> tableDataCollection       = new ArrayList<Object>();
 
 		for (int i = 0; i < dmaCollectioData.size(); i++) {
 			
@@ -74,7 +75,7 @@ public class FinanceProtocolDmaDisplayAndUpdate{
 			} else {
 				
 				dmaManipulation = dmaCollectioData.get(i);
-				LocalDate protocolDateFromObj = null;
+				LocalDate protocolDateFromObj     = null;
 				LocalDate exploatationDateFromObj = null;
 				
 				if (!protocolDate.equals("")) protocolDateFromObj         = Date.date(protocolDate);
@@ -115,12 +116,12 @@ public class FinanceProtocolDmaDisplayAndUpdate{
 
 	public static void getExpliciteProtocol(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		
-		HttpSession session = req.getSession();
-		int id = Integer.parseInt(req.getParameter("id"));
+		HttpSession session                    = req.getSession();
+		int id                                 = Integer.parseInt(req.getParameter("id"));
 		ArrayList<FinanceDma> dmaCollectioData = new ArrayList<FinanceDma>();
-		ArrayList<String> protocolDataTable = new ArrayList<String>();
-		ArrayList<String> protocolFieldTable = new ArrayList<String>();
-		Tables table = new Tables();
+		ArrayList<String> protocolDataTable    = new ArrayList<String>();
+		ArrayList<String> protocolFieldTable   = new ArrayList<String>();
+		Tables table                           = new Tables();
 		
 		dmaCollectioData = getDmaProtocolDataFromDataBase();
 		
@@ -161,13 +162,13 @@ public class FinanceProtocolDmaDisplayAndUpdate{
 	
 	public static void updateExpliciteProtocol(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		
-		HttpSession session = req.getSession();
-		int id = Integer.parseInt(req.getParameter("id"));
-		idForUpdate = req.getParameter("id");
+		HttpSession session                    = req.getSession();
+		int id                                 = Integer.parseInt(req.getParameter("id"));
+		idForUpdate                            = req.getParameter("id");
 		ArrayList<FinanceDma> dmaCollectioData = new ArrayList<FinanceDma>();
-		ArrayList<String> protocolDataTable = new ArrayList<String>();
-		ArrayList<String> protocolFieldTable = new ArrayList<String>();
-		Tables table = new Tables();
+		ArrayList<String> protocolDataTable    = new ArrayList<String>();
+		ArrayList<String> protocolFieldTable   = new ArrayList<String>();
+		Tables table                           = new Tables();
 		
 		dmaCollectioData = getDmaProtocolDataFromDataBase();
 		
@@ -211,14 +212,13 @@ public class FinanceProtocolDmaDisplayAndUpdate{
 	
 	public static void updateFinalExpliciteProtocol(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		
-		HttpSession session = req.getSession();	
+		HttpSession session                      = req.getSession();	
 		ArrayList<String> dbcolumnNameCollection = new ArrayList<String>();
-		ArrayList<String> newDataCollection = new ArrayList<String>();
-		DataBaseActivities dbActivities = new DataBaseActivities();
-		
-		String fieldInto = "tb_finance_protokol_dma_number";
-		String valueInto = idForUpdate;
-		String table = "tb_finance_protokol_dma";
+		ArrayList<String> newDataCollection      = new ArrayList<String>();
+		DataBaseActivities dbActivities          = Singleton.getInstance();
+		String fieldInto                         = "tb_finance_protokol_dma_number";
+		String valueInto                         = idForUpdate;
+		String table                             = "tb_finance_protokol_dma";
 		
 		
 		if (!req.getParameter("finance_protokol_dma_update_date").equals("")) {
@@ -334,14 +334,13 @@ public class FinanceProtocolDmaDisplayAndUpdate{
 	
 	public static void extractFullProtocolToExcel(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		
-		int id = Integer.parseInt(req.getParameter("id"));
-		idForUpdate = req.getParameter("id");
-		ArrayList<FinanceDma> dmaCollectioData = new ArrayList<FinanceDma>();
-		ArrayList<String> protocolDataExcelTable = new ArrayList<String>();
+		int id                                    = Integer.parseInt(req.getParameter("id"));
+		idForUpdate                               = req.getParameter("id");
+		ArrayList<FinanceDma> dmaCollectioData    = new ArrayList<FinanceDma>();
+		ArrayList<String> protocolDataExcelTable  = new ArrayList<String>();
 		ArrayList<String> protocolFieldExcelTable = new ArrayList<String>();
-		dmaCollectioData = getDmaProtocolDataFromDataBase();
-		
-		protocolFieldExcelTable = getAllTableFieldsName();
+		dmaCollectioData                          = getDmaProtocolDataFromDataBase();	
+		protocolFieldExcelTable                   = getAllTableFieldsName();
 		
 		
 		for (int i = 0; i < dmaCollectioData.size(); i++) {
@@ -370,68 +369,67 @@ public class FinanceProtocolDmaDisplayAndUpdate{
 				  
 			  }
 			}
-		
-		
 		createExcelDmaProtocol(req, resp, protocolDataExcelTable, protocolFieldExcelTable);
-		
-		
 	}
 	
 	
 
 	private static ArrayList<FinanceDma> getDmaProtocolDataFromDataBase() {
 
-		String table = "tb_finance_protokol_dma";
-		DataBaseActivities dbActivities = new DataBaseActivities();
-		ResultSet result = null;
-		result = dbActivities.select(table);
+		String table                           = "tb_finance_protokol_dma";
+		DataBaseActivities dbActivities        = Singleton.getInstance();
+		ResultSet result                       = dbActivities.select(table);
 		ArrayList<FinanceDma> dmaCollectioData = new ArrayList<FinanceDma>();
 
-		try {
-			while (result.next()) {
+		if (result != null) {		
+			try {
+				while (result.next()) {
 
-				FinanceDma dma = new FinanceDma();
+					FinanceDma dma = new FinanceDma();
 
-				dma.setNumber(result.getInt("tb_finance_protokol_dma_number"));
-				LocalDate protocolDate = Date.date(result.getString("tb_finance_protokol_dma_date"));
-				dma.setDmaProtocolDate(protocolDate);
-				dma.setDmaName(result.getString("tb_finance_protokol_dma_active_name"));
-				LocalDate exloatationDate = Date.date(result.getString("tb_finance_protokol_dma_exploatation_date"));
-				dma.setDmaExploatationDate(exloatationDate);
-				dma.setDmaSuplier(result.getString("tb_finance_protokol_dma_supplier"));
-				dma.setDmaUsePlace(result.getString("tb_finance_protokol_dma_place"));
-				dma.setDmaProject(result.getString("tb_finance_protokol_dma_project"));
-				dma.setDmaModel(result.getString("tb_finance_protokol_dma_model"));
-				dma.setDmaSerialNumber(result.getString("tb_finance_protokol_dma_serial_number"));
-				dma.setDmaInvNumber(result.getString("tb_finance_protokol_dma_inv_number"));
-				dma.setDmaResponsiblePerson(result.getString("tb_finance_protokol_dma_resp_person"));
-				dma.setDmaProducedBy(result.getString("tb_finance_protokol_dma_produced_by"));
-				dma.setDmaAboutUse(result.getString("tb_finance_protokol_dma_about"));
-				dma.setDmaNote(result.getString("tb_finance_protokol_dma_note"));
-				dma.setDmaCreator(result.getString("tb_finance_protokol_dma_creator"));
-				dma.setDmaActiveNumber(result.getString("tb_finance_protokol_dma_active_number"));
-				dma.setDmaValueOne(result.getDouble("tb_finance_protokol_dma_value_one"));
-				dma.setDmaValueTwo(result.getDouble("tb_finance_protokol_dma_value_two"));
-				dma.setDmaCategory(result.getString("tb_finance_protokol_dma_category"));
-				LocalDate includeDate = Date.date(result.getString("tb_finance_protokol_dma_include_date"));
-				dma.setDmaIncludDate(includeDate);
-				dma.setDmaReasonForBuy(result.getString("tb_finance_protokol_dma_reason_for_buy"));
-				dma.setDmaUpdateUser(result.getString("tb_finance_protokol_dma_update_user"));
+					dma.setNumber(result.getInt("tb_finance_protokol_dma_number"));
+					LocalDate protocolDate = Date.date(result.getString("tb_finance_protokol_dma_date"));
+					dma.setDmaProtocolDate(protocolDate);
+					dma.setDmaName(result.getString("tb_finance_protokol_dma_active_name"));
+					LocalDate exloatationDate = Date.date(result.getString("tb_finance_protokol_dma_exploatation_date"));
+					dma.setDmaExploatationDate(exloatationDate);
+					dma.setDmaSuplier(result.getString("tb_finance_protokol_dma_supplier"));
+					dma.setDmaUsePlace(result.getString("tb_finance_protokol_dma_place"));
+					dma.setDmaProject(result.getString("tb_finance_protokol_dma_project"));
+					dma.setDmaModel(result.getString("tb_finance_protokol_dma_model"));
+					dma.setDmaSerialNumber(result.getString("tb_finance_protokol_dma_serial_number"));
+					dma.setDmaInvNumber(result.getString("tb_finance_protokol_dma_inv_number"));
+					dma.setDmaResponsiblePerson(result.getString("tb_finance_protokol_dma_resp_person"));
+					dma.setDmaProducedBy(result.getString("tb_finance_protokol_dma_produced_by"));
+					dma.setDmaAboutUse(result.getString("tb_finance_protokol_dma_about"));
+					dma.setDmaNote(result.getString("tb_finance_protokol_dma_note"));
+					dma.setDmaCreator(result.getString("tb_finance_protokol_dma_creator"));
+					dma.setDmaActiveNumber(result.getString("tb_finance_protokol_dma_active_number"));
+					dma.setDmaValueOne(result.getDouble("tb_finance_protokol_dma_value_one"));
+					dma.setDmaValueTwo(result.getDouble("tb_finance_protokol_dma_value_two"));
+					dma.setDmaCategory(result.getString("tb_finance_protokol_dma_category"));
+					LocalDate includeDate = Date.date(result.getString("tb_finance_protokol_dma_include_date"));
+					dma.setDmaIncludDate(includeDate);
+					dma.setDmaReasonForBuy(result.getString("tb_finance_protokol_dma_reason_for_buy"));
+					dma.setDmaUpdateUser(result.getString("tb_finance_protokol_dma_update_user"));
 
-				dmaCollectioData.add(dma);
+					dmaCollectioData.add(dma);
 
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 
+			
+		} else {
+			getDmaProtocolDataFromDataBase();
+		}
+			
 		return dmaCollectioData;
 
 	}
-
-
-
+	
 	private static ArrayList<String> getMainTableFieldsName() {
 
 		ArrayList<String> tableFieldsNameCollection = new ArrayList<String>();
@@ -446,7 +444,7 @@ public class FinanceProtocolDmaDisplayAndUpdate{
 		return tableFieldsNameCollection;
 
 	}
-
+	
 	private static ArrayList<String> getAllTableFieldsName() {
 
 		ArrayList<String> tableFieldsNameCollection = new ArrayList<String>();
@@ -469,7 +467,6 @@ public class FinanceProtocolDmaDisplayAndUpdate{
 		tableFieldsNameCollection.add("Приета данъчна амортизационна норма");
 		tableFieldsNameCollection.add("Категория съгласно чл.55 от ЗКПО");
 		tableFieldsNameCollection.add("Активът е включен в ДАП, считано от");
-		
 
 		return tableFieldsNameCollection;
 
@@ -485,14 +482,13 @@ public class FinanceProtocolDmaDisplayAndUpdate{
 	
 		
 		String relativePath = req.getServletContext().getRealPath("");
-		String filePath  =  relativePath + "\\SAP\\" + "Protocol.xlsx";
-		
+		String filePath     =  relativePath + "\\SAP\\" + "Protocol.xlsx";
 		File downloadFile   = new File(filePath);
 		
 		downloadFile.delete();
 		
 		XSSFWorkbook workbook = new XSSFWorkbook();
-		XSSFSheet worksheet = workbook.createSheet("protocol");
+		XSSFSheet worksheet   = workbook.createSheet("protocol");
 	
 		ExcelTables.extractFullExcelProtocolDma(workbook, worksheet, protocolDataCollection, protocolFieldsCollection);
 		
@@ -505,7 +501,7 @@ public class FinanceProtocolDmaDisplayAndUpdate{
         resp.setContentLength((int) downloadFile.length());
          
         // forces download
-        String headerKey = "Content-Disposition";
+        String headerKey   = "Content-Disposition";
         String headerValue = String.format("attachment; filename=\"%s\"", downloadFile.getName());
         resp.setHeader(headerKey, headerValue);
          

@@ -5,6 +5,20 @@
 <jsp:include page="header.jsp" />
 <body>
 
+<div id="div_main_container_fixed">
+
+   <table>
+    <tr>
+      <td Class="a"><img src="pictures/ICONS/png/Info.png"></td>
+      <td Class="a"><h2>Информация за поръчки по години</h2></td>   
+    </tr>
+   </table>
+
+</div>
+
+<div id="div_empty"></div>
+
+
 <div id="div_main_container">
 	<form method="get"
 		action="printers_production_servlet_orders_information_servlet">

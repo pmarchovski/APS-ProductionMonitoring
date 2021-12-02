@@ -20,12 +20,10 @@ public class OrdersInformation {
 		int year                                = Integer.parseInt(req.getParameter("orders_info_select_year"));
 		ArrayList<Orders> ordersCollection      = new ArrayList<Orders>();
 		HttpSession session                     = req.getSession();
-
-		ordersCollection                = SetObjectInfo.getOrdersInfoFromDataBase();
-		String[] productTypeDescription = MaterialsProductTypeList.getMaterialsGroupList();
-
-
-		ArrayList<Integer> yearsCollection = new ArrayList<Integer>();
+		ordersCollection                        = SetObjectInfo.getOrdersInfoFromDataBase();
+		String[] productTypeDescription         = MaterialsProductTypeList.getMaterialsGroupList();
+		ArrayList<Integer> yearsCollection      = new ArrayList<Integer>();
+		Tables tables                           = new Tables();
 
 		if (year == 1) {
 			yearsCollection.add(2018);
@@ -48,7 +46,6 @@ public class OrdersInformation {
 		String[] tableQueryCollection = new String[yearsCollection.size()];
 		String tableQuery             = "";
 		String tableFieldQuery        = "";
-		Tables tableDisplay           = new Tables();
 		int k = 0;
 
 		for (k = 0; k < yearsCollection.size(); k++) {
@@ -88,9 +85,8 @@ public class OrdersInformation {
 			}
 			
 			
-			tableFieldQuery = tableDisplay.createTableString(productTypeDescription);
-			
-			tableQuery = tableDisplay.createTableStringWithoutClass(productTypeQtyFormat);
+			tableFieldQuery         = tables.createTableString(productTypeDescription);	
+			tableQuery              = tables.createTableStringWithoutClass(productTypeQtyFormat);
 			tableQueryCollection[k] = "<td Class=" + "\"f\""  + ">" +  yearsCollection.get(k) + "</td>" + tableQuery;
 			
 		}
@@ -105,7 +101,6 @@ public class OrdersInformation {
 		finalQuery = "<div style=" +  "\"float: left\"" + ">" + "<table Class=" + "\"a\"" + ">" + productTypeForTable + tableFieldQuery  + "</table>" + "</div>" + finalQuery;
 		
 		session.setAttribute("production_order_quantity_info", finalQuery);
-		
 		
 		resp.sendRedirect("orders_info.jsp");
 	}

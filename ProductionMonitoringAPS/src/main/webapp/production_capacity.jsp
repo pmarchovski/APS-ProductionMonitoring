@@ -6,17 +6,28 @@
    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
    <script src="https://jquery-3.3.1.min.js"></script>
    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-   
-<jsp:include page="header.jsp" />
+ <header>
+ <jsp:include page="header.jsp" />
+ </header>  
+
 <body>
 
+<div id="div_main_container_fixed">
+
+   <table>
+    <tr>
+      <td Class="a"><img src="pictures/ICONS/png/Info.png"></td>
+      <td Class="a"><h2>Производствен капацитет</h2></td>   
+    </tr>
+   </table>
+
+</div>
+
+<div id="div_empty"></div>
 <div id="loader" class="center" style="display:none"><img src="pictures/spinner.gif"></div>
 
 
-<div id="div_main_container_two">
-<h3>Производствен капацитет</h3>
 
-</div>
 	<div>
 		<h3>${before_path}${path }</h3>
 	
@@ -53,11 +64,11 @@
 					<tr>
 
 						<td Class="e">
-						<label Class="label_form">Година</label> 
 						<select
 							name="production_capacity_year" class="input_small">
-							    
+							
 							    <option value="${production_capacity_select_year }">${production_capacity_select_year }</option>
+							    <option value="" disabled selected>Избери година:</option>						    
 							    <option value="2018">2018</option>
 							    <option value="2019">2019</option>
 							    <option value="2020">2020</option>
@@ -70,11 +81,11 @@
 						</td>
 
 						<td Class="e">
-						<label Class="label_form">Покажи по:</label> 
 						<select
 							name="production_capacity_month" class="input_small">
 							
 							    <option value="${production_capacity_select_month }">${production_capacity_select_month }</option>
+							    <option value="" disabled selected>Покажи по:</option>	    
 								<option value="Седмици">Седмици</option>
 								<option value="Месеци">Месеци</option>
 						</select>

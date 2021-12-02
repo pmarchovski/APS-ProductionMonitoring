@@ -204,9 +204,4 @@ public class FinanceDma {
 	public void setDmaUpdateUser(String dmaUpdateUser) {
 		this.dmaUpdateUser = dmaUpdateUser;
 	}
-	
-	
-	
-	
-	
 }

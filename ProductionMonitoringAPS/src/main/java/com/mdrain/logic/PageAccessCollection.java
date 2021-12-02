@@ -21,6 +21,7 @@ public final class PageAccessCollection {
 		pageCollectionRoleUser.add("user_registration.jsp");
 		pageCollectionRoleUser.add("login.jsp");
 		pageCollectionRoleUser.add("planed_labour_cost.jsp");
+		pageCollectionRoleUser.add("heap_memory_info.jsp");
 	
 		return pageCollectionRoleUser;
 	}
@@ -37,7 +38,7 @@ public final class PageAccessCollection {
 		pageCollectionRoleGuest.add("input_production_card.jsp");
 		pageCollectionRoleGuest.add("input_test_card.jsp");
 		pageCollectionRoleGuest.add("tph_production.jsp");
-		pageCollectionRoleGuest.add("finance_acounting.jsp");
+		pageCollectionRoleGuest.add("finance_accounting.jsp");
 		pageCollectionRoleGuest.add("finance_protokol_dma.jsp");
 		pageCollectionRoleGuest.add("finance_protokol_dma_update.jsp");
 		pageCollectionRoleGuest.add("finance_protokol_dma_display_update.jsp");
@@ -52,6 +53,8 @@ public final class PageAccessCollection {
 		pageCollectionRoleGuest.add("display_materials_type.jsp");
 		pageCollectionRoleGuest.add("production_plan_generate.jsp");
 		pageCollectionRoleGuest.add("generate_serial_number.jsp");
+		pageCollectionRoleGuest.add("production_orders_dashboard.jsp");
+		pageCollectionRoleGuest.add("heap_memory_info.jsp");
 		
 		
 		return pageCollectionRoleGuest;
@@ -77,7 +80,7 @@ public final class PageAccessCollection {
 		pageCollectionRoleWithOutLogin.add("orders_info.jsp");
 		pageCollectionRoleWithOutLogin.add("production_plan_generate.jsp");
 		pageCollectionRoleWithOutLogin.add("public_holiday.jsp");
-		pageCollectionRoleWithOutLogin.add("finance_acounting.jsp");
+		pageCollectionRoleWithOutLogin.add("finance_accounting.jsp");
 		pageCollectionRoleWithOutLogin.add("finance_protokol_dma.jsp");
 		pageCollectionRoleWithOutLogin.add("finance_protokol_dma_update.jsp");
 		pageCollectionRoleWithOutLogin.add("finance_protokol_dma_display_update.jsp");
@@ -93,7 +96,11 @@ public final class PageAccessCollection {
 		pageCollectionRoleWithOutLogin.add("absence_report.jsp");
 		pageCollectionRoleWithOutLogin.add("display_materials_type.jsp");
 		pageCollectionRoleWithOutLogin.add("generate_serial_number.jsp");
-		pageCollectionRoleWithOutLogin.add("finance_acaunting.jsp");
+		pageCollectionRoleWithOutLogin.add("create_new_task.jsp");
+		pageCollectionRoleWithOutLogin.add("display_and_update_user_info.jsp");
+		pageCollectionRoleWithOutLogin.add("display_tasks.jsp");
+		pageCollectionRoleWithOutLogin.add("production_orders_dashboard.jsp");
+		pageCollectionRoleWithOutLogin.add("heap_memory_info.jsp");
 		
 		
 		return pageCollectionRoleWithOutLogin;

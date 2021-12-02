@@ -14,6 +14,7 @@ import com.mdrain.database.DataBaseActivities;
 import com.mdrain.logic.Date;
 import com.mdrain.logic.Tables;
 import com.mdrain.objects.Orders;
+import com.mdrain.singletons.Singleton;
 
 public class DisplayReportedTimeFromProductionCards {
 
@@ -48,11 +49,10 @@ public class DisplayReportedTimeFromProductionCards {
 
 	private static ArrayList<Orders> getDataFromProductionCards() {
 
-		DataBaseActivities dbActivities = new DataBaseActivities();
-		String table = "tb_production_card_information";
-		ResultSet result = null;
+		DataBaseActivities dbActivities                  = Singleton.getInstance();
+		String table                                     = "tb_production_card_information";
 		ArrayList<Orders> ordersProductionCardCollection = new ArrayList<Orders>();
-		result = dbActivities.select(table);
+		ResultSet result                                 = dbActivities.select(table);
 
 		try {
 			while (result.next()) {
@@ -80,12 +80,10 @@ public class DisplayReportedTimeFromProductionCards {
 
 	private static ArrayList<Orders> getDataFromCooisOperation() {
 
-		DataBaseActivities dbActivities = new DataBaseActivities();
-		String table = "tb_coois_operation";
-		ResultSet result = null;
+		DataBaseActivities dbActivities                   = Singleton.getInstance();
+		String table                                      = "tb_coois_operation";
 		ArrayList<Orders> ordersCooisOperatyionCollection = new ArrayList<Orders>();
-
-		result = dbActivities.select(table);
+		ResultSet result                                  = dbActivities.select(table);
 
 		try {
 			while (result.next()) {
@@ -110,12 +108,10 @@ public class DisplayReportedTimeFromProductionCards {
 
 	private static ArrayList<Orders> getDataFromCooisProd() {
 
-		DataBaseActivities dbActivities = new DataBaseActivities();
-		String table = "tb_coois_prod";
-		ResultSet result = null;
+		DataBaseActivities dbActivities             = Singleton.getInstance();
+		String table                                = "tb_coois_prod";
 		ArrayList<Orders> ordersCooisProdCollection = new ArrayList<Orders>();
-
-		result = dbActivities.select(table);
+		ResultSet result                            = dbActivities.select(table);
 
 		try {
 			while (result.next()) {
@@ -199,11 +195,11 @@ public class DisplayReportedTimeFromProductionCards {
 	private static void tablePrepare(HttpServletRequest req, HttpServletResponse resp, String materialNumber,
 			int orderNumber) {
 
-		HttpSession session = req.getSession();
+		HttpSession session                               = req.getSession();
 		ArrayList<Orders> ordersCooisOperatyionCollection = unionOrdersInfo();
-		ArrayList<String> fieldsNameCollection = new ArrayList<String>();
-		ArrayList<Object> orderDataCollection = new ArrayList<Object>();
-		Tables table = new Tables();
+		ArrayList<String> fieldsNameCollection            = new ArrayList<String>();
+		ArrayList<Object> orderDataCollection             = new ArrayList<Object>();
+		Tables table                                      = new Tables();
 
 		fieldsNameCollection.add("Поръчка");
 		fieldsNameCollection.add("Изделие номер");

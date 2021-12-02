@@ -12,17 +12,16 @@ import javax.servlet.http.HttpSession;
 import com.mdrain.database.DataBaseActivities;
 import com.mdrain.logic.Tables;
 import com.mdrain.objects.Operators;
+import com.mdrain.singletons.Singleton;
 
 public class GetHoleOperatorsInfo {
 
 	
 	public static void bootstrap(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		
-        HttpSession session = req.getSession();
-		
+        HttpSession session = req.getSession();	
 		session.setAttribute("hole_operators_info", information(req, resp));
 		session.setAttribute("hole_operators_info_none_operator", noneOperatorInfo(req, resp));
-		
 		
 		resp.sendRedirect("hole_operators_info.jsp");
 		
@@ -32,13 +31,13 @@ public class GetHoleOperatorsInfo {
 	private static ArrayList<Object> getInfoFromDataBase() {
 
 		String table                              = "tb_operators";
-		DataBaseActivities dbActivities           = new DataBaseActivities();
-		ResultSet result                          = null;
+		DataBaseActivities dbActivities           = Singleton.getInstance();
 		ArrayList<Object> operatorsCollectionInfo = new ArrayList<Object>();
+		ResultSet result                          = dbActivities.select(table);
 
-		result = dbActivities.select(table);
-
-		try {
+		if (result != null) {
+			
+			try {
 			while (result.next()) {
 				Operators operators = new Operators();
 
@@ -59,6 +58,13 @@ public class GetHoleOperatorsInfo {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+			
+		} else {
+			getInfoFromDataBase();
+		}
+		
+		
+		
 		return operatorsCollectionInfo;
 	}
 
@@ -78,6 +84,7 @@ public class GetHoleOperatorsInfo {
 		int numberMagazin                         = 0;
 		ArrayList<Object> operatorsCollection = new ArrayList<Object>();
 		operatorsCollection                   = getInfoFromDataBase();
+		Tables table                          = new Tables();
 
 		Operators operator;
 		String teamLeader = req.getParameter("hole_operators_info_team_leader");
@@ -240,8 +247,6 @@ public class GetHoleOperatorsInfo {
 		typeOperatorsFileds.add("Oператори ел. монтаж");
 		typeOperatorsFileds.add("Oператори тест");
 		typeOperatorsFileds.add("Oператори опаковка");
-
-		Tables table       = new Tables();
 		
 		String tableString = table.createTableInteger(typeOperatorsFileds, valueOperatorsFileds);
 		return tableString;
@@ -250,9 +255,9 @@ public class GetHoleOperatorsInfo {
 	
 	private static String noneOperatorInfo(HttpServletRequest req, HttpServletResponse resp) {
 		
-		Tables tableNonOperator        = new Tables();
 		ArrayList<Integer> valueFileds = new ArrayList<Integer>();
 		ArrayList<String> typeFileds   = new ArrayList<String>();
+		Tables table                   = new Tables();
 		
 		valueFileds.add(4);
 		valueFileds.add(3);
@@ -262,7 +267,7 @@ public class GetHoleOperatorsInfo {
 		typeFileds.add("Mагазинери");
 		typeFileds.add("SAP");
 		
-		String tableStringNoneOperator = tableNonOperator.createTableInteger(typeFileds, valueFileds);
+		String tableStringNoneOperator = table.createTableInteger(typeFileds, valueFileds);
 		return tableStringNoneOperator;
 	}
 }

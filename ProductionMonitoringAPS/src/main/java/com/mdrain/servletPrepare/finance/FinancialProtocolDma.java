@@ -24,6 +24,7 @@ import com.mdrain.database.DataBaseActivities;
 import com.mdrain.logic.ExcelTables;
 import com.mdrain.servletPrepare.admin.EmailLists;
 import com.mdrain.servletPrepare.admin.SendMail;
+import com.mdrain.singletons.Singleton;
 
 public class FinancialProtocolDma{
 	
@@ -31,15 +32,15 @@ public class FinancialProtocolDma{
 
 	public static void prepareDmaProtocol(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
 		
-		HttpSession session = req.getSession();
-		ArrayList<Object> protocolDataCollection = new ArrayList<Object>();
-		ArrayList<Object> dataBaseDataCollection = new ArrayList<Object>();
-		ArrayList<String> protocolFieldsCollection = new ArrayList<String>();
+		HttpSession session                            = req.getSession();
+		ArrayList<Object> protocolDataCollection       = new ArrayList<Object>();
+		ArrayList<Object> dataBaseDataCollection       = new ArrayList<Object>();
+		ArrayList<String> protocolFieldsCollection     = new ArrayList<String>();
 		ArrayList<String> dataBaseColumnNameCollection = new ArrayList<String>();
 		
-		DataBaseActivities dbActivities = new DataBaseActivities();
-		String table = "tb_finance_protokol_dma";
-		int protocolNumber = setProtocolNumber();
+		DataBaseActivities dbActivities                = Singleton.getInstance();
+		String table                                   = "tb_finance_protokol_dma";
+		int protocolNumber                             = setProtocolNumber();
 		
 //Excel data prepare
 		
@@ -74,7 +75,7 @@ public class FinancialProtocolDma{
 //Data base include		
 		
 		LocalDate includDate = LocalDate.now();		
-		String creator = (String) session.getAttribute("user_name");
+		String creator       = (String) session.getAttribute("user_name");
 			
 		dataBaseColumnNameCollection.add("tb_finance_protokol_dma_date");
 		dataBaseColumnNameCollection.add("tb_finance_protokol_dma_active_name");
@@ -109,8 +110,7 @@ public class FinancialProtocolDma{
 		dataBaseDataCollection.add(creator);
 		dataBaseDataCollection.add(includDate);
 		dataBaseDataCollection.add(protocolNumber);
-		
-		
+			
 		dbActivities.insertObject(table, dataBaseColumnNameCollection, dataBaseDataCollection);
 		
 		FinancialProtocolDma createExcelDmaProtocol = new FinancialProtocolDma();
@@ -189,12 +189,10 @@ public class FinancialProtocolDma{
 		
 		//Get id from database
 		
-		ResultSet result = null;
-		String table = "tb_finance_protokol_dma";
-		DataBaseActivities dbActivities = new DataBaseActivities();
-		ArrayList<Integer> protocolId = new ArrayList<Integer>();
-		
-		result = dbActivities.select(table);
+		String table                    = "tb_finance_protokol_dma";
+		DataBaseActivities dbActivities = Singleton.getInstance();
+		ArrayList<Integer> protocolId   = new ArrayList<Integer>();	
+		ResultSet result                = dbActivities.select(table);
 		
 		try {
 			while (result.next()) {
@@ -208,7 +206,7 @@ public class FinancialProtocolDma{
 		}
 		
 		int protocolNumber = 1000; 
-		protocolNumber = protocolNumber + (protocolId.size() + 1);
+		protocolNumber     = protocolNumber + (protocolId.size() + 1);
 		
 		return protocolNumber;
 	}

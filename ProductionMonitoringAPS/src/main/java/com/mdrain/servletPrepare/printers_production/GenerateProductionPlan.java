@@ -26,17 +26,11 @@ public class GenerateProductionPlan {
 	
 	public static void bootstrap(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		
-		ArrayList<Orders> orderCollection = new ArrayList<Orders>();
-
-		orderCollection = SetObjectInfo.getOrdersInfoFromDataBase();
-
-		ArrayList<Object> productionPlanCollection = new ArrayList<Object>();
-		
-		productionPlanCollection = createProductionPlan(orderCollection, req, resp);
+		ArrayList<Orders> orderCollection          = SetObjectInfo.getOrdersInfoFromDataBase();                          
+		ArrayList<Object> productionPlanCollection = createProductionPlan(orderCollection, req, resp);              
 		
 		createProductionPlanExcel(req, resp, productionPlanCollection);
 	}
-	
 	
 	private static ArrayList<Object> createProductionPlan(ArrayList<Orders> orderCollection, HttpServletRequest req,
 			HttpServletResponse resp) {
@@ -46,52 +40,48 @@ public class GenerateProductionPlan {
 			String department    = req.getParameter("production_capacity_production_plan_department");
 			LocalDate date;
 			ArrayList<Object> productionPlanCollection = new ArrayList<Object>();
-	 
-			
-			
+	
 			for (int i = 0; i < orderCollection.size(); i++) {
 
-				Orders orderManipulation = (Orders) orderCollection.get(i);
-
-				date = orderManipulation.getStartDate();
+				date = orderCollection.get(i).getStartDate();
 
 				if (!department.equals("All")) {
 
-					if (orderManipulation.getStartDate().getYear() == year
+					if (orderCollection.get(i).getStartDate().getYear() == year
 							&& date.get(week.weekOfWeekBasedYear()) - 1 == weekNumber
-							&& orderManipulation.getProductionLine().equals(department)
-							&& !orderManipulation.getStatus().equals("TECO")
-							&& !orderManipulation.getStatus().equals("DELETED")) {
+							&& orderCollection.get(i).getProductionLine().equals(department)
+							&& !orderCollection.get(i).getStatus().equals("TECO")
+							&& !orderCollection.get(i).getStatus().equals("DELETED")) {
 						
 					
-						productionPlanCollection.add(orderManipulation.getNumber());
-						productionPlanCollection.add(orderManipulation.getMaterialNumber());
-						productionPlanCollection.add(orderManipulation.getMaterialDescription());
-						productionPlanCollection.add(orderManipulation.getQuantity());
-						productionPlanCollection.add(orderManipulation.getStartDate());
-						productionPlanCollection.add(orderManipulation.getEndDate());
-						productionPlanCollection.add(orderManipulation.getTeamLeader());
-						productionPlanCollection.add(orderManipulation.getExportDate());				
-						productionPlanCollection.add("  ");
+						productionPlanCollection.add(orderCollection.get(i).getNumber());
+						productionPlanCollection.add(orderCollection.get(i).getMaterialNumber());
+						productionPlanCollection.add(orderCollection.get(i).getMaterialDescription());
+						productionPlanCollection.add(orderCollection.get(i).getQuantity());
+						productionPlanCollection.add(orderCollection.get(i).getStartDate());
+						productionPlanCollection.add(orderCollection.get(i).getEndDate());
+						productionPlanCollection.add(orderCollection.get(i).getTeamLeader());
+						productionPlanCollection.add(orderCollection.get(i).getExportDate());				
+						productionPlanCollection.add(orderCollection.get(i).getCustomer());
 						
 					} 
 
 				} else {
 					
-					if (orderManipulation.getStartDate().getYear() == year
+					if (orderCollection.get(i).getStartDate().getYear() == year
 							&& date.get(week.weekOfWeekBasedYear()) - 1 == weekNumber
-							&& !orderManipulation.getStatus().equals("TECO")
-							&& !orderManipulation.getStatus().equals("DELETED")) {
+							&& !orderCollection.get(i).getStatus().equals("TECO")
+							&& !orderCollection.get(i).getStatus().equals("DELETED")) {
 
-						productionPlanCollection.add(orderManipulation.getNumber());
-						productionPlanCollection.add(orderManipulation.getMaterialNumber());
-						productionPlanCollection.add(orderManipulation.getMaterialDescription());
-						productionPlanCollection.add(orderManipulation.getQuantity());
-						productionPlanCollection.add(orderManipulation.getStartDate());
-						productionPlanCollection.add(orderManipulation.getEndDate());
-						productionPlanCollection.add(orderManipulation.getTeamLeader());
-						productionPlanCollection.add(orderManipulation.getExportDate());			
-						productionPlanCollection.add("  ");
+						productionPlanCollection.add(orderCollection.get(i).getNumber());
+						productionPlanCollection.add(orderCollection.get(i).getMaterialNumber());
+						productionPlanCollection.add(orderCollection.get(i).getMaterialDescription());
+						productionPlanCollection.add(orderCollection.get(i).getQuantity());
+						productionPlanCollection.add(orderCollection.get(i).getStartDate());
+						productionPlanCollection.add(orderCollection.get(i).getEndDate());
+						productionPlanCollection.add(orderCollection.get(i).getTeamLeader());
+						productionPlanCollection.add(orderCollection.get(i).getExportDate());			
+						productionPlanCollection.add(orderCollection.get(i).getCustomer());
 						
 					}
 				}
@@ -112,7 +102,7 @@ public class GenerateProductionPlan {
 			headerFieldsCollection.add("Дата край");
 			headerFieldsCollection.add("Тийм лидер");
 			headerFieldsCollection.add("Дата за износ");
-			headerFieldsCollection.add("Коментар");
+			headerFieldsCollection.add("Клиент");
 			
 			
 			        int weekNumber = Integer.parseInt(req.getParameter("production_capacity_production_plan_week").substring(6, 8));

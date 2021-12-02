@@ -22,6 +22,8 @@ import com.mdrain.logic.FormatNumbers;
 import com.mdrain.logic.NumberOfOperators;
 import com.mdrain.logic.Tables;
 import com.mdrain.objects.Orders;
+import com.mdrain.singletons.Singleton;
+import com.mdrain.variables.Variables;
 
 public class PlanedLaborCost {
 
@@ -53,16 +55,14 @@ public class PlanedLaborCost {
 
 	public void boodstrap(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-		HttpSession session = req.getSession();
-		HttpSession sessionChart = req.getSession();
-		
+		HttpSession session                         = req.getSession();
+		HttpSession sessionChart                    = req.getSession();	
 		ArrayList<LocalDate> yearHolidaysCollection = new ArrayList<LocalDate>();
-		int numberOperators = NumberOfOperators.numberOfOperators();
-		ArrayList<Object> ordersCollection = new ArrayList<Object>();
-		DataBaseActivities dbActivities = new DataBaseActivities();
-		Orders ordersManipulation = new Orders();
-		ResultSet result = null;
-		Tables displayTable = new Tables();
+		int numberOperators                         = NumberOfOperators.numberOfOperators();
+		ArrayList<Object> ordersCollection          = new ArrayList<Object>();
+		DataBaseActivities dbActivities             = Singleton.getInstance();
+		Orders ordersManipulation                   = new Orders();
+		Tables tables                               = new Tables();
 
 		// Clear current data
 
@@ -76,11 +76,11 @@ public class PlanedLaborCost {
 
 		// Get info from database
 
-		result = dbActivities.select(table);
+		ResultSet result = dbActivities.select(table);
 
-		String productionCapacityYear = req.getParameter("production_capacity_year");
+		String productionCapacityYear  = req.getParameter("production_capacity_year");
 		String productionCapacityMonth = req.getParameter("production_capacity_month");
-		String productionCapacityWeek = "";
+		String productionCapacityWeek  = "";
 
 		productionCapacityYearInt = 2021;
 
@@ -94,10 +94,10 @@ public class PlanedLaborCost {
 				orders.setQuantity(Integer.parseInt(result.getString(cooisProdQuantity)));
 
 				String startProdDate = result.getString(cooisProdStartDate);
-				String endProdDate = result.getString(cooisProdEndDate);
+				String endProdDate   = result.getString(cooisProdEndDate);
 
 				LocalDate startProductionDate = Date.date(startProdDate);
-				LocalDate endProductionDate = Date.date(endProdDate);
+				LocalDate endProductionDate   = Date.date(endProdDate);
 
 				orders.setStartDate(startProductionDate);
 				orders.setEndDate(endProductionDate);
@@ -156,7 +156,7 @@ public class PlanedLaborCost {
 		
 		for (int i = 0; i < requirementTimePerMonth.length; i++) {
 
-			double costPerMonth = (requirementTimePerMonth[i] * 60) * 0.18;
+			double costPerMonth = (requirementTimePerMonth[i] * 60) * Variables.getLabourCostPerMinute();
 			
 			totalPlanedCostPerMonth.add(costPerMonth);
 			
@@ -168,12 +168,10 @@ public class PlanedLaborCost {
 		totalRealCostPerMonth = getRealLaborCost();
 		
 		
-		String tableHead = displayTable.createTableHead(getMonthsName());
-		String tableBody = displayTable.createTableBody(FormatNumbers.getFormatedNumbersArrays(totalPlanedCostPerMonth));
+		String tableHead      = tables.createTableHead(getMonthsName());
+		String tableBody      = tables.createTableBody(FormatNumbers.getFormatedNumbersArrays(totalPlanedCostPerMonth));
 		
-		Tables displayTableSecondRow = new Tables();
-		
-		String tableSecondRow = displayTableSecondRow.createTableBody(FormatNumbers.getFormatedNumbersArrays(totalRealCostPerMonth));
+		String tableSecondRow = tables.createTableBody(FormatNumbers.getFormatedNumbersArrays(totalRealCostPerMonth));
 		
 		ChartGenerator chart = new ChartGenerator();
 		
@@ -290,7 +288,7 @@ public class PlanedLaborCost {
 		
 		for (int i = 0; i < requirementTimePerMonth.length; i++) {
 
-			double costPerMonth = (requirementTimePerMonth[i] * 60) * 0.18;
+			double costPerMonth = (requirementTimePerMonth[i] * 60) * Variables.getLabourCostPerMinute();
 			
 			totalPlanedCostPerMonth.add((double) costPerMonth);
 			

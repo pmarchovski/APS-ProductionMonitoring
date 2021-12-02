@@ -2,10 +2,8 @@ package com.mdrain.objects;
 
 public class Wardrobe {
 
-	
 	String wardrobeName;
 	String wardrobeNumber;
-	
 	
 	public Wardrobe() {
 		
@@ -29,6 +27,5 @@ public class Wardrobe {
 	}
 	public void setWardrobeNumber(String wardrobeNumber) {
 		this.wardrobeNumber = wardrobeNumber;
-	}
-	
+	}	
 }

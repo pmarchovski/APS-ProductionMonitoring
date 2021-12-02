@@ -19,10 +19,10 @@ public class AbsenceReport {
 
 	public static void bootstrap(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-		HttpSession session = req.getSession();
-		Tables table = new Tables();
-		ArrayList<Object> dataCollection = new ArrayList<Object>();
+		HttpSession session                = req.getSession();
+		ArrayList<Object> dataCollection   = new ArrayList<Object>();
 		ArrayList<String> fieldsCollection = new ArrayList<String>();
+		Tables table                       = new Tables();
 		fieldsCollection.add("Име на оператор");
 		fieldsCollection.add("Дата на отсъствието");
 		fieldsCollection.add("Часове отсъствие");
@@ -31,7 +31,7 @@ public class AbsenceReport {
 		fieldsCollection.add("Дата на въвеждане");
 
 		String operatorName = req.getParameter("absence_report_operators_name");
-		String date = req.getParameter("absence_report_date");
+		String date         = req.getParameter("absence_report_date");
 
 		for (int i = 0; i < absenceCollection.size(); i++) {
 

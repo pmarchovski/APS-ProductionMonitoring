@@ -22,7 +22,7 @@ public class MaterialsProductTypeList {
 	public static ArrayList<String> getArrayListType(){
 		
 		String[] inputType = MaterialsProductTypeList.getMaterialsGroupList();
-		ArrayList<String> productType = new ArrayList<String>();
+		ArrayList<String> productType = new ArrayList<String>(inputType.length);
 		
 		for (int i = 0; i < inputType.length; i++) {
 			productType.add(inputType[i]);

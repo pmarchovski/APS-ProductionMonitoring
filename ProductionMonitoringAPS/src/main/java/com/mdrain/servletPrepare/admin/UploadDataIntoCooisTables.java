@@ -21,6 +21,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import com.mdrain.database.DataBaseActivities;
+import com.mdrain.singletons.Singleton;
 
 public class UploadDataIntoCooisTables {
 
@@ -28,27 +29,27 @@ public class UploadDataIntoCooisTables {
 	public static void uploadDataIntoCooisOperationTables(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
 		
-		DataBaseActivities dbActivities = new DataBaseActivities();
-		ArrayList<Object> values;
-		ArrayList<String> fieldsInto    = new ArrayList<String>();
-		String table = "tb_coois_operation";
-
-		fieldsInto.add("tb_coois_operation_order");
-		fieldsInto.add("tb_coois_operation_activity");
-		fieldsInto.add("tb_coois_operation_work_center");
-		fieldsInto.add("tb_coois_operation_wc_decription");
-		fieldsInto.add("tb_coois_operation_operation");
-		fieldsInto.add("tb_coois_operation_quantity");
-		fieldsInto.add("tb_coois_operation_unit");
-		fieldsInto.add("tb_coois_operation_actual_start_date");
-		fieldsInto.add("tb_coois_operation_actual_finish_date");
-		fieldsInto.add("tb_coois_operation_time_unit");
-		fieldsInto.add("tb_coois_operation_processing_time");
-		fieldsInto.add("tb_coois_operation_time_per_pc");
-		fieldsInto.add("tb_coois_operation_unit_time");
-		fieldsInto.add("tb_coois_operation_number_operators");
-		fieldsInto.add("tb_coois_operation_unit_operators");
-		fieldsInto.add("tb_coois_operation_status");
+		DataBaseActivities dbActivities = Singleton.getInstance();
+		String table                    = "tb_coois_operation";
+		
+		String[] fieldsInto = {
+				"tb_coois_operation_order",
+				"tb_coois_operation_activity",
+				"tb_coois_operation_work_center",
+				"tb_coois_operation_wc_decription",
+				"tb_coois_operation_operation",
+				"tb_coois_operation_quantity",
+				"tb_coois_operation_unit",
+				"tb_coois_operation_actual_start_date",
+				"tb_coois_operation_actual_finish_date",
+				"tb_coois_operation_time_unit",
+				"tb_coois_operation_processing_time",
+				"tb_coois_operation_time_per_pc",
+				"tb_coois_operation_unit_time",
+				"tb_coois_operation_number_operators",
+				"tb_coois_operation_unit_operators",
+				"tb_coois_operation_status"
+		};
 
 		final String FILENAME = req.getServletContext().getRealPath("") + "xmlCooisOperations.xml";
 
@@ -88,15 +89,11 @@ public class UploadDataIntoCooisTables {
 		// http://stackoverflow.com/questions/13786607/normalization-in-dom-parsing-with-java-how-does-it-work
 		doc.getDocumentElement().normalize();
 
-		System.out.println("Root Element :" + ((org.w3c.dom.Document) doc).getDocumentElement().getNodeName());
-		System.out.println("------");
-
 		// get <staff>
 		NodeList list = doc.getElementsByTagName("record");
 
 		dbActivities.truncateTable(table);
 
-	
 		for (int temp = 0; temp < list.getLength(); temp++) {
 
 			Node node = list.item(temp);
@@ -122,25 +119,26 @@ public class UploadDataIntoCooisTables {
 				String unitTwo          = element.getElementsByTagName("element15").item(0).getTextContent();
 				String status           = element.getElementsByTagName("element16").item(0).getTextContent();
 				
-				values = new ArrayList<Object>();
 
-				values.add(order);
-				values.add(activity);
-				values.add(workCenter);
-				values.add(wrokCenterDescr);
-				values.add(operation);
-				values.add(quantity);
-				values.add(unit);
-				values.add(startDate);
-				values.add(endDate);
-				values.add(timeUnit);
-				values.add(procesingTime);
-				values.add(timePerPc);
-				values.add(timeUnitTwo);
-				values.add(numberOperators);
-				values.add(unitTwo);
-				values.add(status);
-
+				Object[] values = {
+						order,
+						activity,
+						workCenter,
+						wrokCenterDescr,
+						operation,
+						quantity,
+						unit,
+						startDate,
+						endDate,
+						timeUnit,
+						procesingTime,
+						timePerPc,
+						timeUnitTwo,
+						numberOperators,
+						unitTwo,
+						status
+				};
+				
 				dbActivities.insertObject(table, fieldsInto, values);
 			}
 		}
@@ -153,30 +151,33 @@ public class UploadDataIntoCooisTables {
 		
 		HttpSession session = req.getSession();
 		session.removeAttribute("before_path");
-		session.removeAttribute("path");
-		
-		
-		DataBaseActivities dbActivities = new DataBaseActivities();
-		ArrayList<String> fieldsInto    = new ArrayList<String>();
+		session.removeAttribute("path");	
+		DataBaseActivities dbActivities = Singleton.getInstance();
 		String table                    = "tb_coois_prod";
 
-		fieldsInto.add("tb_coois_prod_order");
-		fieldsInto.add("tb_coois_prod_material_number");
-		fieldsInto.add("tb_coois_prod_material_description");
-		fieldsInto.add("tb_coois_prod_order_type");
-		fieldsInto.add("tb_coois_prod_quantity");
-		fieldsInto.add("tb_coois_prod_unit");
-		fieldsInto.add("tb_coois_prod_start_date");
-		fieldsInto.add("tb_coois_prod_end_date");
-		fieldsInto.add("tb_coois_prod_status");
-		fieldsInto.add("tb_coois_prod_sequence");
-		fieldsInto.add("tb_coois_prod_del_qty");
-		fieldsInto.add("tb_coois_prod_so");
-		fieldsInto.add("tb_coois_prod_so_item");
-		fieldsInto.add("tb_coois_prod_actual_finish_date");
-		fieldsInto.add("tb_coois_prod_confirm_finish_date");
-		fieldsInto.add("tb_coois_prod_confirm_qty");
-		fieldsInto.add("tb_coois_prod_export_date");
+		
+		String[] fieldsInto = {
+				"tb_coois_prod_order",
+				"tb_coois_prod_material_number",
+				"tb_coois_prod_material_description",
+				"tb_coois_prod_order_type",
+				"tb_coois_prod_quantity",
+				"tb_coois_prod_unit",
+				"tb_coois_prod_start_date",
+				"tb_coois_prod_end_date",
+				"tb_coois_prod_status",
+				"tb_coois_prod_sequence",
+				"tb_coois_prod_del_qty",
+				"tb_coois_prod_so",
+				"tb_coois_prod_so_item",
+				"tb_coois_prod_actual_finish_date",
+				"tb_coois_prod_confirm_finish_date",
+				"tb_coois_prod_confirm_qty",
+				"tb_coois_prod_export_date",
+				"tb_coois_prod_customer"
+				
+		};
+		
 
 		final String FILENAME = req.getServletContext().getRealPath("") + "myXMLfile.xml";
 
@@ -216,26 +217,11 @@ public class UploadDataIntoCooisTables {
 		// http://stackoverflow.com/questions/13786607/normalization-in-dom-parsing-with-java-how-does-it-work
 		doc.getDocumentElement().normalize();
 
-		System.out.println("Root Element :" + ((org.w3c.dom.Document) doc).getDocumentElement().getNodeName());
-		System.out.println("------");
 
 		// get <staff>
 		NodeList list = doc.getElementsByTagName("record");
 
-		ArrayList<Object> orderCollection = new ArrayList<Object>();
-		ResultSet result = dbActivities.select(table);
-
 		dbActivities.truncateTable(table);
-
-		try {
-			while (result.next()) {
-				orderCollection.add(result.getString("tb_coois_prod_order"));
-
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 
 		for (int temp = 0; temp < list.getLength(); temp++) {
 
@@ -262,36 +248,35 @@ public class UploadDataIntoCooisTables {
 				String actualConfFinDate   = element.getElementsByTagName("element15").item(0).getTextContent();
 				Integer confirmQty         = Integer.parseInt(element.getElementsByTagName("element16").item(0).getTextContent());
                 String exportDate          = element.getElementsByTagName("element17").item(0).getTextContent();
+                String customer            = element.getElementsByTagName("element18").item(0).getTextContent();
 				
-				ArrayList<Object> values = new ArrayList<Object>();
-
-				values.add(order);
-				values.add(materialNumber);
-				values.add(materialDescription);
-				values.add(orderType);
-				values.add(orderQuantity);
-				values.add(unit);
-				values.add(startDate);
-				values.add(endDate);
-				values.add(status);
-				values.add(seqNumber);
-				values.add(qtyDelivery);
-				values.add(salesOrder);
-				values.add(salesOrderItem);
-				values.add(actualFinDate);
-				values.add(actualConfFinDate);
-				values.add(confirmQty);
-				values.add(exportDate);
-
+				Object[] values = {
+						order,
+						materialNumber,
+						materialDescription,
+						orderType,
+						orderQuantity,
+						unit,
+						startDate,
+						endDate,
+						status,
+						seqNumber,
+						qtyDelivery,
+						salesOrder,
+						salesOrderItem,
+						actualFinDate,
+						actualConfFinDate,
+						confirmQty,
+						exportDate,
+						customer
+				};
+				
+				
 				dbActivities.insertObject(table, fieldsInto, values);
 				
-				ArrayList<String> column = new ArrayList<String>();
-				ArrayList<Object> value  = new ArrayList<Object>();
-				column.add("tb_coois_prod_status");
-				column.add("tb_coois_prod_del_qty");
-				value.add("TECO");
-				value.add(0);
-				
+				String[] column = {"tb_coois_prod_status", "tb_coois_prod_del_qty"};
+				Object[] value  = {"TECO", 0};
+					
 				dbActivities.deleteWhereLikeAnd(table, column, value);
 			}
 		}
@@ -306,9 +291,6 @@ public class UploadDataIntoCooisTables {
 	session.removeAttribute("admin_servlet_upload_data_into_coois");
 	session.setAttribute("admin_servlet_upload_data_into_coois", buttonPath);
 	resp.sendRedirect("production_capacity.jsp");
-//	req.getRequestDispatcher("production_capacity.jsp").forward(req, resp);
 		
 	}
-	
-	
 }

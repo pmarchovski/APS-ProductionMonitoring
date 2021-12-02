@@ -2,10 +2,14 @@ package com.mdrain.objects;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+
+import com.mdrain.logic.Date;
 import com.mdrain.logic.MaterialsProductTypeList;
+import com.mdrain.variables.Variables;
 
 public class Operators extends Users {
-
+	
+    boolean isAvailable;
 	private String teamLeader;
 	private String gender;
 	private String[] skills;
@@ -18,17 +22,25 @@ public class Operators extends Users {
 	private String test;
 	private String packaging;
 	private String numberHeater;
-	private String numberWardrobe;
+	private String numberWardrobe;	
 	private Double absenceHours;
-	private LocalDate changeDateAppron;
-	private LocalDate changeDateHeater;
-	private LocalDate changeDateSlippers;
-	private int typeFieldsLength = MaterialsProductTypeList.getMaterialTypeFields().length;
-	private String[] skillsCollectionFromProductionCards = new String[typeFieldsLength];
-	boolean isAvailable;
+	
 	private int index;
 	private int numberApron;
 	private int numberSlippers;
+	
+	private LocalDate changeDateAppron;
+	private LocalDate changeDateHeater;
+	private LocalDate changeDateSlippers;
+	private LocalDate nextChangeDateAppron;
+	private LocalDate nextChangeDateHeater;
+	private LocalDate nextChangeDateSlippers;
+	
+	private long numberYearDays                          = Variables.getNumberYersDays();
+	private long numberYearDaysForHeater                 = Variables.getNumberYersDays() * 2;
+	private int typeFieldsLength                         = MaterialsProductTypeList.getMaterialTypeFields().length;
+	
+	private String[] skillsCollectionFromProductionCards = new String[typeFieldsLength];
 
 	public Operators() {
 	}
@@ -37,18 +49,51 @@ public class Operators extends Users {
 		super(fullName);
 
 	}
-
+	
 	public Operators(String fullName, String teamLeader, String gender, String[] skills, String isActive,
-			String isMotherhood, String phone) {
+			String isMotherhood, String numberWardrobe) {
 		super(fullName);
-		this.teamLeader = teamLeader;
-		this.gender = gender;
-		this.skills = skills;
-		this.isActive = isActive;
-		this.isMotherhood = isMotherhood;
-		this.phone = phone;
+		this.teamLeader     = teamLeader;
+		this.gender         = gender;
+		this.skills         = skills;
+		this.isActive       = isActive;
+		this.isMotherhood   = isMotherhood;
+		this.numberWardrobe = numberWardrobe;
+		
 	}
 
+	public LocalDate getNextChangeDateAppron() {
+		return nextChangeDateAppron;
+	}
+
+	public void setNextChangeDateAppron(LocalDate changeDateAppron) {
+		
+		this.nextChangeDateAppron = changeDateAppron.plusDays(numberYearDays);
+	}
+	
+
+	public LocalDate getNextChangeDateHeater() {
+		return nextChangeDateHeater;
+	}
+
+	
+	public void setNextChangeDateHeater(LocalDate changeDateHeater) {
+		
+		
+		this.nextChangeDateHeater = changeDateHeater.plusDays(numberYearDaysForHeater);
+	}
+
+	public LocalDate getNextChangeDateSlippers() {
+		return nextChangeDateSlippers;
+	}
+
+	
+	public void setNextChangeDateSlippers(LocalDate changeDateSlippers) {
+		
+		this.nextChangeDateSlippers = changeDateSlippers.plusDays(numberYearDays);
+	}
+
+	
 	public LocalDate getChangeDateAppron() {
 		return changeDateAppron;
 	}
@@ -211,6 +256,14 @@ public class Operators extends Users {
 			skillList += (i + 1) + "." + " " + skills[i] + ";" + "   ";
 
 		}
+		
+		if (skills[0].equals("")) {
+			
+			skillList = skillList.substring(0, skillList.length() - 7);
+		} else {
+			skillList = skillList.substring(0, skillList.length() - 4);
+		}
+		
 	}
 
 	public String getTeamLeader() {

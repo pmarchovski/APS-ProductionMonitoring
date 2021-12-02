@@ -13,13 +13,14 @@ import com.mdrain.logic.Date;
 import com.mdrain.objects.Operators;
 import com.mdrain.servletPrepare.admin.EmailLists;
 import com.mdrain.servletPrepare.admin.SendMail;
+import com.mdrain.singletons.Singleton;
 
 public class IncludeOperatorsInDataBase {
 
 	
 	public static void includeOperatorsInDataBase(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
-		DataBaseActivities dbActivities = new DataBaseActivities();
+		DataBaseActivities dbActivities = Singleton.getInstance();
 		Operators operator              = new Operators();
 		HttpSession session             = req.getSession();
 		LocalDate currentDate           = LocalDate.now();
@@ -81,8 +82,8 @@ public class IncludeOperatorsInDataBase {
 		
 		session.setAttribute("include_operators_inform_massage", "Операторът е въведен успешно");
 		
-		String subject = "Въведен е нов оператор " + operator.getFullName();
-		String massage = "Операторът " + operator.getFullName() + " е въведен успешно в системата";
+		String subject     = "Въведен е нов оператор " + operator.getFullName();
+		String massage     = "Операторът " + operator.getFullName() + " е въведен успешно в системата";
 		String[] recepient = EmailLists.newOperatorEmailList();
 		
 		SendMail.bootstrap(subject, massage, recepient);

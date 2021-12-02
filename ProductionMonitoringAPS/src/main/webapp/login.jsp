@@ -20,57 +20,74 @@
 
 	<div Class="header_line"></div>
 	<main>
+	
+	<br><br><br><br><br><br><br><br>
+	
 		<div id="registration">
 
 			<form id="login_form" method="get" action="admin_servlet_login"
 				id="login_form">
 				
+				
 			   <table Class="table">
-			    <tr>
-			    <td Class="i"></td>
-			    </tr>
 			    
-			    </table>
-			
+			    <br><br> <br><br>
+			    
+			    
+			    
 				<div class="input-container">
 				
 				<i class="fa fa-user icon"></i>
-				<input name="login_user_name" class="input-field" type="text"
-							placeholder="user name">
+				            <input name="login_user_name" 
+				                   class="input-field" 
+				                   type="text"
+							       placeholder="user name">
 				</div>	
 				<br><br>	
 			    
-			    
-			
 		    	<div class="input-container">
 				<i class="fa fa-key icon"></i>
-		        <input name="login_user_password" class="input-field"
-							type="password" placeholder="Password">
+		                    <input name="login_user_password" 
+		                           class="input-field"
+							       type="password" 
+							       placeholder="Password">
 				</div>
 				<br><br>			
 							
-				<table Class="table">
-		
+				
+		     
 					<tr>
 						<td Class="i">
-						
-						<input type="submit"  class="button"
-							id="login_submit" value="Login">
+						     <input type="submit"  
+						            class="button"
+							        id="login_submit" 
+							        value="Login">
+				        </td>
 							
-							</td>
-							
-						<td Class="i">
-							<h4></h4>
-						</td>	
 					</tr>
-
-				</table>
+		
+	
+				<br><br>
+			
+				
+				    <tr>
+					    
+						 <td Class="e">
+							<h4><a href="forgot_password.jsp">Забравена парола</a></h4>
+						</td>	
+					
+					</tr>
+				
+				  </table>
+				
 					
 			</form>
 
 
-			<p>${login_inform_massage}
+			<p>${login_inform_massage} ${change_password_message }
 		</div>
+		
+		
 	</main>
 
 

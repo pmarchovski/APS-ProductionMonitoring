@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.mdrain.database.DataBaseActivities;
+import com.mdrain.singletons.Singleton;
 
 public class JoinAndCreateTableResult {
 
@@ -35,22 +36,23 @@ public class JoinAndCreateTableResult {
 		String columnONTwo                   = tbCooisOperation + point + cooisOperationOrder;
 		
 		HttpSession session = req.getSession();
-		ArrayList<String> column = new ArrayList<String>();
+		
+		String[] column = {
+				tbCooisProd + point + cooisProdOrder,
+				tbCooisProd + point + cooisProdMaterialNumber,
+				tbCooisProd + point + cooisProdMaterialDescription,
+				tbCooisProd + point + cooisProdQuantity,
+				tbCooisProd + point + cooisProdStartDate,
+				tbCooisProd + point + cooisProdEndDate,
+				tbCooisProd + point + cooisProdStatus,
+				tbCooisProd + point + cooisProdDeliveryQuantity,
+				tbCooisOperation + point + cooisOperationWorkCenter,
+				tbCooisOperation + point + cooisOperationProcessingTime,
+				tbCooisOperation + point + cooisOperationTimePerPc,
+				tbCooisOperation + point + cooisOperationNumberOperators
+		};
 
-		column.add(tbCooisProd + point + cooisProdOrder);
-		column.add(tbCooisProd + point + cooisProdMaterialNumber);
-		column.add(tbCooisProd + point + cooisProdMaterialDescription);
-		column.add(tbCooisProd + point + cooisProdQuantity);
-		column.add(tbCooisProd + point + cooisProdStartDate);
-		column.add(tbCooisProd + point + cooisProdEndDate);
-		column.add(tbCooisProd + point + cooisProdStatus);
-		column.add(tbCooisProd + point + cooisProdDeliveryQuantity);
-		column.add(tbCooisOperation + point + cooisOperationWorkCenter);
-		column.add(tbCooisOperation + point + cooisOperationProcessingTime);
-		column.add(tbCooisOperation + point + cooisOperationTimePerPc);
-		column.add(tbCooisOperation + point + cooisOperationNumberOperators);
-
-		DataBaseActivities dbActivities = new DataBaseActivities();
+		DataBaseActivities dbActivities = Singleton.getInstance();
 
 		dbActivities.deleteTable(table);
 		dbActivities.createTable(tbCooisProd, tbCooisOperation, column, columnONOne, columnONTwo);

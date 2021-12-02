@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import com.mdrain.database.DataBaseActivities;
 import com.mdrain.logic.DoneStatus;
+import com.mdrain.singletons.Singleton;
 
 public class IncludeDataTph {
 
@@ -32,14 +33,12 @@ public class IncludeDataTph {
 		String changeColor;
 		String shift;
 		String producedQty;
-		String user = (String) session.getAttribute("user_name");
-		ArrayList<String> fieldsCollection = new ArrayList<String>();
-		ArrayList<String> valueCollection = new ArrayList<String>();
-		DataBaseActivities dbActivities = new DataBaseActivities();
-		String inputDate = LocalDate.now().toString();
+		String user                        = (String) session.getAttribute("user_name");
+		DataBaseActivities dbActivities    = Singleton.getInstance();
+		String inputDate                   = LocalDate.now().toString();
 
-		date = req.getParameter("tph_input_scrap_after_epoxy_date");
-		order = req.getParameter("tph_input_scrap_after_epoxy_order");
+		date     = req.getParameter("tph_input_scrap_after_epoxy_date");
+		order    = req.getParameter("tph_input_scrap_after_epoxy_order");
 		operator = req.getParameter("tph_input_scrap_after_epoxy_name");
 
 		if (req.getParameter("tph_input_scrap_after_epoxy_not_filled_epoxy").equals("")) {
@@ -87,44 +86,43 @@ public class IncludeDataTph {
 		shift = req.getParameter("tph_input_scrap_after_epoxy_shift");
 		producedQty = req.getParameter("tph_input_scrap_after_epoxy_total_inspected");
 
-		System.out.println(date);
+		String [] valueCollection = {
+				date,
+				order,
+				operator,
+				notFilled,
+				epoxiOnTheCeramic,
+				epoxiOnThePcb,
+				withoutEpoxy,
+				airBubbles,
+				notGetHard,
+				changeColor,
+				shift,
+				producedQty,
+				user,
+				inputDate
+		};
+		
+		String[] fieldsCollection = {
+				"tb_tph_scrap_epixy_date",
+				"tb_tph_scrap_epixy_order",
+				"tb_tph_scrap_epixy_operator",
+				"tb_tph_scrap_epixy_not_filled",
+				"tb_tph_scrap_epixy_epoxy_on_the_ceramic",
+				"tb_tph_scrap_epixy_epoxy_on_the_pcb",
+				"tb_tph_scrap_epixy_without_epoxy",
+				"tb_tph_scrap_epixy_air_bubles",
+				"tb_tph_scrap_epixy_not_get_hard",
+				"tb_tph_scrap_epixy_change_the_color",
+				"tb_tph_scrap_epixy_shift",
+				"tb_tph_scrap_epixy_produced_qty",
+				"tb_tph_scrap_epixy_user",
+				"tb_tph_scrap_date_input"
+		};
+		
 
-		valueCollection.add(date);
-		valueCollection.add(order);
-		valueCollection.add(operator);
-		valueCollection.add(notFilled);
-		valueCollection.add(epoxiOnTheCeramic);
-		valueCollection.add(epoxiOnThePcb);
-		valueCollection.add(withoutEpoxy);
-		valueCollection.add(airBubbles);
-		valueCollection.add(notGetHard);
-		valueCollection.add(changeColor);
-		valueCollection.add(shift);
-		valueCollection.add(producedQty);
-		valueCollection.add(user);
-		valueCollection.add(inputDate);
-
-		fieldsCollection.add("tb_tph_scrap_epixy_date");
-		fieldsCollection.add("tb_tph_scrap_epixy_order");
-		fieldsCollection.add("tb_tph_scrap_epixy_operator");
-		fieldsCollection.add("tb_tph_scrap_epixy_not_filled");
-		fieldsCollection.add("tb_tph_scrap_epixy_epoxy_on_the_ceramic");
-		fieldsCollection.add("tb_tph_scrap_epixy_epoxy_on_the_pcb");
-		fieldsCollection.add("tb_tph_scrap_epixy_without_epoxy");
-		fieldsCollection.add("tb_tph_scrap_epixy_air_bubles");
-		fieldsCollection.add("tb_tph_scrap_epixy_not_get_hard");
-		fieldsCollection.add("tb_tph_scrap_epixy_change_the_color");
-		fieldsCollection.add("tb_tph_scrap_epixy_shift");
-		fieldsCollection.add("tb_tph_scrap_epixy_produced_qty");
-		fieldsCollection.add("tb_tph_scrap_epixy_user");
-		fieldsCollection.add("tb_tph_scrap_date_input");
-
-		
-		
-		
-		
 		boolean isOrderAvailable = isOrderAvailable(req, "tph_input_scrap_after_epoxy_order");
-	    String sessionName = "include_scrap_after_epoxy_done_status";
+	    String sessionName       = "include_scrap_after_epoxy_done_status";
 	    
 	    if (isOrderAvailable == true) {
 	    	dbActivities.insert(table, fieldsCollection, valueCollection);
@@ -144,11 +142,11 @@ public class IncludeDataTph {
 
 	public static void includeScrapBackEnd(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
-		DataBaseActivities dbActivities = new DataBaseActivities();
-		HttpSession session = req.getSession();
-		String dateInput = LocalDate.now().toString();
-		String table = "tb_tph_scrap_be";
-		String userName = (String) session.getAttribute("user_name");
+		DataBaseActivities dbActivities = Singleton.getInstance();
+		HttpSession session             = req.getSession();
+		String dateInput                = LocalDate.now().toString();
+		String table                    = "tb_tph_scrap_be";
+		String userName                 = (String) session.getAttribute("user_name");
 
 		String[] userNameAndDateInput = { userName, dateInput };
 
@@ -189,7 +187,7 @@ public class IncludeDataTph {
 		}
 
 		 boolean isOrderAvailable = isOrderAvailable(req, "tph_input_scrap_be_order");
-		    String sessionName = "include_scrap_be_done_status";
+		 String sessionName       = "include_scrap_be_done_status";
 		    
 		    if (isOrderAvailable == true) {
 		    	dbActivities.insert(table, dbTableColumnName, webAppFieldsData);
@@ -200,24 +198,19 @@ public class IncludeDataTph {
 		    	 	
 		    	DoneStatus.doneStatusNotSuccess(session, sessionName);
 		    }
-		
-		
-		
-		
-		
+
 		resp.sendRedirect("tph_input_scrap_BE.jsp");
 	}
 	
 	public static void includeScrapPulseTrimmer(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		
 		
-		DataBaseActivities dbActivities = new DataBaseActivities();
-		HttpSession session = req.getSession();
-		String dateInput = LocalDate.now().toString();
-		String table = "tb_tph_scrap_pulse_trimmer";
-		String userName = (String) session.getAttribute("user_name");
-
-		String[] userNameAndDateInput = { userName, dateInput };
+		DataBaseActivities dbActivities = Singleton.getInstance();
+		HttpSession session             = req.getSession();
+		String dateInput                = LocalDate.now().toString();
+		String table                    = "tb_tph_scrap_pulse_trimmer";
+		String userName                 = (String) session.getAttribute("user_name");
+		String[] userNameAndDateInput   = { userName, dateInput };	
 		
 		String[] dbTableColumnName = {"tb_tph_scrap_pulse_trimmer_date", "tb_tph_scrap_pulse_trimmer_order", "tb_tph_scrap_pulse_trimmer_operator",
 				"tb_tph_scrap_pulse_trimmer_shift", "tb_tph_scrap_pulse_trimmer_serie_one_ok", "tb_tph_scrap_pulse_trimmer_serie_one_nok",
@@ -268,9 +261,7 @@ public class IncludeDataTph {
 		    	 	
 		    	DoneStatus.doneStatusNotSuccess(session, sessionName);
 		    }
-		
-		
-		
+
 		resp.sendRedirect("tph_input_scrap_pulse_trimmer.jsp");
 		
 	}
@@ -279,13 +270,12 @@ public class IncludeDataTph {
 	public static void includeFinalTestInformation(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		
 		
-		DataBaseActivities dbActivities = new DataBaseActivities();
-		HttpSession session = req.getSession();
-		String dateInput = LocalDate.now().toString();
-		String table = " tb_tph_final_test";
-		String userName = (String) session.getAttribute("user_name");
-
-		String[] userNameAndDateInput = {userName, dateInput};
+		DataBaseActivities dbActivities = Singleton.getInstance();
+		HttpSession session             = req.getSession();
+		String dateInput                = LocalDate.now().toString();
+		String table                    = " tb_tph_final_test";
+		String userName                 = (String) session.getAttribute("user_name");
+		String[] userNameAndDateInput   = {userName, dateInput};
 		
 		String[] dbTableColumnName = {"tb_tph_final_test_date", "tb_tph_final_test_order", "tb_tph_final_test_operator", "tb_tph_final_test_shift",
 				"tb_tph_final_test_tph_01", "tb_tph_final_test_tph_e02", "tb_tph_final_test_tph_e03", "tb_tph_final_test_tph_e04", 
@@ -336,12 +326,11 @@ public class IncludeDataTph {
 	private static boolean isOrderAvailable(HttpServletRequest req, String webAppField) {
 
 		String table                    = "tb_coois_prod";
-		DataBaseActivities dbActivities = new DataBaseActivities();
+		DataBaseActivities dbActivities = Singleton.getInstance();
 		ArrayList<String> order         = new ArrayList<String>();
-		ResultSet result                = null;
         boolean isOrderAvailable        = false;
 		
-		result = dbActivities.select(table);
+        ResultSet result = dbActivities.select(table);
 
 		try {
 			while (result.next()) {

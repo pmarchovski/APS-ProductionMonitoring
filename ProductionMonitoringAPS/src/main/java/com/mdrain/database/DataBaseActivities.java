@@ -1,42 +1,50 @@
 package com.mdrain.database;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import com.mdrain.servletPrepare.admin.LogAndLogout;
+public class DataBaseActivities{
 
-public class DataBaseActivities {
-
-	DataBaseConnect dbConnect = new DataBaseConnect();	
-	Connection connectionMdrain = dbConnect.connection;
-	Statement statement;
-
+	 DataBase dbConnect = DataBase.getInstance();
+     
+   /** Drop table --> do not recommendation
+    * 
+    * @param database table name
+    */
 	public void deleteTable(String table) {
-
 		String query = "DROP TABLE " + table;
-	
 			this.execute(query);
 	}
 
+    /** Truncate table -->
+     * @param database table name
+	*/
 	public void truncateTable(String table) {
-
 		String query = "TRUNCATE TABLE " + table;
-	
 			this.execute(query);
 	}
 
-	// CREATE TABLE result SELECT tb_coois_prod.tb_coois_prod_order,
-	// tb_coois_prod.tb_coois_prod_material_number,
-	// tb_coois_prod.tb_coois_prod_quantity,
-	// tb_coois_operation.tb_coois_operation_processing_time
-	// FROM tb_coois_prod
-	// INNER JOIN tb_coois_operation
-	// ON tb_coois_prod.tb_coois_prod_order =
-	// tb_coois_operation.tb_coois_operation_order
-
+	/**
+	 * Create additional table with ArrayList
+	 * 	 CREATE TABLE result SELECT tb_coois_prod.tb_coois_prod_order,
+	     tb_coois_prod.tb_coois_prod_material_number,
+	     tb_coois_prod.tb_coois_prod_quantity,
+	     tb_coois_operation.tb_coois_operation_processing_time
+	     FROM tb_coois_prod
+	     INNER JOIN tb_coois_operation
+	     ON tb_coois_prod.tb_coois_prod_order =
+	     tb_coois_operation.tb_coois_operation_order
+	 * @param table1 name
+	 * @param table2 name
+	 * @param column
+	 * @param columnON1
+	 * @param columnON2
+	 */
+	
 	public void createTable(String table1, String table2, ArrayList<String> column, String columnON1,
 			String columnON2) {
 
@@ -56,7 +64,39 @@ public class DataBaseActivities {
 			this.execute(query);
 
 	}
+	
+	/**
+	 * Create additional table with Array
+	 * @param table1 name
+	 * @param table2 name
+	 * @param column
+	 * @param columnON1
+	 * @param columnON2
+	 */
+	public void createTable(String table1, String table2, String[] column, String columnON1,
+			String columnON2) {
 
+		String query = "";
+		String newTableName = "tb_result";
+		String columnQuery = "";
+
+		for (String element : column) {
+			columnQuery += element + ", ";
+		}
+
+		columnQuery = columnQuery.substring(0, columnQuery.length() - 2);
+
+		query = "CREATE TABLE " + newTableName + " SELECT " + columnQuery + " FROM " + table1 + " INNER JOIN " + table2
+				+ " ON " + columnON1 + " = " + columnON2;
+
+			this.execute(query);
+
+	}
+
+	/**
+	 * Delete rows from table database
+	 * @param table name
+	 */
 	public void delete(String table) {
 
 		String query = "DELETE FROM " + table;
@@ -64,8 +104,11 @@ public class DataBaseActivities {
 			this.execute(query);
 	}
 
-//	DELETE FROM tb_coois_prod WHERE tb_coois_prod_status LIKE '%TECO%' AND tb_coois_prod_del_qty = 0
-
+	/**
+	 * Delete rows from table database with ArrayList parameters
+	 * DELETE FROM tb_coois_prod WHERE tb_coois_prod_status LIKE '%TECO%' AND tb_coois_prod_del_qty = 0
+	 * @param table name
+	 */
 	public void deleteWhereLikeAnd(String table, ArrayList<String> column, ArrayList<Object> value) {
 
 		String query = "DELETE FROM " + table + " WHERE " + column.get(0) + " LIKE " + "'%" + value.get(0) + "%'"
@@ -73,7 +116,26 @@ public class DataBaseActivities {
 		if (DataBaseConnect.getInstance() != null)
 			this.execute(query);
 	}
+	
+	/**
+	 * Delete rows from table database with Array parameters
+	 * DELETE FROM tb_coois_prod WHERE tb_coois_prod_status LIKE '%TECO%' AND tb_coois_prod_del_qty = 0
+	 * @param table name
+	 */
+	public void deleteWhereLikeAnd(String table, String[] column, Object[] value) {
 
+		String query = "DELETE FROM " + table + " WHERE " + column[0] + " LIKE " + "'%" + value[0] + "%'"
+				+ " AND " + column[1] + " = " + value[1];
+		if (DataBaseConnect.getInstance() != null)
+			this.execute(query);
+	}
+
+	/**
+	 * Insert into table
+	 * @param table
+	 * @param String into
+	 * @param double value
+	 */
 	public void insert(String table, String into, double value) {
 
 		String query = "INSERT INTO " + table + "(" + into + ")" + "VALUES " + "(" + "'" + value + "'" + ")";
@@ -81,6 +143,12 @@ public class DataBaseActivities {
 			this.execute(query);
 	}
 
+	/**
+	 * Insert into table
+	 * @param table
+	 * @param String into
+	 * @param String value
+	 */
 	public void insert(String table, String into, String value) {
 
 		String query = "INSERT INTO " + table + "(" + into + ")" + "VALUES " + "(" + "'" + value + "'" + ")";
@@ -88,11 +156,15 @@ public class DataBaseActivities {
 			this.execute(query);
 	}
 
+	/**
+	 * INSERT INTO table (fields, fields1, fields2) VALUES ('value', 'value1',
+	   'value2');
+	 * Insert into table
+	 * @param table
+	 * @param String[] into
+	 * @param String[] value
+	 */
 	public void insert(String table, String[] into, String[] value) {
-
-		// INSERT INTO table (fields, fields1, fields2) VALUES ('value', 'value1',
-		// 'value2');
-
 		String intoString = "";
 
 		for (String element : into) {
@@ -115,6 +187,12 @@ public class DataBaseActivities {
 
 	}
 
+	/**
+	 * Insert into table
+	 * @param table
+	 * @param ArrayList<String> into
+	 * @param ArrayList<String> value
+	 */
 	public void insert(String table, ArrayList<String> into, ArrayList<String> values) {
 
 		String intoString = "";
@@ -135,6 +213,12 @@ public class DataBaseActivities {
 			this.execute(query);
 	}
 
+	/**
+	 * Insert into table
+	 * @param table
+	 * @param ArrayList<String> into
+	 * @param ArrayList<Object> value
+	 */
 	public void insertObject(String table, ArrayList<String> into, ArrayList<Object> values) {
 
 		String intoString = "";
@@ -154,23 +238,53 @@ public class DataBaseActivities {
 		
 			this.execute(query);
 	}
+	
+	/**
+	 * Insert into table
+	 * @param table
+	 * @param String[] into
+	 * @param Object[] value
+	 */
+	public void insertObject(String table, String[] into, Object[] values) {
 
-	public ResultSet select(String table, String column) {
+		String intoString = "";
+		for (String element : into) {
+			intoString += (element + ",");
+		}
+		intoString = "(" + intoString.substring(0, intoString.length() - 1) + ")";
 
-		// SELECT column FROM table
+		String valueString = "";
 
-		String query = "SELECT " + column + " FROM " + table;
+		for (Object element : values) {
+			valueString += ("'" + element + "'" + ",");
+		}
 
-		return this.executeQuery(query);
-
+		valueString = "(" + valueString.substring(0, valueString.length() - 1) + ")";
+		String query = "INSERT INTO " + table + intoString + "VALUES " + valueString;
+		
+			this.execute(query);
 	}
 
+	/**
+	 * SELECT column FROM table
+	 * @param table name
+	 * @param column name
+	 * @return ResultSet
+	 */
+	public ResultSet select(String table, String column) {
+
+		String query = "SELECT " + column + " FROM " + table;
+		return this.executeQuery(query);
+	}
+	
+	/**
+	 * SELECT * FROM table
+	 * @param table name
+	 * @return ResultSet
+	 */
 	public ResultSet select(String table) {
-
-		// SELECT * FROM table
-
+		
 		String query = "SELECT * FROM " + table;
-
 		return this.executeQuery(query);
 
 	}
@@ -185,9 +299,15 @@ public class DataBaseActivities {
 
 	}
 
+	/**
+	 * SELECT * FROM table WHERE with sort
+	 * @param table name
+	 * @param String fields
+	 * @param String value
+	 * @param String sortByField
+	 * @return ResultSet
+	 */
 	public ResultSet select(String table, String fields, String value, String sortByField) {
-
-		// SELECT * FROM table WHERE
 
 		String query = "SELECT * FROM " + table + " WHERE " + fields + " = " + "'" + value + "'" + " ORDER by "
 				+ sortByField;
@@ -196,20 +316,31 @@ public class DataBaseActivities {
 
 	}
 
+	/**
+	 * SELECT * FROM table WHERE
+	 * @param table name
+	 * @param String fields
+	 * @param String value
+	 * @param String sortByField
+	 * @return ResultSet
+	 */
 	public ResultSet select(String table, String fields, String value) {
 
-		// SELECT * FROM table WHERE
-
 		String query = "SELECT * FROM " + table + " WHERE " + fields + " = " + "'" + value + "'";
-
 		return this.executeQuery(query);
 
 	}
 
+	/**
+	 * SELECT * FROM table WHERE fields = 'value' with sort
+	 * @param table name
+	 * @param ArrayList<String> fieldsCollection
+	 * @param ArrayList<String> valueCollection
+	 * @param String sortByField
+	 * @return ResultSet
+	 */
 	public ResultSet selectWhereSort(String table, ArrayList<String> fieldsCollection,
 			ArrayList<String> valueCollection, String sortByField) {
-
-		// SELECT * FROM table WHERE fields = 'value'
 
 		String fields = "";
 
@@ -227,12 +358,16 @@ public class DataBaseActivities {
 		return this.executeQuery(query);
 	}
 
+	/**
+	 * SELECT * FROM table WHERE fields = 'value'
+	 * @param table name
+	 * @param ArrayList<String> fieldsCollection
+	 * @param ArrayList<String> valueCollection
+	 * @return ResultSet
+	 */
 	public ResultSet selectWhere(String table, ArrayList<String> fieldsCollection, ArrayList<String> valueCollection) {
 
-		// SELECT * FROM table WHERE fields = 'value'
-
 		String fields = "";
-
 		for (int i = 0; i < fieldsCollection.size(); i++) {
 			fields += fieldsCollection.get(i) + " = ";
 
@@ -243,24 +378,49 @@ public class DataBaseActivities {
 		}
 
 		String query = "SELECT * FROM " + table + " WHERE " + fields;
+		return this.executeQuery(query);
+
+	}
+	
+	/**
+	 * SELECT * FROM table WHERE fields = 'value'
+	 * @param table name
+	 * @param String[] fieldsCollection
+	 * @param String[] valueCollection
+	 * @return ResultSet
+	 */
+	public ResultSet selectWhere(String table, String[] fieldsCollection, String[] valueCollection) {
+
+		String fields = "";
+
+		for (int i = 0; i < fieldsCollection.length; i++) {
+			fields += fieldsCollection[i] + " = ";
+
+			for (int j = 0; j <= i; j++) {
+				fields += "'" + valueCollection[i] + "'";
+			}
+
+		}
+
+		String query = "SELECT * FROM " + table + " WHERE " + fields;
 
 		return this.executeQuery(query);
 
 	}
 	
-	
+	/**
+	 * SELECT * FROM table WHERE fields = 'value'
+	 * @param table name
+	 * @param String field
+	 * @param String value
+	 * @return ResultSet
+	 */
 	public ResultSet selectWhere(String table, String field, String value) {
 
-		// SELECT * FROM table WHERE fields = 'value'
-
-
 		String query = "SELECT " + "tb_wardrobe_number" + " FROM " + table + " WHERE " + field + " = " + "'" + value + "'";
-
 		return this.executeQuery(query);
 
 	}
-	
-	
 
 	public ResultSet selectWhere(String table, String column, ArrayList<String> fieldsCollection,
 			ArrayList<String> valueCollection) {
@@ -308,8 +468,18 @@ public class DataBaseActivities {
 		return this.executeQuery(query);
 	}
 
+	public ResultSet selectCount(String table, String column) {
+		
+		String query = "SELECT COUNT" + "(" + column + ")" + " FROM " + table;
+		
+		return this.executeQuery(query);
+
+	}
+	
+	
 	public void update(String table, String field, String value, String fieldInto, String valueInto) {
 //		UPDATE Customers SET ContactName = 'Alfred Schmidt', City = 'Frankfurt' WHERE CustomerID = 1;
+//		UPDATE Customers SET tb_users_password (field) = 'new password (value)',  WHERE tb_user_email (fieldInto) = email (valueInto);
 
 		String fields = field + " = " + "'" + value + "'";
 		String fieldsInto = fieldInto + " = " + "'" + valueInto + "'";
@@ -318,6 +488,7 @@ public class DataBaseActivities {
 
 		this.execute(query);
 	}
+	
 
 	public void update(String table, String field, double value, String fieldInto, String valueInto) {
 //		UPDATE Customers SET ContactName = 'Alfred Schmidt', City = 'Frankfurt' WHERE CustomerID = 1;
@@ -360,41 +531,37 @@ public class DataBaseActivities {
 		return this.executeQuery(query);
 	}
 
-	public Statement statement() {
-
+	public Statement statement() throws SQLException {
 		
-		String user = LogAndLogout.userNameForDataBase;
-		
-		try {
-			
-			if(connectionMdrain == null) {
-				connectionMdrain = dbConnect.connect();
-				System.out.println(user);
-				return statement = connectionMdrain.createStatement();
-				
-			} else {
-				System.out.println(user + " 1");
-				return statement = connectionMdrain.createStatement();
-				
-			}
-			
-		} catch (SQLException e) {
-			
-			e.printStackTrace();
+		Connection connectionMdrain = dbConnect.getConnection();
+		Statement statement = connectionMdrain.createStatement();
+	
+		if (statement != null) {
+			return statement;
+		} else {
+			statement();
 		}
-
-		return null;
+		
+		return statement;
+				
 	}
 
 	private ResultSet executeQuery(String query) {
 
 		try {
+			Statement statement = statement();
 		
-				return statement().executeQuery(query);
-		
-	
+			if (statement != null) {
+				return statement.executeQuery(query);
+			} else {
+				Connection connectionMdrain = dbConnect.getConnection();
+				statement = connectionMdrain.createStatement();
+				System.out.println("има гърмеж при resultSet-a");
+				return statement.executeQuery(query);
+			}		
 		} catch (SQLException e) {
-			
+		
+			System.out.println("error");
 			e.printStackTrace();
 		}
 		return null;
@@ -410,6 +577,7 @@ public class DataBaseActivities {
 			e.printStackTrace();
 		}
 	}
+	
 
 	// Обяснение за мен
 
@@ -427,4 +595,16 @@ public class DataBaseActivities {
 //		}
 //		return null;
 //	}
+	
+//	private void connect(String query) throws SQLException {
+//		
+//		ResultSet result = null;
+//		Statement statement = null;
+//		Connection connection = null;
+//		
+//		connection = DataBase.getInstance().getConnection();
+//		statement = connection.createStatement();
+//		result = statement.executeQuery(query);
+//	}
+	
 }

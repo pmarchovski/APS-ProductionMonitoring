@@ -17,11 +17,14 @@ public class WardrobController {
 	
 	public static void displayEmptyWardrob(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
-		ArrayList<Wardrobe> wardrobeCollection = SetObjectInfo.getWardrobeInfoCollectionFromDatabase();
-		ArrayList<String> freeWardrobe = new ArrayList<String>();
-		ArrayList<String> freeWardrobeHead = new ArrayList<String>();
 		HttpSession session = req.getSession();
-		Tables table = new Tables();
+		session.removeAttribute("wardrobe_display_free_body");
+		session.removeAttribute("wardrobe_display_free_head");
+			
+		ArrayList<Wardrobe> wardrobeCollection = SetObjectInfo.getWardrobeInfoCollectionFromDatabase();
+		ArrayList<String> freeWardrobe         = new ArrayList<String>();
+		ArrayList<String> freeWardrobeHead     = new ArrayList<String>();
+		Tables tables                          = new Tables();
 		
 		for (int i = 0; i < wardrobeCollection.size(); i++) {
 			
@@ -31,11 +34,41 @@ public class WardrobController {
 			}
 		}	
 		
-		String tableHead = table.createTableHead(freeWardrobeHead);
-		String tableBody = table.createTableString(freeWardrobe);
+		String tableHead = tables.createTableHead(freeWardrobeHead);
+		String tableBody = tables.createTableString(freeWardrobe);
 		session.setAttribute("wardrobe_display_free_body", tableBody);
 		session.setAttribute("wardrobe_display_free_head", tableHead);
 		
 		req.getRequestDispatcher("wardrob_info.jsp").forward(req, resp);
+	}
+	
+	
+	public static void displayWardrobInfo(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
+		HttpSession session                      = req.getSession();
+		session.removeAttribute("wardrobe_display_free_body");
+		session.removeAttribute("wardrobe_display_free_head");
+		Tables tables                            = new Tables();
+		
+		ArrayList<Wardrobe> wardrobeCollection   = SetObjectInfo.getWardrobeInfoCollectionFromDatabase();
+		ArrayList<Object> wardrobeInfoCollection = new ArrayList<Object>();
+		ArrayList<String> wardrobeInfoHead       = new ArrayList<String>();
+		
+		wardrobeInfoHead.add("Номер на гардеробче");
+		wardrobeInfoHead.add("Име на ползвател");
+		
+		for (int i = 0; i < wardrobeCollection.size(); i++) {
+			wardrobeInfoCollection.add(wardrobeCollection.get(i).getWardrobeNumber());
+			wardrobeInfoCollection.add(wardrobeCollection.get(i).getWardrobeName());
+		}
+		
+		String tableHead = tables.createTableHead(wardrobeInfoHead);
+		String tableBody = tables.createTableBodyStringObject(wardrobeInfoHead, wardrobeInfoCollection);
+		
+		session.setAttribute("wardrobe_display_free_body", tableBody);
+		session.setAttribute("wardrobe_display_free_head", tableHead);
+		
+		req.getRequestDispatcher("wardrob_info.jsp").forward(req, resp);
+		
 	}
 }

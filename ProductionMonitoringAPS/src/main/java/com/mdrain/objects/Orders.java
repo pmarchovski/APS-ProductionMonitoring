@@ -7,7 +7,9 @@ import java.time.temporal.ChronoUnit;
 import java.time.temporal.WeekFields;
 import java.util.ArrayList;
 import java.util.Locale;
+
 import com.mdrain.logic.Date;
+import com.mdrain.variables.Variables;
 
 public class Orders {
 
@@ -25,15 +27,16 @@ public class Orders {
 	double orderTimePerDay;
 	double timeForOnePc;
 	double totalTimeForOrderInHours;
+	boolean isMaterialProducedLong;
 	LocalDate startDate;
 	LocalDate endDate;
 	LocalDate exportDate;
 	LocalDate nextDay;
 	LocalDate reportedDate;
 	ArrayList<LocalDate> productionsDatesCollection = new ArrayList<LocalDate>();
-	ArrayList<Integer> productionsWeeksCollection = new ArrayList<Integer>();
-	ArrayList<Integer> productionsMonthsCollection = new ArrayList<Integer>();
-	ArrayList<Integer> productionsYearsCollection = new ArrayList<Integer>();
+	ArrayList<Integer> productionsWeeksCollection   = new ArrayList<Integer>();
+	ArrayList<Integer> productionsMonthsCollection  = new ArrayList<Integer>();
+	ArrayList<Integer> productionsYearsCollection   = new ArrayList<Integer>();
 	String status;
 	String materialNumber;
 	String materialDescription;
@@ -42,10 +45,6 @@ public class Orders {
 	String teamLeader;
 	String productType;
 	String workCenter;
-	final String AL31_TEAM_LEADER = "Ренета Кондарева";
-	final String AL32_TEAM_LEADER = "Валя Колева";
-	final String BR21_TEAM_LEADER = "Румяна Димитрова";
-	final String BR22_TEAM_LEADER = "Петър Гацовски";
 
 	DayOfWeek dayOfWeek;
 
@@ -53,22 +52,50 @@ public class Orders {
 			String materialNumber, String materialDescription, LocalDate exportDate, String customer,
 			String productionLine) {
 		super();
-		this.number = number;
-		this.startDate = startDate;
-		this.endDate = endDate;
-		this.status = status;
-		this.quantity = quantity;
-		this.materialNumber = materialNumber;
+		this.number              = number;
+		this.startDate           = startDate;
+		this.endDate             = endDate;
+		this.status              = status;
+		this.quantity            = quantity;
+		this.materialNumber      = materialNumber;
 		this.materialDescription = materialDescription;
-		this.exportDate = exportDate;
-		this.customer = customer;
-		this.productionLine = productionLine;
+		this.exportDate          = exportDate;
+		this.customer            = customer;
+		this.productionLine      = productionLine;
 	}
 
 	public Orders() {
 
 	}
 
+	public boolean isMaterialProducedLong() {
+		return isMaterialProducedLong;
+	}
+
+	public void setMaterialProducedLong(String orderMaterialNumber, LocalDate orderStartDate, ArrayList<Orders> ordersCollection) {
+		
+		int count = 1;
+		for (int i = ordersCollection.size(); i > 0; i--) {
+			
+			if (orderMaterialNumber.equals(ordersCollection.get(i - 1).getMaterialNumber())){
+				count++;
+			    LocalDate startDate = orderStartDate;
+			    LocalDate lastDate = ordersCollection.get(i - 1).getStartDate();
+			    long daysBetween = Date.getDaysBetweenTwoDates(lastDate, startDate);
+			       if (daysBetween > Variables.getDaysWithoutProduction()) {
+			    	   this.isMaterialProducedLong = true;  	  
+			       }
+			  break;     
+			}
+		}
+		
+		if (count == 1) {
+			this.isMaterialProducedLong = true;
+		}
+
+	}
+
+	
 	public LocalDate getReportedDate() {
 		return reportedDate;
 	}
@@ -113,15 +140,16 @@ public class Orders {
 
 	public void setTeamLeader(String productionLine) {
 		
-		if (productionLine.equals("AL31")) this.teamLeader = AL31_TEAM_LEADER;
-		if (productionLine.equals("AL32")) this.teamLeader = AL32_TEAM_LEADER;
-		if (productionLine.equals("BR21")) this.teamLeader = BR21_TEAM_LEADER;
-		if (productionLine.equals("BR22")) this.teamLeader = BR22_TEAM_LEADER;
+		if (productionLine.equals(Variables.getProductionLine()[0])) this.teamLeader = Variables.getTeamLeader()[0];
+		if (productionLine.equals(Variables.getProductionLine()[1])) this.teamLeader = Variables.getTeamLeader()[1];
+		if (productionLine.equals(Variables.getProductionLine()[2])) this.teamLeader = Variables.getTeamLeader()[2];
+		if (productionLine.equals(Variables.getProductionLine()[3])) this.teamLeader = Variables.getTeamLeader()[3];
 		
-		if (!productionLine.equals("BR22") 
-				&& !productionLine.equals("BR21") 
-				&& !productionLine.equals("AL32")
-				&& !productionLine.equals("AL31")) this.teamLeader = "";
+		
+		if (!productionLine.equals(Variables.getProductionLine()[0]) 
+				&& !productionLine.equals(Variables.getProductionLine()[1]) 
+				&& !productionLine.equals(Variables.getProductionLine()[2])
+				&& !productionLine.equals(Variables.getProductionLine()[3])) this.teamLeader = "";
 	}
 
 	public int getDelQuantity() {
@@ -266,16 +294,19 @@ public class Orders {
 		return week;
 	}
 
-	public void setWeek(int week) {
-		this.week = week;
+	public void setWeek(LocalDate startDate) {
+		WeekFields week = WeekFields.of(Locale.getDefault());
+		int weekNumber = startDate.get(week.weekOfWeekBasedYear()) - 1;
+		
+		this.week = weekNumber;
 	}
 
 	public int getMonth() {
 		return month;
 	}
 
-	public void setMonth(int month) {
-		this.month = month;
+	public void setMonth(LocalDate startDate) {
+		this.month = startDate.getMonthValue();
 	}
 
 	public int getDayOfYear() {
@@ -371,8 +402,25 @@ public class Orders {
 		return customer;
 	}
 
-	public void setCustomer(String customer) {
+	public void setCustomer(String customer, String materialNumber) {
+		
 		this.customer = customer;
+		
+		if (customer.equals("Склад")) this.customer = "Склад / Вътрешна поръчка / Schedule";
+		if (materialNumber.equals("90SS2002B0000") 
+				|| materialNumber.equals("90SS2002A0000")
+	            || materialNumber.equals("90SS2003A0000")){
+			this.customer = "CONTINENTAL AUTOMOTIVE GMBH";
+		}
+	    
+		if (materialNumber.equals("90SSP001C0000") 
+				|| materialNumber.equals("90SSP001B0000")
+	            || materialNumber.equals("90SSR001A0000")){
+			this.customer = "STONERIDGE ELECTRONICS AB";
+		}
+		
+		if (materialNumber.equals("90200744A1200")) this.customer = "PHYSIO-CONTROL MANUFACTURING";
+	
 	}
 
 	public String getProductionLine() {
@@ -387,25 +435,24 @@ public class Orders {
 
 			if (order.getNumber() == tempOrder.getNumber()) {
 
-				if (!tempOrder.getWorkCenter().equals("AUD0001") && !tempOrder.getWorkCenter().equals("IND0001")
-						&& !tempOrder.getWorkCenter().equals("IND0002") && !tempOrder.getWorkCenter().equals("IND0003")
-						&& !tempOrder.getWorkCenter().equals("IND0004") && !tempOrder.getWorkCenter().equals("IND0005")
-						&& !tempOrder.getWorkCenter().equals("AUD0001")) {
+				if (!tempOrder.getWorkCenter().equals(Variables.getWorkCenter()[0]) && !tempOrder.getWorkCenter().equals(Variables.getWorkCenter()[1])
+						&& !tempOrder.getWorkCenter().equals(Variables.getWorkCenter()[2]) && !tempOrder.getWorkCenter().equals(Variables.getWorkCenter()[3])
+						&& !tempOrder.getWorkCenter().equals(Variables.getWorkCenter()[4]) && !tempOrder.getWorkCenter().equals(Variables.getWorkCenter()[5])) {
 					this.productionLine = "";
 				} else {
 
-					if (tempOrder.getWorkCenter().equals("AUD0001"))
-						this.productionLine = "BR21";
-					if (tempOrder.getWorkCenter().equals("IND0001"))
-						this.productionLine = "AL31";
-					if (tempOrder.getWorkCenter().equals("IND0003"))
-						this.productionLine = "AL31";
-					if (tempOrder.getWorkCenter().equals("IND0004"))
-						this.productionLine = "AL32";
-					if (tempOrder.getWorkCenter().equals("IND0005"))
-						this.productionLine = "AL32";
-					if (tempOrder.getWorkCenter().equals("IND0002"))
-						this.productionLine = "BR22";
+					if (tempOrder.getWorkCenter().equals(Variables.getWorkCenter()[0]))
+						this.productionLine = Variables.getProductionLine()[0];
+					if (tempOrder.getWorkCenter().equals(Variables.getWorkCenter()[1]))
+						this.productionLine = Variables.getProductionLine()[2];
+					if (tempOrder.getWorkCenter().equals(Variables.getWorkCenter()[2]))
+						this.productionLine = Variables.getProductionLine()[1];
+					if (tempOrder.getWorkCenter().equals(Variables.getWorkCenter()[3]))
+						this.productionLine = Variables.getProductionLine()[2];
+					if (tempOrder.getWorkCenter().equals(Variables.getWorkCenter()[4]))
+						this.productionLine = Variables.getProductionLine()[3];
+					if (tempOrder.getWorkCenter().equals(Variables.getWorkCenter()[5]))
+						this.productionLine = Variables.getProductionLine()[3];
 				}
 
 			}

@@ -36,11 +36,10 @@ public class GenerateSkillsMatrix {
 		session.removeAttribute("skills_matrix_table_head");
 		session.removeAttribute("skills_matrix_table_data");
 
-		ArrayList<String> productTypeFields = new ArrayList<String>();
+		ArrayList<String> productTypeFields                   = new ArrayList<String>();
 		ArrayList<String> skillsCollectionFromProductionCards = new ArrayList<String>();
-		ArrayList<String> operatorsName = new ArrayList<String>();
-
-		Tables table = new Tables();
+		ArrayList<String> operatorsName                       = new ArrayList<String>();
+		Tables table                                          = new Tables();
 
 		for (int i = 0; i < productTypeFieldCollection.length; i++) {
 			productTypeFields.add(productTypeFieldCollection[i]);
@@ -82,9 +81,9 @@ public class GenerateSkillsMatrix {
 	}
 
 	public static void createExcelSkillsMatrix(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-		ArrayList<String> productTypeFields = new ArrayList<String>();
+		ArrayList<String> productTypeFields                   = new ArrayList<String>();
 		ArrayList<String> skillsCollectionFromProductionCards = new ArrayList<String>();
-		ArrayList<String> operatorsName = new ArrayList<String>();
+		ArrayList<String> operatorsName                       = new ArrayList<String>();
 
 		for (int i = 0; i < productTypeFieldCollection.length; i++) {
 			productTypeFields.add(productTypeFieldCollection[i]);

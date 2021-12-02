@@ -9,16 +9,12 @@ public class TeamLeaders extends Users{
 
 	public TeamLeaders() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public TeamLeaders(String fullName) {
 		super(fullName);
-		// TODO Auto-generated constructor stub
 	}
 	
-	
-
 	public ArrayList<Operators> getOperators() {
 		return operators;
 	}
@@ -34,7 +30,4 @@ public class TeamLeaders extends Users{
 	public void setDepartment(String department) {
 		this.department = department;
 	}
-
-
-	
 }

@@ -25,9 +25,9 @@ public class GenerateSerialNumber {
 	public static void bootstrap(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 
-		String orderFromWebApp = req.getParameter("printers_production_generate_serial_number_order");
+		String orderFromWebApp                 = req.getParameter("printers_production_generate_serial_number_order");
 		ArrayList<Orders> ordersInfoCollection = SetObjectInfo.getOrdersInfoFromDataBaseOne();
-		SerialNumber serialNumberMainInfo = new SerialNumber();
+		SerialNumber serialNumberMainInfo      = new SerialNumber();
 		ArrayList<String> serialNumberAllInfoCollection = new ArrayList<String>();
 		for (int i = 0; i < ordersInfoCollection.size(); i++) {
 

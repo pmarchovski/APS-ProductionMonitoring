@@ -5,10 +5,18 @@
 <jsp:include page="header.jsp" />
 <body>
 
-<div id="div_main_container_two">
-<h2>Контролна карта за краен тест / (Final test control card)</h2>
+<div id="div_main_container_fixed">
+
+ <table>
+			      <tr>
+			         <td Class="a"><img src="pictures/ICONS/png/User group.png"></td>
+			         <td Class="a"><h2>Контролна карта за краен тест / (Final test control card)</h2></td>   
+			      </tr>
+			    </table>
 
 </div>
+
+<div id="div_empty"></div>
 
 
 	<div id="div_main_container">

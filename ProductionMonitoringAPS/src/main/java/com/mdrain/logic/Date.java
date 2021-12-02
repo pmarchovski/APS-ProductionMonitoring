@@ -4,18 +4,22 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.Month;
 import java.time.temporal.ChronoUnit;
+import java.time.temporal.WeekFields;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import com.mdrain.database.DataBaseActivities;
+import com.mdrain.singletons.Singleton;
 
 public class Date {
 
 	
 	public static ArrayList<LocalDate> publicHolidaysCollection() throws SQLException{
 		
-		DataBaseActivities dbActivities               = new DataBaseActivities();
+		DataBaseActivities dbActivities               = Singleton.getInstance();
 		ArrayList<LocalDate> publicHolidaysCollection = new ArrayList<LocalDate>();
 		LocalDate publicHolidays;
 		String table                                  = "tb_public_holidays";
@@ -393,4 +397,68 @@ public class Date {
 		
 		return newDate;
 	}
+	
+	public static long getDaysBetweenTwoDates(LocalDate startDate, LocalDate endDate) {
+		
+		long daysBetwenDates;
+		daysBetwenDates = ChronoUnit.DAYS.between(startDate, endDate) + 1;
+		
+		return daysBetwenDates;
+	}
+	
+	public static String convertTime(String time) {
+		
+		String localTime = String.valueOf(time);
+		String localTimeWoHour = localTime.substring(2, 7);
+		int hour = Integer.parseInt(localTime.substring(0, 1));
+//		hour = hour + 6;
+		String localFinaTime = String.valueOf(hour) + localTimeWoHour;
+		
+		
+		return localFinaTime;
+	}
+	
+	public static int[] convertNumberWeek(String weekFromWebApp) {
+		
+		int year = 0;
+		int week = 0;
+		
+		if (weekFromWebApp.length() == 0) {
+			year = 9999;
+			week = 99;
+		} else {		
+			year = Integer.parseInt(weekFromWebApp.substring(0, 4));
+		    week = Integer.parseInt(weekFromWebApp.substring(6, 8));
+		}
+
+		int numberWeek[] = {year, week};
+		
+		return numberWeek;
+	}
+	
+	public static int[] convertNumberMonth(String monthFromWebApp) {
+		
+		int year = 0;
+		int month = 0;
+		
+		if (monthFromWebApp.length() == 0) {
+			year  = 9999;
+			month = 99;
+		} else {		
+			year  = Integer.parseInt(monthFromWebApp.substring(0, 4));
+			month = Integer.parseInt(monthFromWebApp.substring(5, 7));
+		}
+
+		int numberMonth[] = {year, month};
+		
+		return numberMonth;
+	}
+	
+	public static int getWeekNumberFromCurrentDate(LocalDate date) {
+		WeekFields week = WeekFields.of(Locale.getDefault());		
+		int weekNumber  = date.get(week.weekOfWeekBasedYear());
+		
+		return weekNumber;
+	}
+
 }

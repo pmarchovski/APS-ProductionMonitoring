@@ -1,5 +1,4 @@
 package com.mdrain.servletPrepare.admin;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -14,16 +13,16 @@ import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
+import com.mdrain.logic.UploadFilesOnServer;
+
 public class UploadFilesForProductionCapacity {
 
 	
 	public static void uploadXmlFilesForProductionCapacity(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
 		
-		String uploadPlace = req.getServletContext().getRealPath("");
-
+		String uploadPlace   = req.getServletContext().getRealPath("");
 		ServletFileUpload sf = new ServletFileUpload(new DiskFileItemFactory());
-
-		HttpSession session = req.getSession();
+		HttpSession session  = req.getSession();
 
 		try {
 			ArrayList<FileItem> multifiles = (ArrayList<FileItem>) sf.parseRequest(req);
@@ -51,8 +50,7 @@ public class UploadFilesForProductionCapacity {
 		
 		session.setAttribute("admin_servlet_upload_data_into_coois", buttonPath);
 		resp.sendRedirect("production_capacity.jsp");
-		
-		
+
 	}
 	
 }

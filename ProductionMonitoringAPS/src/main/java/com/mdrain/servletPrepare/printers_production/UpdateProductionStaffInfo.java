@@ -16,6 +16,7 @@ import com.mdrain.logic.Date;
 import com.mdrain.logic.SetObjectInfo;
 import com.mdrain.logic.Tables;
 import com.mdrain.objects.Operators;
+import com.mdrain.singletons.Singleton;
 
 public class UpdateProductionStaffInfo {
 
@@ -28,9 +29,9 @@ public class UpdateProductionStaffInfo {
 	public static void updateProductionStaffInformation(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
 		
-		DataBaseActivities dbActivities = new DataBaseActivities();
-		Operators operator  = new Operators();
-		HttpSession session = req.getSession();
+		DataBaseActivities dbActivities = Singleton.getInstance();
+		Operators operator              = new Operators();
+		HttpSession session             = req.getSession();
 
 		String skillsList   = "";
 		String operatorName = req.getParameter("edit_operators_name");
@@ -101,8 +102,6 @@ public class UpdateProductionStaffInfo {
 		} else {
 			operator.setChangeDateSlippers(Date.date(dateChangeSlippers));
 		}
-		
-		
 		
 
 		if (skills != null) {
@@ -259,11 +258,11 @@ public class UpdateProductionStaffInfo {
 		
 		if (isActive.equals("Не")) {
 	
-			String table = "tb_wardrobe";
-			String columnNameForUpdate = "tb_wardrobe_name";
+			String table                = "tb_wardrobe";
+			String columnNameForUpdate  = "tb_wardrobe_name";
 			String columnValueForUpdate = "";
-			String columneNameInto = "tb_wardrobe_number";
-			String WardrobeNumber = SetObjectInfo.getOperatorInfoWhere(table, valueInto);
+			String columneNameInto      = "tb_wardrobe_number";
+			String WardrobeNumber       = SetObjectInfo.getOperatorInfoWhere(table, valueInto);
 			
 			
 			dbActivities.update(table, columnNameForUpdate, columnValueForUpdate, columneNameInto, WardrobeNumber);
@@ -277,25 +276,30 @@ public class UpdateProductionStaffInfo {
 	
 	public void getCurrentOperatorsInfo(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
-		ResultSet result                   = null;
 		HttpSession session                = req.getSession();
-		DataBaseActivities dbActivities    = new DataBaseActivities();
-		ArrayList<String> fieldsCollection = new ArrayList<String>();
-		ArrayList<String> dataCollection   = new ArrayList<String>();
+		DataBaseActivities dbActivities    = Singleton.getInstance();
         Operators operator                 = new Operators();
-		Tables displayTable                = new Tables();
         String fields                      = "tb_operators_operator_name";
 		String operatorName                = req.getParameter("edit_operators_name");
+		Tables tables                      = new Tables();
 
-		result = dbActivities.select(table, fields, operatorName);
+		ResultSet result = dbActivities.select(table, fields, operatorName);
 
-		try {
+		if (result != null) {
+			
+				try {
 			
 			while (result.next()) {
 			operator.setFullName(result.getString("tb_operators_operator_name"));
 			operator.setTeamLeader(result.getString("tb_operators_team_leader"));
 			operator.setGender(result.getString("tb_operators_gender"));
-			operator.setSkills(result.getString("tb_operators_skills").split(", "));
+			
+			if (!result.getString("tb_operators_skills").equals("")) {
+				
+				operator.setSkills(result.getString("tb_operators_skills").split(", "));
+			} else {
+				operator.setSkills(result.getString("tb_operators_other").split(", "));
+			}
 			operator.setSkillList(operator.getSkills());
 			operator.setIsActive(result.getString("tb_operators_isActive"));
 			operator.setIsMotherhood(result.getString("tb_operators_isMotherhood"));
@@ -305,48 +309,66 @@ public class UpdateProductionStaffInfo {
 			operator.setNumberSlippers(result.getInt("tb_operators_number_slippers"));
 			operator.setNumberWardrobe(result.getString("tb_operators_wardrobe"));
 			operator.setChangeDateAppron(Date.date(result.getString("tb_operators_date_change_appron")));
+			operator.setNextChangeDateAppron(operator.getChangeDateAppron());
+			
 			operator.setChangeDateHeater(Date.date(result.getString("tb_operators_date_change_heater")));
+			operator.setNextChangeDateHeater(operator.getChangeDateHeater());
+			
 			operator.setChangeDateSlippers(Date.date(result.getString("tb_operators_date_change_slippers")));
+			operator.setNextChangeDateSlippers(operator.getChangeDateSlippers());
 			
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		} else {
+			getCurrentOperatorsInfo(req, resp);
+		}
 		
-		dataCollection.add(operator.getFullName());
-		dataCollection.add(operator.getTeamLeader());
-		dataCollection.add(operator.getGender());
-		dataCollection.add(operator.getSkillList());
-		dataCollection.add(operator.getIsActive());
-		dataCollection.add(operator.getIsMotherhood());
-		dataCollection.add(operator.getPhone());
-		dataCollection.add(String.valueOf(operator.getNumberApron()));
-		dataCollection.add(String.valueOf(operator.getChangeDateAppron()));
-		dataCollection.add(operator.getNumberHeater());
-		dataCollection.add(String.valueOf(operator.getChangeDateHeater()));
-		dataCollection.add(String.valueOf(operator.getNumberSlippers()));
-		dataCollection.add(String.valueOf(operator.getChangeDateSlippers()));
-		dataCollection.add(operator.getNumberWardrobe());
+		String[] dataCollection = {
+				operator.getFullName(),
+				operator.getTeamLeader(),
+				operator.getGender(),
+				operator.getSkillList(),
+				operator.getIsActive(),
+				operator.getIsMotherhood(),
+				operator.getPhone(),
+				String.valueOf(operator.getNumberApron()),
+				Date.convertDate(operator.getChangeDateAppron()),
+				DisplayOperatorsInfo.getNextChanageDateCondition(operator.getNextChangeDateAppron()),
+				operator.getNumberHeater(),
+				Date.convertDate(operator.getChangeDateHeater()),
+				DisplayOperatorsInfo.getNextChanageDateCondition(operator.getNextChangeDateHeater()),
+				String.valueOf(operator.getNumberSlippers()),
+				Date.convertDate(operator.getChangeDateSlippers()),
+				DisplayOperatorsInfo.getNextChanageDateCondition(operator.getNextChangeDateSlippers()),
+				operator.getNumberWardrobe()
+				
+		};
 		
-	
-		fieldsCollection.add("Трите имена");
-		fieldsCollection.add("Тийм лидер");
-		fieldsCollection.add("Пол");
-		fieldsCollection.add("Тип оператор");
-		fieldsCollection.add("Активен да/не");
-		fieldsCollection.add("Майчинство да/не");
-		fieldsCollection.add("Телефон");
-		fieldsCollection.add("Номер на престилка");
-		fieldsCollection.add("Дата престилка");
-		fieldsCollection.add("Номер на грейка");
-		fieldsCollection.add("Дата грейка");
-		fieldsCollection.add("Номер на чехли");
-		fieldsCollection.add("Дата чехли");
-		fieldsCollection.add("Номер на гардеробче");
-			
+		String[] fieldsCollection = {
+				"Трите имена",
+				"Тийм лидер",
+				"Пол",
+				"Тип служител",
+				"Активен да/не",
+				"Майчинство да/не",
+				"Телефон",
+				"Номер на престилка",
+				"Последна смяна на престилка",
+				"Следваща смяна на престилка",
+				"Номер на грейка",
+				"Последна смяна на грейка",
+				"Следваща смяна на грейка",
+				"Номер на чехли",
+				"Последна смяна на чехли",
+				"Следваща смяна на чехли",
+				"Номер на гардеробче"
+		};
+		
 
-		String tableFields = displayTable.createTable(fieldsCollection, dataCollection);
+		String tableFields = tables.createTable(fieldsCollection, dataCollection);
 		session.setAttribute("update_operators_display_info", tableFields);
 		session.setAttribute("update_operators_display_info_selected_operator", operator.getFullName());
 		session.setAttribute("display_operators_info", "Информация за служителя");

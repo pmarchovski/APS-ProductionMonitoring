@@ -7,11 +7,26 @@
 <body>
 
 
+<div id="div_main_container_fixed">
+
+ <table>
+			      <tr>
+			         <td Class="a"><img src="pictures/ICONS/png/User group.png"></td>
+			         <td Class="a"><h2>Материали - тип</h2></td>   
+			      </tr>
+			    </table>
+
+</div>
+
+<div id="div_empty"></div>
+
+
+
     <div style="float: left">
     <form method="get"
 				action="printers_production_servlet_display_material_without_type">
 
-				<input type="submit" class="button" value="Display">
+				<input type="submit" class="button" value="Покажи">
 
 			</form>
     
@@ -23,7 +38,7 @@
 			<form method="get"
 				action="printers_production_servlet_update_material_without_type">
 
-				<input type="submit" class="button" value="Update"> 
+				<input type="submit" class="button" value="Обнови"> 
 		
 				<br><br>
 

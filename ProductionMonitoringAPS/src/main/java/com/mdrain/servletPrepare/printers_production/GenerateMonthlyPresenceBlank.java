@@ -24,6 +24,7 @@ import com.mdrain.logic.Date;
 import com.mdrain.logic.ExcelTables;
 import com.mdrain.logic.Tables;
 import com.mdrain.objects.Operators;
+import com.mdrain.singletons.Singleton;
 
 public class GenerateMonthlyPresenceBlank {
 
@@ -36,11 +37,6 @@ public class GenerateMonthlyPresenceBlank {
 	static String sortField = "tb_operators_operator_name";
 	
 	public static void generatePresenceBlank(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
-		Tables tableHeadDate    = new Tables();
-		Tables tableHeadWeekDay = new Tables();
-		Tables tableHoliday     = new Tables();
-		Tables tableBody        = new Tables();
 			
 		ArrayList<String> fieldsCollection       = new ArrayList<String>();
 		ArrayList<String> fieldsAllCollection    = new ArrayList<String>();
@@ -50,8 +46,11 @@ public class GenerateMonthlyPresenceBlank {
 		ArrayList<String> weekDayCollection      = new ArrayList<String>();
 		ArrayList<String> holidayCollection      = new ArrayList<String>();
 		ArrayList<Operators> operatorsCollection = new ArrayList<Operators>();
+		Tables tablesHeadMain                    = new Tables();
+		Tables tablesHeadVertical                = new Tables();
+		Tables tablesBody                        = new Tables();
 		
-		DataBaseActivities dbActivities = new DataBaseActivities();
+		DataBaseActivities dbActivities = Singleton.getInstance();
 		HttpSession session             = req.getSession();
 		
 	
@@ -69,7 +68,7 @@ public class GenerateMonthlyPresenceBlank {
 		
 		String startDate         = req.getParameter("monthly_presence_blank_start_date");		
 		String endDate           = req.getParameter("monthly_presence_blank_end_date");
-        String teamLeader         = req.getParameter("monthly_presence_blank_team_leader_name");
+        String teamLeader        = req.getParameter("monthly_presence_blank_team_leader_name");
         
         if (startDate.equals("") || endDate.equals("")) {
         	
@@ -98,7 +97,7 @@ public class GenerateMonthlyPresenceBlank {
 			result = dbActivities.selectWhereAnd(table, fieldsCollection, valueCollection, sortField);
 		}
 			
-		
+		if (result != null) {
 		try {
 			while(result.next()) {
 				
@@ -115,7 +114,7 @@ public class GenerateMonthlyPresenceBlank {
 
 			e.printStackTrace();
 		}
-		
+		}
 		
 		
 		dateCollection        = Date.takeDateCollection(startDate, endDate);
@@ -128,9 +127,9 @@ public class GenerateMonthlyPresenceBlank {
 		}
 		
 		// Generate String for .jsp tables
-		String monthlyPresentBlankTableHeadDate      = tableHeadDate.createTableHead(dateCollection);
-		String monthlyPresentBlankTableHeadWeekDay   = tableHeadWeekDay.createTableHeadVerticalText(weekDayCollection);
-		String monthlyPresentBlankTableBodyData      = tableBody.createTableBodyNew(operatorsCollection, holidayCollection);
+		String monthlyPresentBlankTableHeadDate      = tablesHeadMain.createTableHead(dateCollection);
+		String monthlyPresentBlankTableHeadWeekDay   = tablesHeadVertical.createTableHeadVerticalText(weekDayCollection);
+		String monthlyPresentBlankTableBodyData      = tablesBody.createTableBodyNew(operatorsCollection, holidayCollection);
 		
 		excelTableFieldCollection     = dateCollection;
 		excelTableFieldCollectionNext = weekDayCollection;

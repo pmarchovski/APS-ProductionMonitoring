@@ -27,6 +27,7 @@ import com.mdrain.servletPrepare.printers_production.IncludeProductionAndTestCar
 import com.mdrain.servletPrepare.printers_production.OrdersInformation;
 import com.mdrain.servletPrepare.printers_production.PlanedLaborCost;
 import com.mdrain.servletPrepare.printers_production.PrintersProductionCapacity;
+import com.mdrain.servletPrepare.printers_production.ProductionMonitoringManager;
 import com.mdrain.servletPrepare.printers_production.UpdateProductionStaffInfo;
 import com.mdrain.servletPrepare.printers_production.WardrobController;
 
@@ -103,8 +104,12 @@ public class PrintersProductionServlet extends HttpServlet {
 			boodstrap.boodstrap(req, resp);
 		}
 		
-		if (pathArray[pathArray.length - 1].equals("printers_production_servlet_wardrob_info")) 
+		if (pathArray[pathArray.length - 1].equals("printers_production_servlet_wardrob_empty_info")) 
 			WardrobController.displayEmptyWardrob(req, resp);
+		
+		
+		if (pathArray[pathArray.length - 1].equals("printers_production_servlet_wardrob_info")) 
+			WardrobController.displayWardrobInfo(req, resp);
 		
 		
 		if (pathArray[pathArray.length - 1].equals("printers_production_servlet_generate_serial_number")) 
@@ -112,8 +117,13 @@ public class PrintersProductionServlet extends HttpServlet {
 
 		if (pathArray[pathArray.length - 1].equals("printers_production_servlet_send_mail")) {
 	
-				SendSMS.bootstrapSendSms();
+				SendSMS.bootstrapSendSms(req, resp);
 		}
+		
+		if (pathArray[pathArray.length - 1].equals("printers_production_servlet_display_production_orders_dashboard")) {
+			
+			ProductionMonitoringManager.displayProductionDashboard(req, resp);
+	}
 			
 		
 	}

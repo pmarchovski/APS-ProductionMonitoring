@@ -16,19 +16,17 @@ import com.mdrain.logic.Tables;
 import com.mdrain.objects.Operators;
 import com.mdrain.servletPrepare.admin.EmailLists;
 import com.mdrain.servletPrepare.admin.SendMail;
+import com.mdrain.singletons.Singleton;
 
 public class IncludeAndManageAbsence {
 
 	
 	public static void includeAndManageAbsence(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
 		
-		Tables tableInfo                    = new Tables();
 		HttpSession session                 = req.getSession();
 		LocalDate inputDate                 = LocalDate.now();
 		Operators operator                  = new Operators();
-		ArrayList<String> filedsCollection  = new ArrayList<String>();
-		ArrayList<String> valueCollection   = new ArrayList<String>();
-		DataBaseActivities dbActivities     = new DataBaseActivities();
+		DataBaseActivities dbActivities     = Singleton.getInstance();
 		String table                        = "tb_operators_absence";	
 		String inputDateDb                  = inputDate.toString();
 		String operatorName                 = req.getParameter("abcense_operators_operator_name");
@@ -36,6 +34,7 @@ public class IncludeAndManageAbsence {
 		String absenceHour                  = req.getParameter("abcense_operators_hours_absence");
 		String holidayFromHours             = req.getParameter("abcense_operators_holiday_from_hours");
 		String user                         = (String) session.getAttribute("user_name");
+		Tables tables                       = new Tables();
 		
 		
 		session.removeAttribute("absence_operators_table_head");
@@ -52,8 +51,8 @@ public class IncludeAndManageAbsence {
 		
 		dbActivities.insert(table, into, values);
 		
-		filedsCollection.add("tb_operators_operator_name");
-		valueCollection.add(operatorName);
+		String[] filedsCollection = {"tb_operators_operator_name"};	
+		String[] valueCollection  = {operatorName};
 		
 		ResultSet result = dbActivities.selectWhere("tb_operators", filedsCollection, valueCollection);
 		try {
@@ -73,25 +72,26 @@ public class IncludeAndManageAbsence {
 		dbActivities.update("tb_operators", "tb_operators_total_absence_hour", operator.getAbsenceHours(), "tb_operators_operator_name", operatorName);
 		
 		
-		ArrayList<String> tableFieldsCollsetion = new ArrayList<String>();
-		ArrayList<Object> tableDataCollsetion = new ArrayList<Object>();
+		String[] tableFieldsCollsetion = {
+				"Дата - отсъствие",
+				"Оператор",
+				"Въведени часове отсъствие",
+				"Въведени дни отпуск",
+				"User name",
+				"Дата на операцията"
+		};
+			
+		Object[] tableDataCollsetion = {
+				date,
+				operatorName,
+				absenceHour,
+				holidayFromHours,
+				user,
+				inputDate
+		};
 		
-		tableFieldsCollsetion.add("Дата - отсъствие");
-		tableFieldsCollsetion.add("Оператор");
-		tableFieldsCollsetion.add("Въведени часове отсъствие");
-		tableFieldsCollsetion.add("Въведени дни отпуск");
-		tableFieldsCollsetion.add("User name");
-		tableFieldsCollsetion.add("Дата на операцията");
-		
-		tableDataCollsetion.add(date);
-		tableDataCollsetion.add(operatorName);
-		tableDataCollsetion.add(absenceHour);
-		tableDataCollsetion.add(holidayFromHours);
-		tableDataCollsetion.add(user);
-		tableDataCollsetion.add(inputDate);
-		
-		String tableHead = tableInfo.createTableHead(tableFieldsCollsetion);
-		String tableBody = tableInfo.createTableObject(tableDataCollsetion);
+		String tableHead = tables.createTableHead(tableFieldsCollsetion);
+		String tableBody = tables.createTableObject(tableDataCollsetion);
 		
 		
 		session.setAttribute("absence_operators_table_head", tableHead);
@@ -123,13 +123,10 @@ public class IncludeAndManageAbsence {
 		}
 		
 		
-		String subject = "Отъстиве на " + operatorName;
-		
-		String[] recepient = EmailLists.absenceEmailList();
-		
+		String subject     = "Отъстиве на " + operatorName;	
+		String[] recepient = EmailLists.absenceEmailList();	
 		SendMail.bootstrap(subject, massage, recepient);
-		
-		
+	
 		resp.sendRedirect("absents_operators.jsp");
 	}
 	

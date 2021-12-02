@@ -46,6 +46,30 @@ public class ClearSessionFilter implements Filter{
 		session.removeAttribute("materials_without_type_table_head");
 		session.removeAttribute("materials_without_type_table_body");
 		
+		session.removeAttribute("change_password_message");
+		session.removeAttribute("change_user_data_massage");
+		
+		session.removeAttribute("production_capacity_by_weeks_xValue");
+		session.removeAttribute("production_capacity_by_weeks_yValue");
+		session.removeAttribute("production_capacity_by_weeks_bar_color");
+		session.removeAttribute("production_capacity_by_weeks_year");
+		session.removeAttribute("production_available_time_by_week");
+		session.removeAttribute("production_capacity_requirement_operators_per_main_head");
+		session.removeAttribute("production_capacity_requirement_operators_per_month_head");
+		session.removeAttribute("production_capacity_requirement_operators_per_month_data");
+		session.removeAttribute("year");
+		session.removeAttribute("display_task_table_body");
+		session.removeAttribute("display_task_table_head");
+		session.removeAttribute("task_targete_date_error_massage");
+		session.removeAttribute("display_explicite_task");
+		
+		session.removeAttribute("heap_memory_total");
+		session.removeAttribute("heap_memory_free");
+		session.removeAttribute("heap_memory_max");
+		session.removeAttribute("processor");
+		session.removeAttribute("production_orders_dashboard_table_head");
+		session.removeAttribute("production_orders_dashboard_table_body");
+		
 		   chain.doFilter(req, resp);
 	}
 

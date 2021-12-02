@@ -14,26 +14,26 @@ import com.mdrain.logic.SetObjectInfo;
 import com.mdrain.logic.Tables;
 import com.mdrain.objects.Materials;
 import com.mdrain.objects.Orders;
+import com.mdrain.singletons.Singleton;
 
 public class DisplayMaterialsWithoutType {
 
 	
 	static ArrayList<String> productType = MaterialsProductTypeList.getArrayListType();
 	static ArrayList<Materials> infoCollection = new ArrayList<Materials>();
-	static ArrayList<Object> tableData = new ArrayList<Object>();
+	
 	
 	public static void updateMaterial(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
-		String table = "tb_product_type";
-		DataBaseActivities dbActivities = new DataBaseActivities();
-		
+		String table                    = "tb_product_type";
+		DataBaseActivities dbActivities = Singleton.getInstance();
 		
 		for (int i = 0; i < infoCollection.size(); i++) {
 			
 	
 			String typeFromWebApp = req.getParameter("materials_without_type_list " + (i + 1));
 			
-			ArrayList<String> into = new ArrayList<String>();
+			ArrayList<String> into  = new ArrayList<String>();
 		    ArrayList<String> value = new ArrayList<String>();
 			
 			into.add("tb_product_type_number");
@@ -64,6 +64,7 @@ public class DisplayMaterialsWithoutType {
 			if (ordersInfoCollection.get(i).getProductType().equals("No type!!!") 
 					&& isAvailable(infoCollection, ordersInfoCollection.get(i).getMaterialNumber()) == false) {
 	
+				
 				Materials material = new Materials();
 				material.setMaterialNumber(ordersInfoCollection.get(i).getMaterialNumber());
 				material.setMaterialDescription(ordersInfoCollection.get(i).getMaterialDescription());
@@ -72,6 +73,7 @@ public class DisplayMaterialsWithoutType {
 				infoCollection.add(material);
 			}
 		}
+		
 		
 		getFieldList(req, resp);
 		createTable(infoCollection, req, resp);
@@ -101,9 +103,14 @@ public class DisplayMaterialsWithoutType {
 	private static void createTable(ArrayList<Materials> infoCollection, HttpServletRequest req, HttpServletResponse resp) {
 		
 		ArrayList<String> tableFields = new ArrayList<String>();
+		ArrayList<Object> tableData   = new ArrayList<Object>();	
+		HttpSession session           = req.getSession();
+		Tables table                  = new Tables();
+			
+		session.removeAttribute("materials_without_type_table_head");
+		session.removeAttribute("materials_without_type_table_body");
 		
-		Tables table = new Tables();
-		HttpSession session = req.getSession();
+		
 		int count = 0;
 		tableFields.add("Номер на материал");
 		tableFields.add("Описание на метериал");
@@ -146,14 +153,9 @@ public class DisplayMaterialsWithoutType {
 	}	
 	
 	private static void getFieldList(HttpServletRequest req, HttpServletResponse resp) {
-		
-		
+				
 		HttpSession session = req.getSession();
 		
 		session.setAttribute("product_type_collection", productType);
-		
-		
 	}
-
-	
 }

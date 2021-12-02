@@ -3,6 +3,8 @@ package com.mdrain.objects;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import com.mdrain.variables.Variables;
+
 public class ProductionCards {
 
 	
@@ -18,23 +20,7 @@ public class ProductionCards {
 	int productionCardQty;
 	int productionCardTime;
 	boolean productionCardIsNewOperator;
-	String visualControl     = "Визуален контрол";
-	String other             = "Други";
-	String elAss             = "Ел. монтаж";
-	String preparePCB        = "Заготовка платки";
-	String prepareRoller     = "Заготовка ролки";
-	String mechAssOne        = "Механичен монтаж 1";
-	String mechAssTwo        = "Механичен монтаж 2";
-	String mechAssThree      = "Механичен монтаж 3";
-	String mechAssFour       = "Механичен монтаж 4";
-	String packaging         = "Опаковка";
-	String cleanPlasticParts = "Почистване на пластмасови тела";
-	String chipSet           = "Програмиране на чипове";
-	String test              = "Тест";
-	
-	
-	
-	
+	Variables variables = new Variables();
 	
 	public String getUnionProdTypeAndOperationForMatrix() {
 		return unionProdTypeAndOperationForMatrix;
@@ -46,7 +32,7 @@ public class ProductionCards {
 			
 			this.unionProdTypeAndOperationForMatrix = this.productionCardProductType + " " + this.operationForMatrix;
 		} else {
-			this.unionProdTypeAndOperationForMatrix = "OTHERS" + " " + "Мех. монтаж";
+			this.unionProdTypeAndOperationForMatrix = variables.OTHERS + " " + variables.GLOBAL_MECH_ASS;
 		}
 		
 	}
@@ -114,21 +100,20 @@ public class ProductionCards {
 	}
 	public void setOperationForMatrix() {
 		
-		if (this.productionCardOperation.equals(visualControl)) this.operationForMatrix = "Мех. монтаж";
-		if (this.productionCardOperation.equals(other)) this.operationForMatrix         = "Мех. монтаж";
-		if (this.productionCardOperation.equals(preparePCB)) this.operationForMatrix    = "Мех. монтаж";
-		if (this.productionCardOperation.equals(prepareRoller)) this.operationForMatrix = "Мех. монтаж";
-		if (this.productionCardOperation.equals(mechAssOne)) this.operationForMatrix    = "Мех. монтаж";
-		if (this.productionCardOperation.equals(mechAssTwo)) this.operationForMatrix    = "Мех. монтаж";
-		if (this.productionCardOperation.equals(mechAssThree)) this.operationForMatrix  = "Мех. монтаж";
-		if (this.productionCardOperation.equals(mechAssFour)) this.operationForMatrix   = "Мех. монтаж";
-		if (this.productionCardOperation.equals(packaging)) this.operationForMatrix     = "Мех. монтаж";
-		if (this.productionCardOperation.equals(cleanPlasticParts)) this.operationForMatrix = "Мех. монтаж";
-		if (this.productionCardOperation.equals(chipSet)) this.operationForMatrix       = "Мех. монтаж";
-		if (this.productionCardOperation.equals(elAss)) this.operationForMatrix         = "Ел. монтаж";
-		if (this.productionCardOperation.equals(test)) this.operationForMatrix          = "Тест";
-		
-		
+		if (this.productionCardOperation.equals(variables.VISUAL_CONTROL)) this.operationForMatrix      = variables.GLOBAL_MECH_ASS;
+		if (this.productionCardOperation.equals(variables.OTHER)) this.operationForMatrix               = variables.GLOBAL_MECH_ASS;
+		if (this.productionCardOperation.equals(variables.PREPARE_PCB)) this.operationForMatrix         = variables.GLOBAL_MECH_ASS;
+		if (this.productionCardOperation.equals(variables.PREPARE_ROLLER)) this.operationForMatrix      = variables.GLOBAL_MECH_ASS;
+		if (this.productionCardOperation.equals(variables.MECH_ASS_ONE)) this.operationForMatrix        = variables.GLOBAL_MECH_ASS;
+		if (this.productionCardOperation.equals(variables.MECH_ASS_TWO)) this.operationForMatrix        = variables.GLOBAL_MECH_ASS;
+		if (this.productionCardOperation.equals(variables.MECH_ASS_THREE)) this.operationForMatrix      = variables.GLOBAL_MECH_ASS;
+		if (this.productionCardOperation.equals(variables.MECH_ASS_FOUR)) this.operationForMatrix       = variables.GLOBAL_MECH_ASS;
+		if (this.productionCardOperation.equals(variables.PACKAGING)) this.operationForMatrix           = variables.GLOBAL_MECH_ASS;
+		if (this.productionCardOperation.equals(variables.CLEAN_PLASTIC_PARTS)) this.operationForMatrix = variables.GLOBAL_MECH_ASS;
+		if (this.productionCardOperation.equals(variables.CHIP_SET)) this.operationForMatrix            = variables.GLOBAL_MECH_ASS;
+		if (this.productionCardOperation.equals(variables.EL_ASS)) this.operationForMatrix              = variables.GLOBAL_ELL_ASS;
+		if (this.productionCardOperation.equals(variables.TEST)) this.operationForMatrix                = variables.GLOBAL_TEST;
+			
 	}
 	
 	public String getProductionCardUser() {
@@ -172,8 +157,8 @@ public class ProductionCards {
 	}
 	public void setProductionCardIsNewOperator(String newOperator) {
 		
-		if (newOperator.equals("Да")) this.productionCardIsNewOperator = true;
-		if (newOperator.equals("Не") || newOperator.equals("")) this.productionCardIsNewOperator = false;
+		if (newOperator.equals(variables.YES)) this.productionCardIsNewOperator = true;
+		if (newOperator.equals(variables.NO) || newOperator.equals("")) this.productionCardIsNewOperator = false;
 
 	}
 }

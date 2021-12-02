@@ -4,57 +4,41 @@ import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import com.mdrain.database.DataBaseActivities;
 import com.mdrain.logic.SetObjectInfo;
-import com.mdrain.objects.Operators;
-import com.mdrain.objects.TeamLeaders;
+import com.mdrain.singletons.Singleton;
 
 public class GenerateList {
 
+	static DataBaseActivities dbActivities = Singleton.getInstance();
+	
 	public static void listGenerate(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
 
+		teamLeaderListGenerate(req, resp);
+		operatrsNameListGenerate(req, resp);
+		operationsNameListGenerate(req, resp);
+		productNumberListGenerate(req, resp);
+		freeWardrobeListGenerate(req, resp);
+		userListGenerate(req, resp);
 	
+		req.getRequestDispatcher("index.jsp").forward(req, resp);
+	
+	}
+	
+	private static void teamLeaderListGenerate(HttpServletRequest req, HttpServletResponse resp) {
+		
 		HttpSession sessionTeamLeadersName = req.getSession();
-		HttpSession sessionOperatorsName = req.getSession();
-		HttpSession sessionOperationsName = req.getSession();
-		HttpSession sessionProductNumberName = req.getSession();
-		HttpSession sessionFreeWardrobe = req.getSession();
-		
-		DataBaseActivities dbActivities = new DataBaseActivities();
-
-		ResultSet teamLeaderlist = dbActivities.select("tb_team_leaders");
-		
-		ResultSet operatorList = dbActivities.select("tb_operators");
-		operatorList = dbActivities.sort("tb_operators", "tb_operators_operator_name");
-
-		ResultSet operationList = dbActivities.select("tb_operations");
-		operationList = dbActivities.sort("tb_operations", "tb_operations_name");
-
-		ResultSet productNumberList = dbActivities.selectDistinct("tb_coois_prod_material_number", "tb_coois_prod");
-		productNumberList = dbActivities.sort("tb_coois_prod", "tb_coois_prod_material_number");
-		
-
-		ArrayList<String> teamLeadersList = new ArrayList<String>();
-		ArrayList<String> operatorsNameCollection = new ArrayList<String>();
-		ArrayList<String> operationsCollection = new ArrayList<String>();
-		ArrayList<String> productNumberCollection = new ArrayList<String>();
-		ArrayList<String> freeWardrobeCollection = new ArrayList<String>();
-		
-		freeWardrobeCollection = SetObjectInfo.getFreeWardrobeInfoFromDatabase();
+		ResultSet teamLeaderlist           = dbActivities.select("tb_team_leaders");
+		ArrayList<String> teamLeadersList  = new ArrayList<String>();
 		
 		try {
 			while (teamLeaderlist.next()) {
 
-				TeamLeaders teamLeader = new TeamLeaders();
-
-				teamLeader.setFullName(teamLeaderlist.getString("tb_team_leader_name"));
-				teamLeadersList.add(teamLeader.getFullName());
+				teamLeadersList.add(teamLeaderlist.getString("tb_team_leader_name"));
 
 			}
 		} catch (SQLException e) {
@@ -62,23 +46,43 @@ public class GenerateList {
 			e.printStackTrace();
 
 		}
-
+		
+		sessionTeamLeadersName.setAttribute("team_leaders_List", teamLeadersList);
+	}
+	
+	private static void operatrsNameListGenerate(HttpServletRequest req, HttpServletResponse resp) {
+		
+		HttpSession sessionOperatorsName = req.getSession();
+		ResultSet operatorList           = dbActivities.select("tb_operators");
+		operatorList                     = dbActivities.sort("tb_operators", "tb_operators_operator_name");	
+		String[] operatorsNameCollection = new String[150];
+		int count = 0;
+		
 		try {
 			while (operatorList.next()) {
-				Operators operators = new Operators();
 
-				operators.setIsActive(operatorList.getString("tb_operators_isActive"));
-				operators.setFullName(operatorList.getString("tb_operators_operator_name"));
-					
-				if (operators.getIsActive().equals("Да")) operatorsNameCollection.add(operators.getFullName());
+				if (operatorList.getString("tb_operators_isActive").equals("Да")) {
+					count++;
+					operatorsNameCollection[count] = operatorList.getString("tb_operators_operator_name");
+				}
 				
-
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		
+		sessionOperatorsName.setAttribute("operators_name_collection", operatorsNameCollection);
+	}
+	
+	
+	private static void operationsNameListGenerate(HttpServletRequest req, HttpServletResponse resp) {
+		
+		HttpSession sessionOperationsName      = req.getSession();
+		ResultSet operationList                = dbActivities.select("tb_operations");
+		operationList                          = dbActivities.sort("tb_operations", "tb_operations_name");
+		ArrayList<String> operationsCollection = new ArrayList<String>();
+		
 		try {
 			while (operationList.next()) {
 
@@ -90,33 +94,72 @@ public class GenerateList {
 			e.printStackTrace();
 		}
 
-		try {
-			while (productNumberList.next()) {
+		sessionOperationsName.setAttribute("operations_name_collection", operationsCollection);
+	}
+	
+	private static void productNumberListGenerate(HttpServletRequest req, HttpServletResponse resp) {
+		
+		HttpSession sessionProductNumberName = req.getSession();
+		ResultSet productNumberList          = dbActivities.selectDistinct("tb_coois_prod_material_number", "tb_coois_prod");
+		productNumberList                    = dbActivities.sort("tb_coois_prod", "tb_coois_prod_material_number");		
+		ArrayList<String> productNumberCollection = new ArrayList<String>();
+		
+		if (productNumberList != null) {
+			try {
+				while (productNumberList.next()) {
 
-					productNumberCollection.add(productNumberList.getString("tb_coois_prod_material_number"));
+						productNumberCollection.add(productNumberList.getString("tb_coois_prod_material_number"));
 
-			}		
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+				}		
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} else {
+			productNumberListGenerate(req, resp);
 		}
+		
 	
 		ArrayList<String> newArray = new ArrayList<String>();
 		newArray.add(productNumberCollection.get(0));
-		for (int i = 0; i < productNumberCollection.size(); i++) {
+		for (int i = 1; i < productNumberCollection.size(); i++) {
 			if (!newArray.contains(productNumberCollection.get(i))) {
 				newArray.add(productNumberCollection.get(i));
 			}
 			
 		}
-
-		sessionTeamLeadersName.setAttribute("team_leaders_List", teamLeadersList);
-		sessionOperatorsName.setAttribute("operators_name_collection", operatorsNameCollection);
-		sessionOperationsName.setAttribute("operations_name_collection", operationsCollection);
+		
 		sessionProductNumberName.setAttribute("product_number_name_collection", newArray);
-		sessionFreeWardrobe.setAttribute("free_wardrobe_collection", freeWardrobeCollection);
-	
-		req.getRequestDispatcher("index.jsp").forward(req, resp);
-	
 	}
+	
+	private static void freeWardrobeListGenerate(HttpServletRequest req, HttpServletResponse resp) {
+		
+		HttpSession sessionFreeWardrobe          = req.getSession();
+		ArrayList<String> freeWardrobeCollection = SetObjectInfo.getFreeWardrobeInfoFromDatabase();	
+		sessionFreeWardrobe.setAttribute("free_wardrobe_collection", freeWardrobeCollection);
+		
+	}
+	
+	private static void userListGenerate(HttpServletRequest req, HttpServletResponse resp) {
+		
+		HttpSession sessionUserList       = req.getSession();
+		ResultSet result                  = dbActivities.select("tb_users");
+		result                            = dbActivities.sort("tb_users", "tb_users_full_name");
+		ArrayList<String> usersCollection = new ArrayList<String>();
+		
+		try {
+			while (result.next()) {
+
+				usersCollection.add(result.getString("tb_users_full_name"));
+				
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		sessionUserList.setAttribute("users_name_collection", usersCollection);
+
+	}
+	
 }

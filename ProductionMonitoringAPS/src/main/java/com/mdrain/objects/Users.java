@@ -7,6 +7,7 @@ public class Users {
 	private String email;
 	private String password;
 	private String type;
+	private String avatar;
 	
 	public Users(String fullName, String userName, String email, String password) {
 		
@@ -29,9 +30,16 @@ public class Users {
 	public Users() {
 		
 	}
-	
-	
 
+	public String getAvatar() {
+		return avatar;
+	}
+
+	public void setAvatar(String avatar) {
+		this.avatar = avatar;
+	}
+
+	
 	public String getType() {
 		return type;
 	}

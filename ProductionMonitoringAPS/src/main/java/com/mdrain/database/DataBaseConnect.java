@@ -4,11 +4,13 @@ import java.sql.*;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import javax.servlet.http.HttpServlet;
+
 
 
 public class DataBaseConnect {
 	
-    int counter1 = 0;
+   int counter1 = 0;
    static int counter = 0;
     
 	public Connection connection;
@@ -25,7 +27,7 @@ public class DataBaseConnect {
 
 		try {
 			connection = DriverManager.getConnection(DataBaseConfig.getUrl(), DataBaseConfig.getCredentials());
-		
+		    System.out.println(connection);
 			counter1++;
 			System.out.println("Counter1 " + counter1);
 			

@@ -5,11 +5,18 @@
 <jsp:include page="header.jsp" />
 <body>
 
-	<div id="div_main_container_two">
-		<h2>Генериране на производствени планове</h2>
+<div id="div_main_container_fixed">
 
-	</div>
+   <table>
+    <tr>
+      <td Class="a"><img src="pictures/ICONS/png/Info.png"></td>
+      <td Class="a"><h2>Генериране на производствени планове</h2></td>   
+    </tr>
+   </table>
 
+</div>
+
+<div id="div_empty"></div>
 
 		<div Class="div_right_container">
 			<form method="get"

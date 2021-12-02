@@ -107,6 +107,48 @@
 			<version>1.0.11</version>
 		</dependency>
 
+		<dependency>
+			<groupId>commons-dbcp</groupId>
+			<artifactId>commons-dbcp</artifactId>
+			<version>1.4</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-dbcp2</artifactId>
+			<version>2.1</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.walterjwhite.java.dependencies/hikari-jdbc-connection-pool -->
+		<dependency>
+			<groupId>com.walterjwhite.java.dependencies</groupId>
+			<artifactId>hikari-jdbc-connection-pool</artifactId>
+			<version>0.0.17</version>
+			<type>pom</type>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.messente.api/messente-api -->
+		<dependency>
+			<groupId>com.messente.api</groupId>
+			<artifactId>messente-api</artifactId>
+			<version>2.1.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.cloud</groupId>
+			<artifactId>google-cloud-translate</artifactId>
+			<version>2.1.7</version>
+		</dependency>
+
+
+		<!-- https://mvnrepository.com/artifact/jfree/jfreechart -->
+		<dependency>
+			<groupId>org.jfree</groupId>
+			<artifactId>jfreechart</artifactId>
+			<version>1.0.19</version>
+		</dependency>
+
+
 
 	</dependencies>
 </project>

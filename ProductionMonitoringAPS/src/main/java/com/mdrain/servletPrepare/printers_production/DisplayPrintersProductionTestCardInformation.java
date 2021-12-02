@@ -19,6 +19,7 @@ import com.mdrain.logic.Date;
 import com.mdrain.logic.GetDataFromTestCard;
 import com.mdrain.objects.OrderDefect;
 import com.mdrain.objects.Orders;
+import com.mdrain.singletons.Singleton;
 
 public class DisplayPrintersProductionTestCardInformation {
 
@@ -53,10 +54,10 @@ public class DisplayPrintersProductionTestCardInformation {
 		}
 		
 		
-		String department = req.getParameter("input_test_card_department");
-		String typeChart  = req.getParameter("input_test_card_chart_type");
+		String department                       = req.getParameter("input_test_card_department");
+		String typeChart                        = req.getParameter("input_test_card_chart_type");
 		ArrayList<Object> orderDefectCollection = getDataFromDataBase(typeChart);
-		int ordersQuantity = getProductionOrderQuantity(year, month, department, orderDefectCollection);
+		int ordersQuantity                      = getProductionOrderQuantity(year, month, department, orderDefectCollection);
 
 		deffectTypeCollection = getDefectTypeCollection();
 
@@ -144,32 +145,39 @@ public class DisplayPrintersProductionTestCardInformation {
 
 		String table                       = "tb_coois_prod";
 		ResultSet result                   = null;
-		DataBaseActivities dbActivities    = new DataBaseActivities();
+		DataBaseActivities dbActivities    = Singleton.getInstance();
 		ArrayList<Orders> ordersCollection = new ArrayList<Orders>();
 		OrderDefect orderManipulation      = new OrderDefect();
 
 		result = dbActivities.select(table);
 
-		try {
-			while (result.next()) {
+		if (result != null) {
+			
+			try {
+				while (result.next()) {
 
-				OrderDefect orders = new OrderDefect();
-				orders.setQuantity(result.getInt("tb_coois_prod_quantity"));
-				String date = result.getString("tb_coois_prod_start_date");
-				orders.setStartDate(Date.date(date));
-				orders.setNumber(result.getInt("tb_coois_prod_order"));
-				orders.setMaterialDescription(result.getString("tb_coois_prod_material_description"));
-				orders.setTypeProduction();
-				orders.setTypeProduct(orders.getMaterialDescription());
+					OrderDefect orders = new OrderDefect();
+					orders.setQuantity(result.getInt("tb_coois_prod_quantity"));
+					String date = result.getString("tb_coois_prod_start_date");
+					orders.setStartDate(Date.date(date));
+					orders.setNumber(result.getInt("tb_coois_prod_order"));
+					orders.setMaterialDescription(result.getString("tb_coois_prod_material_description"));
+					orders.setTypeProduction();
+					orders.setTypeProduct(orders.getMaterialDescription());
 
-				ordersCollection.add(orders);
+					ordersCollection.add(orders);
 
+				}
+
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			
+		} else {
+			getProductionOrderQuantity(year, month, department, defectsCollection);
 		}
+		
 
 		int tempQuantity = 0;
 		int totalQuantity = 0;
@@ -219,7 +227,7 @@ public class DisplayPrintersProductionTestCardInformation {
 	private static ArrayList<Object> getDataFromDataBase(String typeChart) {
 
 		String tableDefects                     = "tb_test_cards";
-		DataBaseActivities dbActivities         = new DataBaseActivities();
+		DataBaseActivities dbActivities         = Singleton.getInstance();
 		ResultSet result                        = null;
 		ArrayList<Object> orderDefectCollection = new ArrayList<Object>();
 

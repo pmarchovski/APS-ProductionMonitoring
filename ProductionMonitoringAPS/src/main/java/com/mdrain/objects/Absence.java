@@ -6,20 +6,20 @@ public class Absence {
 
 	
 	String operatorName;
+	String user;
 	LocalDate absenceDate;
+	LocalDate inputDate;
 	double absenceHours;
 	int holidayFromHours;
-	String user;
-	LocalDate inputDate;
-	
+
 	public Absence(String operatorName, LocalDate absenceDate, double absenceHours, int holidayFromHours, String user,
 			LocalDate inputDate) {
-		this.operatorName = operatorName;
-		this.absenceDate = absenceDate;
-		this.absenceHours = absenceHours;
+		this.operatorName     = operatorName;
+		this.absenceDate      = absenceDate;
+		this.absenceHours     = absenceHours;
 		this.holidayFromHours = holidayFromHours;
-		this.user = user;
-		this.inputDate = inputDate;
+		this.user             = user;
+		this.inputDate        = inputDate;
 	}
 	
 	public Absence() {

@@ -1,18 +1,5 @@
 package com.mdrain.servletPrepare.printers_production;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.time.LocalDate;
-import java.util.ArrayList;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import com.mdrain.database.DataBaseActivities;
-import com.mdrain.logic.Date;
-import com.mdrain.logic.Tables;
-import com.mdrain.objects.Orders;
-
 public class ProductionCapacity {
 
 	
